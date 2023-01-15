@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "BlueFox",
-    "version": "0.0",
+    "version": "0.0.0-alpha",
     "description": "BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.",
     "host_permissions": [
         "<all_urls>"

@@ -31,6 +31,7 @@
         this.J = J;
         this.take = [];
         this.actions = J.actions;
+        this.dispatchEvents = J.dispatchEvents;
         this.msec = J.sleep;
         this.sleep = (msec) =>
           new Promise((resolve) => setTimeout(resolve, msec));
@@ -43,12 +44,18 @@
                 let found = getProperty(propertyPath, e);
                 if (found.object) {
                   found.object[found.property] = action.property[propertyPath];
+                  for (let eventType of this.dispatchEvents) {
+                    e.dispatchEvent(new Event(eventType));
+                  }
                 }
               }
             }
             if (action.attribute) {
               for (let attributeName in action.attribute) {
                 e.setAttribute(attributeName, action.attribute[attributeName]);
+                for (let eventType of this.dispatchEvents) {
+                  e.dispatchEvent(new Event(eventType));
+                }
               }
             }
           },
