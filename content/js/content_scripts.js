@@ -31,6 +31,7 @@
         window.BlueFox.captureDOM = async (
           file_name,
           element,
+          window_object,
           format = "jpeg",
           quality = 50
         ) => {
@@ -42,7 +43,7 @@
               quality: quality,
               clip: {
                 x: domRect.x,
-                y: domRect.y,
+                y: domRect.top + window_object.scrollY,
                 width: domRect.width,
                 height: domRect.height,
                 scale: 1,

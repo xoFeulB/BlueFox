@@ -102,7 +102,8 @@
           capture: async (action) => {
             await window.BlueFox.captureDOM(
               action.fileName,
-              document.querySelector(action.target)
+              document.querySelector(action.target),
+              window
             );
           },
           save: async (action) => {
