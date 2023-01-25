@@ -8,7 +8,6 @@
     log("loaded");
     browser.runtime.onMessage.addListener(
       async (message, sender, sendResponse) => {
-        log(message, sender, sendResponse);
         return true;
       }
     );
@@ -22,9 +21,7 @@
     };
 
     let items = await chrome.storage.local.get("BlueFoxSetting_url");
-    log(items);
     for (url of JSON.parse(items.BlueFoxSetting_url)) {
-      log(url);
       if (window.location.href.match(url)) {
         await sendMessage({
           type: "Debugger.attach",
