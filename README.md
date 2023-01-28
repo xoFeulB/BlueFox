@@ -4,6 +4,6 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 
 <div align="center">
 
-![](https://github.com/LobeliaSecurity/BlueFox/raw/main/media/BlueFox.png)
+![](https://github.com/LobeliaSecurity/BlueFox/raw/main/media/SocialPreview.png)
 
 </div>
