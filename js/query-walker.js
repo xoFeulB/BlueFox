@@ -1,5 +1,5 @@
-// QueryWalker © Eve.Familia, inc. / LobeliaTechnologies™
-// www.evefamilia.org
+// © LobeliaSecurity™
+// https://github.com/LobeliaSecurity
 
 class QueryWalker {
   constructor(oDict, rootElement) {
@@ -17,7 +17,7 @@ class QueryWalker {
         try {
           await this.oDict[selector](e);
         } catch (ex) {
-          console.warn("QueryWalker |", ex);
+          console.info("QueryWalker |", ex);
         }
       }
     }

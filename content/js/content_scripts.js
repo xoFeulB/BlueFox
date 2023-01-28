@@ -1,16 +1,15 @@
+// © LobeliaSecurity™
+// https://github.com/LobeliaSecurity
+
 {
   (async () => {
-    window.BlueFox = {};
+    window.BlueFox ? null : (window.BlueFox = {});
     let browser = chrome ? chrome : browser;
+
     let log = (...args) => {
       console.log("content_scripts.js", ...args);
     };
     log("loaded");
-    browser.runtime.onMessage.addListener(
-      async (message, sender, sendResponse) => {
-        return true;
-      }
-    );
 
     let sendMessage = async (arg) => {
       try {
@@ -56,8 +55,29 @@
             download: `${file_name}.${format}`,
           }).click();
         };
+
         break;
       }
     }
+
+    let dropHandler = async (files) => {
+      [...files].forEach(async (file) => {
+        let J = JSON.parse(await file.text());
+        let version = J.version;
+        let jsonWalker = new (window.BlueFox.jsonWalker[version]())(J);
+        await jsonWalker.do();
+        log(jsonWalker.take);
+      });
+    };
+
+    window.addEventListener("drop", async (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "copy";
+      await dropHandler(event.dataTransfer.files);
+    });
+    window.addEventListener("dragover", async (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "copy";
+    });
   })();
 }

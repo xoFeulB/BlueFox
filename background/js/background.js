@@ -1,3 +1,6 @@
+// © LobeliaSecurity™
+// https://github.com/LobeliaSecurity
+
 {
   (async () => {
     let browser = chrome ? chrome : browser;
@@ -12,17 +15,12 @@
       "Debugger.attach": async (o, sender) => {
         try {
           await browser.debugger.attach({ tabId: sender.tab.id }, "1.3");
+          debuggee[sender.tab.id] = true;
           log("Debugger Attached", sender);
+          return sender.tab.id;
         } catch (err) {
           log(err);
-        }
-      },
-      "Debugger.detach": async (o, sender) => {
-        try {
-          await browser.debugger.detach({ tabId: sender.tab.id }, "1.3");
-          log("Debugger Detached", sender);
-        } catch (err) {
-          log(err);
+          return false;
         }
       },
       "Page.captureScreenshot": async (o, sender) => {
@@ -37,7 +35,25 @@
           log(err);
         }
       },
+      "Debugger.isDebuggingSomeTab": async (o, sender) => {
+        try {
+          return Object.keys(debuggee)
+            .map((_) => {
+              return debuggee[_];
+            })
+            .some((_) => {
+              return _;
+            });
+        } catch (err) {
+          log(err);
+          return false;
+        }
+      },
     };
+
+    browser.debugger.onDetach.addListener((source, reason) => {
+      delete debuggee[source.tabId];
+    });
 
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       actions[message.type](message.object, sender).then((response) => {

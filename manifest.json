@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "BlueFox",
-    "version": "0.0.0",
+    "name": "^.,.^ BlueFox",
+    "version": "0.0.1",
     "description": "BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.",
     "host_permissions": [
         "<all_urls>"
@@ -16,7 +16,7 @@
         "storage"
     ],
     "options_ui": {
-        "page": "/options/html/options.html"
+        "page": "/popup/html/index.html"
     },
     "background": {
         "service_worker": "/background/js/background.js"
@@ -27,16 +27,22 @@
                 "<all_urls>"
             ],
             "js": [
-                "/content/js/content_scripts.js",
-                "/content/js/query-walker.js",
-                "/content/js/blue-fox.js"
+                "/js/query-walker.js",
+                "/js/blue-fox.js",
+                "/content/js/content_scripts.js"
             ],
             "run_at": "document_idle"
         }
     ],
+    "action": {
+        "default_icon": "/media/BlueFox_tp.png",
+        "default_title": "BlueFox",
+        "default_popup": "/popup/html/index.html"
+    },
+    "devtools_page": "/panels/html/set_devtools_page.html",
     "icons": {
-        "16": "logo.png",
-        "48": "logo.png",
-        "128": "logo.png"
+        "16": "/media/BlueFox_tp.png",
+        "48": "/media/BlueFox_tp.png",
+        "128": "/media/BlueFox_tp.png"
     }
 }
