@@ -128,6 +128,12 @@
           sleep: async (action) => {
             await this.sleep(action.target);
           },
+          event: async (action) => {
+            let e = document.querySelector(action.target);
+            if (e) {
+              e.dispatchEvent(new Event(action.dispatchEvent));
+            }
+          },
           save: async (action) => {
             let R = J;
             Object.assign(R, {
