@@ -8,6 +8,16 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 
 </div>
 
+## Installation
+
+```bash
+git clone https://github.com/LobeliaSecurity/BlueFox.git
+```
+
+or Download ZIP this repo and export files.
+
+then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
+
 ## Usage : check Wiki↓
 
-https://github.com/LobeliaSecurity/BlueFox/wiki
+<a href="https://github.com/LobeliaSecurity/BlueFox/wiki" target="_blank">https://github.com/LobeliaSecurity/BlueFox/wiki</a>
