@@ -21,11 +21,18 @@
       },
       "#debuggerStatus": async (e) => {
         e.updateDebuggerStatus = async () => {
+          let debuggee = await sendMessage({
+            type: "Debugger.getDebuggee",
+            object: {},
+          });
           if (
-            await sendMessage({
-              type: "Debugger.isDebuggingSomeTab",
-              object: {},
-            })
+            Object.keys(debuggee)
+              .map((_) => {
+                return debuggee[_];
+              })
+              .some((_) => {
+                return _;
+              })
           ) {
             e.value = "avatar-presence online";
           } else {

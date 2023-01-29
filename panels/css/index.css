@@ -1,0 +1,23 @@
+.popup_iframe {
+  height: 100vh;
+  width: 400px;
+  border: none;
+  position: fixed;
+}
+
+div:has(> .popup_iframe) {
+  width: 400px;
+}
+[debuggee] > ol > li {
+  opacity: 0;
+  animation: fade 0.2s ease-in-out 0s 1 normal forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -15,7 +15,7 @@
       "Debugger.attach": async (o, sender) => {
         try {
           await browser.debugger.attach({ tabId: sender.tab.id }, "1.3");
-          debuggee[sender.tab.id] = true;
+          debuggee[sender.tab.id] = sender;
           log("Debugger Attached", sender);
           return sender.tab.id;
         } catch (err) {
@@ -35,15 +35,9 @@
           log(err);
         }
       },
-      "Debugger.isDebuggingSomeTab": async (o, sender) => {
+      "Debugger.getDebuggee": async (o, sender) => {
         try {
-          return Object.keys(debuggee)
-            .map((_) => {
-              return debuggee[_];
-            })
-            .some((_) => {
-              return _;
-            });
+          return debuggee;
         } catch (err) {
           log(err);
           return false;

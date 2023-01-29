@@ -3,7 +3,7 @@
   browser.devtools.panels.create(
     "^.,.^ BlueFox",
     "/media/BlueFox_tp.png",
-    "/popup/html/index.html",
+    "/panels/html/index.html",
     (panel) => {} // callback
   );
 }
