@@ -21,7 +21,9 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 git clone https://github.com/LobeliaSecurity/BlueFox.git
 ```
 
-or Download ZIP this repo and export files.
+or Download archive(ZIP) from releases page or repo top page this repo, and export files.  
+releases : https://github.com/LobeliaSecurity/BlueFox/releases  
+DownloadZIP : https://github.com/LobeliaSecurity/BlueFox/archive/refs/heads/main.zip
 
 then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
 
