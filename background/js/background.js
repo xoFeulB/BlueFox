@@ -14,8 +14,8 @@
     let actions = {
       "Debugger.attach": async (o, sender) => {
         try {
-          await browser.debugger.attach({ tabId: sender.tab.id }, "1.3");
           debuggee[sender.tab.id] = sender;
+          await browser.debugger.attach({ tabId: sender.tab.id }, "1.3");
           log("Debugger Attached", sender);
           return sender.tab.id;
         } catch (err) {
