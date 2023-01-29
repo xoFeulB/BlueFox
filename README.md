@@ -53,7 +53,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
 - v1~
   - Endpoint scanner
   - Text relationship scanner
-  - Javascript HTML CSS : quality, vulnerability scanner
+  - Javascript HTML CSS : quality scanner
   - Web security scanner based on OWASP Top 10, codeQL
   - Keep automation when after page transitions
 - v2~
