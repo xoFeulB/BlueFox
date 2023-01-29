@@ -18,7 +18,7 @@
             type: "Debugger.getDebuggee",
             object: {},
           });
-          out.innerHTML = "";
+          out.textContent = "";
           Object.keys(debuggee).forEach((_) => {
             out.appendChild(
               Object.assign(document.createElement("li"), {
