@@ -16,6 +16,8 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 
 </div>
 
+<hr>
+
 ## Installation
 
 ```bash
@@ -31,3 +33,31 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
 ## Usage : check Wiki↓
 
 <a href="https://github.com/LobeliaSecurity/BlueFox/wiki" target="_blank">https://github.com/LobeliaSecurity/BlueFox/wiki</a>
+
+<hr>
+
+## Road Map ^.,.^
+
+- v0~ ✅ https://github.com/LobeliaSecurity/BlueFox/releases/tag/0.0.1
+  - ✅ Draw BlueFox-chan illustration ^.,.^
+  - ✅ Chrome extension for to do screenshots
+  - ✅ Data structuralable (its mean not recorded or interactive) standard automation with JSON
+    - ✅ Set Attribute to DOM
+    - ✅ Set Property to DOM
+    - ✅ Screenshot DOM to image
+    - ✅ Take and save DOM addribute, property to JOSN
+    - ✅ Dispatch event to DOM
+    - ✅ Sleep while millisecond
+  - ✅ Minimal user interface
+  - ✅ Minimal Wiki
+- v1~
+  - Endpoint scanner
+  - Text relationship scanner
+  - Javascript HTML CSS : quality, vulnerability scanner
+  - Web security scanner based on OWASP Top 10, codeQL
+  - Keep automation when after page transitions
+- v2~
+  - AI implementation to make decisions based on visual information
+  - Communication with python library to automate something on outside browser field
+    - Nova ... web server
+    - PhantomLilith ... windows aarch64 debugger
