@@ -7,6 +7,7 @@
 BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.
 
 <div>
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/LobeliaSecurity/BlueFox?style=social">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/LobeliaSecurity/BlueFox?style=social">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/LobeliaSecurity/BlueFox?style=social">
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/LobeliaSecurity/BlueFox?style=social">
