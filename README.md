@@ -38,7 +38,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
 
 ## Road Map ^.,.^
 
-- v0~ ✅ https://github.com/LobeliaSecurity/BlueFox/releases/tag/0.0.1
+- v0~ ✅ https://github.com/LobeliaSecurity/BlueFox/releases/tag/0.0.2
   - ✅ Draw BlueFox-chan illustration ^.,.^
   - ✅ Chrome extension for to do screenshots
   - ✅ Data structuralable (its mean not recorded or interactive) standard automation with JSON
