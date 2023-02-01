@@ -1,10 +1,8 @@
+# ^.,.^ BlueFox
+
 <div align="center">
 <img src="https://github.com/LobeliaSecurity/BlueFox/raw/main/media/SocialPreview.png">
 </div>
-
-# ^.,.^ BlueFox
-
-BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.
 
 <div>
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/LobeliaSecurity/BlueFox?style=social">
@@ -13,8 +11,41 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/LobeliaSecurity/BlueFox?style=social">
 <img alt="GitHub milestones" src="https://img.shields.io/github/milestones/open/LobeliaSecurity/BlueFox?style=social">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/LobeliaSecurity/BlueFox?style=social">
-
 </div>
+<hr>
+
+BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.
+
+BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
+BlueFox automation are "Data structuralable". Here is a simple example.  
+It uses spreadsheets that engineers hate and a JSON format that can be easily generated from your favorite programming language.  
+That's why I say "not scripts, data structures".
+
+```JSON
+{
+    "version": 0,
+    "sleep": 0,
+    "dispatchEvents": [
+        "change"
+    ],
+    "actions": [
+        {
+            "type": "set",
+            "target": "#target",
+            "property": {
+                "value": "new input"
+            }
+        },
+        {
+            "comment": "capture screen when debugger has active",
+            "type": "capture",
+            "target": "body",
+            "fileName": "result",
+            "format": "png"
+        }
+    ]
+}
+```
 
 <hr>
 
