@@ -51,9 +51,11 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - ✅ Minimal user interface
   - ✅ Minimal Wiki
 - v1~
+  - iframe support
+  - Create element support
   - Endpoint scanner
   - Text relationship scanner
-  - Javascript HTML CSS : quality scanner
+  - JavaScript HTML CSS : quality scanner
   - Web security scanner based on OWASP Top 10, codeQL
   - Keep automation when after page transitions
 - v2~
