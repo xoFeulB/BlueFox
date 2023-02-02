@@ -82,6 +82,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - ✅ Minimal user interface
   - ✅ Minimal Wiki
 - v1~
+  - Don't do "addEventListner" to target for safe
   - iframe support
   - Create, Inject element support
   - Endpoint scanner
