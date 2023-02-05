@@ -8,6 +8,13 @@
       console.log("background.js", ...args);
     };
     log("loaded");
+    let sendMessage = async (arg) => {
+      try {
+        return await browser.runtime.sendMessage(arg);
+      } catch (err) {
+        log(err);
+      }
+    };
 
     let debuggee = {};
 
@@ -50,10 +57,12 @@
     });
 
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      actions[message.type](message.object, sender).then((response) => {
-        sendResponse(response);
-      });
-      return true;
+      if (message.to == "ServiceWorker") {
+        actions[message.type](message.object, sender).then((response) => {
+          sendResponse(response);
+        });
+        return true;
+      }
     });
   })();
 }

@@ -23,6 +23,7 @@
     for (url of JSON.parse(items.BlueFoxSetting_url)) {
       if (window.location.href.match(url)) {
         await sendMessage({
+          to: "ServiceWorker",
           type: "Debugger.attach",
           object: {},
         });
@@ -36,6 +37,7 @@
         ) => {
           let domRect = element.getBoundingClientRect();
           let R = await sendMessage({
+            to: "ServiceWorker",
             type: "Page.captureScreenshot",
             object: {
               format: format,
