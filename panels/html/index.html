@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="filter: invert(0);">
 
 <head>
     <title>BlueFox</title>
@@ -75,7 +75,7 @@
             <div class="uk-container uk-container-small">
 
                 <div showWhenSome="#menuControll" showWhenSome-values='["Dashboard"]'>
-                    <div class="uk-animation-slide-left-small uk-animation-fast">
+                    <div class="uk-animation-slide-left-small">
                         <h3 class="uk-heading-bullet">
                             <span>^.,.^ BlueFox</span>
                             <span set="Version"></span>
@@ -207,7 +207,7 @@
 
                 </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Automation"]'>
-                    <div class="uk-animation-slide-left-small uk-animation-fast">
+                    <div class="uk-animation-slide-left-small">
                         <h3 class="uk-heading-bullet">Automation</h3>
                         <div>
                             <div class="uk-margin" tabs>
@@ -216,7 +216,7 @@
                     </div>
                 </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Utility"]'>
-                    <div class="uk-animation-slide-left-small uk-animation-fast">
+                    <div class="uk-animation-slide-left-small">
                         <h3 class="uk-heading-bullet">Utility</h3>
                         <div>
                             <ul uk-accordion="multiple: true">
@@ -235,13 +235,53 @@
                     </div>
                 </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Scanner"]'>
-                    <div class="uk-animation-slide-left-small uk-animation-fast">
+                    <div class="uk-animation-slide-left-small">
                         <h3 class="uk-heading-bullet">Scanner</h3>
                     </div>
                 </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Setting"]'>
-                    <div class="uk-animation-slide-left-small uk-animation-fast">
+                    <div class="uk-animation-slide-left-small">
                         <h3 class="uk-heading-bullet">Setting</h3>
+                        <div>
+                            <div class="uk-margin">
+                                <div class="uk-child-width-1-2@m" uk-grid>
+                                    <div>
+                                        <div class="uk-card uk-card-default">
+                                            <div class="uk-card-header">
+                                                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                                    <div class="uk-width-auto">
+                                                        <span uk-icon="icon: paint-bucket; ratio: 2"></span>
+                                                    </div>
+                                                    <div class="uk-width-expand">
+                                                        <h4 class="uk-card-title uk-margin-remove-bottom">
+                                                            <span>Theme</span>
+                                                            <span class="uk-badge">Experimental</span>
+                                                        </h4>
+                                                        <p class="uk-text-meta uk-margin-remove-top">
+                                                            Switch Dark mode / Light mode.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="uk-card-body">
+                                                <p>
+                                                    Dark Mode is currently an experimental implementation.
+                                                    Simply invert the html by "filter:invert(1)".
+                                                </p>
+                                            </div>
+                                            <div class="uk-card-footer">
+                                                <div uk-switcher="animation: uk-animation-fade; toggle: > *">
+                                                    <button switchLightMode class="uk-button uk-button-default"
+                                                        type="button">Light</button>
+                                                    <button switchDarkMode class="uk-button uk-button-secondary"
+                                                        type="button">Dark</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

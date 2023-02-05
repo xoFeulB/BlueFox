@@ -76,9 +76,25 @@
 
         target.addEventListener("change", (event) => {
           if (values.includes(`${target.value}`)) {
-            e.removeAttribute("hide");
+            anime({
+              targets: e,
+              opacity: 1,
+              duration: 200,
+              easing: "linear",
+              complete: async (anim) => {
+                e.removeAttribute("hide");
+              },
+            });
           } else {
-            e.setAttribute("hide", "");
+            anime({
+              targets: e,
+              opacity: 0,
+              duration: 200,
+              easing: "linear",
+              complete: async (anim) => {
+                e.setAttribute("hide", "");
+              },
+            });
           }
         });
         target.dispatchEvent(new Event("change"));
@@ -176,7 +192,36 @@
         chrome.tabs.onUpdated.addListener(e.reload);
         chrome.tabs.onMoved.addListener(e.reload);
       },
-      "[tabInfo]": async (e) => {},
+      "[switchLightMode]": async (e) => {
+        let html = document.querySelector("html");
+        e.addEventListener("click", (event) => {
+          if (html.style.filter == "invert(1)") {
+            anime({
+              targets: e,
+              duration: 1000,
+              easing: "linear",
+              update: (anim) => {
+                html.style.filter = `invert(${1 - anim.progress / 100})`;
+              },
+            });
+          }
+        });
+      },
+      "[switchDarkMode]": async (e) => {
+        let html = document.querySelector("html");
+        e.addEventListener("click", (event) => {
+          if (html.style.filter == "invert(0)") {
+            anime({
+              targets: e,
+              duration: 1000,
+              easing: "linear",
+              update: (anim) => {
+                html.style.filter = `invert(${anim.progress / 100})`;
+              },
+            });
+          }
+        });
+      },
     };
 
     let queryWalker = new QueryWalker(oDict, document);

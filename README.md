@@ -91,6 +91,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - Web security scanner based on OWASP Top 10, codeQL
   - Keep automation when after page transitions
   - Multiple languages
+  - Dark mode support
 - v2~
   - AI implementation to make decisions based on visual information
   - Communication with python library to automate something on outside browser field
