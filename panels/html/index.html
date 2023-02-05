@@ -69,14 +69,142 @@
         </div>
     </div>
     <div main>
-        <div progress></div>
-        <div class="uk-section uk-section-xsmall uk-section-default">
-            <div class="uk-container uk-container-xsmall">
+        <div progress style="width: 0%;"></div>
+
+        <div class="uk-section uk-section-small uk-section-default">
+            <div class="uk-container uk-container-small">
 
                 <div showWhenSome="#menuControll" showWhenSome-values='["Dashboard"]'>
                     <div class="uk-animation-slide-left-small uk-animation-fast">
-                        <h3 class="uk-heading-bullet">Dashboard</h3>
+                        <h3 class="uk-heading-bullet">
+                            <span>^.,.^ BlueFox</span>
+                            <span set="Version"></span>
+                        </h3>
+
+                        <div class="uk-child-width-1-2@m" uk-grid>
+                            <div>
+                                <div class="uk-card uk-card-default">
+                                    <div class="uk-card-header">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span uk-icon="icon: bolt; ratio: 2"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">Automation</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top">
+                                                    Let's automate with JSON, JavaScript
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-card-body">
+                                        <p>
+                                            BlueFox makes your test definitions highly available and portable,
+                                            taking your productivity to the next level.
+                                        </p>
+                                    </div>
+                                    <div class="uk-card-footer">
+                                        <button setValueOnClick="#menuControll" value="Automation"
+                                            class="uk-button uk-button-text">Get Started</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-card uk-card-default">
+                                    <div class="uk-card-header">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span uk-icon="icon: happy; ratio: 2"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">Utility</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top">
+                                                    Let's automate with JSON, JavaScript
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-card-body">
+                                        <p>
+                                            BlueFox makes your test definitions highly available and portable,
+                                            taking your productivity to the next level.
+                                        </p>
+                                    </div>
+                                    <div class="uk-card-footer">
+                                        <button setValueOnClick="#menuControll" value="Utility"
+                                            class="uk-button uk-button-text">Get Started</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-card uk-card-default">
+                                    <div class="uk-card-header">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <span uk-icon="icon: eye; ratio: 2"></span>
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">Scanner</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top">
+                                                    Let's automate with JSON, JavaScript
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-card-body">
+                                        <p>
+                                            BlueFox makes your test definitions highly available and portable,
+                                            taking your productivity to the next level.
+                                        </p>
+                                    </div>
+                                    <div class="uk-card-footer">
+                                        <button setValueOnClick="#menuControll" value="Scanner"
+                                            class="uk-button uk-button-text">Get Started</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="uk-card uk-card-default">
+                                    <div class="uk-card-header">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-auto">
+                                                <img class="radius" src="/media/BlueFox.png" width="50px">
+
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h3 class="uk-card-title uk-margin-remove-bottom">Documentation</h3>
+                                                <p class="uk-text-meta uk-margin-remove-top">^.,.^</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-card-body">
+                                        <p>
+                                            BlueFox makes your test definitions highly available and portable,
+                                            taking your productivity to the next level.
+                                        </p>
+                                    </div>
+                                    <div class="uk-card-footer">
+                                        <span class="uk-margin-right">
+                                            <a href="https://github.com/LobeliaSecurity/BlueFox/wiki" target="_blank"
+                                                class="uk-button uk-button-text">Go to Wiki (GitHub)</a>
+                                        </span>
+                                        <span>
+                                            <a href="https://github.com/LobeliaSecurity/BlueFox" target="_blank"
+                                                class="uk-button uk-button-text">Get Source (GitHub)</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="uk-margin">
+                            <img src="/media/SocialPreview.png">
+                        </div>
+                        <div class="uk-text-meta uk-text-right" set="Copyright"></div>
                     </div>
+
                 </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Automation"]'>
                     <div class="uk-animation-slide-left-small uk-animation-fast">
@@ -128,7 +256,7 @@
                         <header class="uk-comment-header">
                             <div class="uk-grid-medium uk-flex-middle" uk-grid>
                                 <div class="uk-width-auto">
-                                    <img favicon class="uk-comment-avatar" src="" width="40" height="40" alt="">
+                                    <img favicon class="uk-comment-avatar" src="" width="40" height="40">
                                 </div>
                                 <div class="uk-width-expand">
                                     <h4 title class="uk-comment-title uk-margin-remove">

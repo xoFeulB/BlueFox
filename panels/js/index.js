@@ -94,45 +94,78 @@
         });
       },
       "[tabs]": async (e) => {
+        let nowReloading = false;
         e.reload = async () => {
-          e.textContent = "";
-          document.querySelector("[progress]").style.width = "0%";
-          let tabs = await browser.tabs.query({ url: "<all_urls>" });
-          for (let tab of tabs) {
-            let clone = document
-              .querySelector("template#tabs_template")
-              .content.cloneNode(true);
-
-            tab.favIconUrl
-              ? (clone.querySelector("[favicon]").src = tab.favIconUrl)
-              : (clone.querySelector("[favicon]").src =
-                  "/media/BlueFox_hatena.png");
-
-            clone.querySelector("[title]").textContent = tab.title;
-            clone.querySelector("[URL]").textContent = tab.url;
-            clone.querySelector("[SwitchTab]").attributes.SwitchTab.value =
-              tab.id;
-            clone
-              .querySelector("[SwitchTab]")
-              .addEventListener("click", async (event) => {
-                await browser.tabs.update(
-                  Number(event.target.attributes.SwitchTab.value),
-                  { active: true }
-                );
-              });
-            clone.querySelector(
-              "[BlueFoxFileAttach]"
-            ).attributes.BlueFoxFileAttach.value = tab.id;
-
-            e.appendChild(clone);
-
-            anime({
-              targets: document.querySelector("[progress]"),
-              width: `${(e.childElementCount / tabs.length) * 100}%`,
-              duration: 500,
-              easing: "easeOutBounce",
-            });
+          if (nowReloading) {
+            return;
           }
+          nowReloading = true;
+
+          anime({
+            targets: document.querySelector("[progress]"),
+            width: 0,
+            duration: 200,
+            easing: "linear",
+          });
+          anime({
+            targets: e,
+            opacity: 0,
+            duration: 200,
+            easing: "linear",
+            complete: async (anim) => {
+              e.textContent = "";
+              document.querySelector("[progress]").style.width = "0%";
+              let tabs = await browser.tabs.query({ url: "<all_urls>" });
+              for (let tab of tabs) {
+                let clone = document
+                  .querySelector("template#tabs_template")
+                  .content.cloneNode(true);
+
+                if (tab.favIconUrl) {
+                  clone.querySelector("[favicon]").src = tab.favIconUrl;
+                } else {
+                  clone
+                    .querySelector("div:has(>[favicon])")
+                    .setAttribute("uk-icon", "icon: world; ratio: 2");
+                  clone.querySelector("[favicon]").remove();
+                }
+
+                clone.querySelector("[title]").textContent = tab.title;
+                clone.querySelector("[URL]").textContent = tab.url;
+                clone.querySelector("[SwitchTab]").attributes.SwitchTab.value =
+                  tab.id;
+                clone
+                  .querySelector("[SwitchTab]")
+                  .addEventListener("click", async (event) => {
+                    await browser.tabs.update(
+                      Number(event.target.attributes.SwitchTab.value),
+                      { active: true }
+                    );
+                  });
+                clone.querySelector(
+                  "[BlueFoxFileAttach]"
+                ).attributes.BlueFoxFileAttach.value = tab.id;
+
+                e.appendChild(clone);
+
+                anime({
+                  targets: document.querySelector("[progress]"),
+                  width: `${(e.childElementCount / tabs.length) * 100}%`,
+                  duration: 500,
+                  easing: "easeOutBounce",
+                });
+              }
+              anime({
+                targets: e,
+                opacity: 1,
+                duration: 200,
+                easing: "linear",
+                complete: async (anim) => {
+                  nowReloading = false;
+                },
+              });
+            },
+          });
         };
         e.reload();
 

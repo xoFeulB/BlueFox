@@ -213,7 +213,21 @@ animstr {
 }
 
 [progress] {
-  width: 0%;
+  position: fixed;
   height: 10px;
+  margin-bottom: 10px;
   background-color: #82b1ff;
+  z-index: 999;
+}
+[progress][style="width: 100%;"] {
+  background-color: #ecc883;
+  animation: progress_done 2.5s linear;
+}
+@keyframes progress_done {
+  0% {
+    background-color: #82b1ff;
+  }
+  100% {
+    background-color: #ecc883;
+  }
 }
