@@ -90,6 +90,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - JavaScript HTML CSS : quality scanner
   - Web security scanner based on OWASP Top 10, codeQL
   - Keep automation when after page transitions
+  - JavaScript AST traverse(find way to breakpoint)
   - Multiple languages
   - ✅(Experimental) Dark mode support
   - ✅(Experimental) Consideration for Photosensitive epilepsy 👀
