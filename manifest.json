@@ -16,6 +16,21 @@
         "scripting",
         "storage"
     ],
+    "background": {
+        "service_worker": "/background/js/background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "/js/blue-fox.js",
+                "/content/js/content_scripts.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
     "devtools_page": "/panels/html/set_devtools_page.html",
     "icons": {
         "16": "/media/BlueFox_tp.png",

@@ -1,6 +1,8 @@
 body {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", sans-serif;
+  height: 100vh;
+  background-color: white;
 }
 
 [menu] {
@@ -40,6 +42,9 @@ body {
 }
 .padding-left-small {
   padding-left: 15px;
+}
+.padding-left-xsmall {
+  padding-left: 0.3em;
 }
 
 [constHide],
@@ -230,4 +235,11 @@ animstr {
   100% {
     background-color: #ecc883;
   }
+}
+
+[BlueFoxFileAttach] {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -12,12 +12,25 @@
         log(err);
       }
     };
-    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      log(message);
-    });
+
+    window.BlueFox ? null : (window.BlueFox = {});
+    let dropHandler = async (tabid, files) => {
+      try {
+        json = [];
+        for (let file of files) {
+          json.push(JSON.parse(await file.text()));
+        }
+        let connector = await browser.tabs.connect(tabid);
+        await connector.postMessage({
+          type: "BlueFox.Dispatch",
+          object: json,
+        });
+      } catch (err) {
+        log(err);
+      }
+    };
 
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-
     let getProperty = (_path, _dict) => {
       let _key = _path.split(".")[0];
       let _next_path = _path.split(".").slice(1).join(".");
@@ -158,9 +171,28 @@
                       { active: true }
                     );
                   });
-                clone.querySelector(
+
+                let BlueFoxFileAttach = clone.querySelector(
                   "[BlueFoxFileAttach]"
-                ).attributes.BlueFoxFileAttach.value = tab.id;
+                );
+
+                BlueFoxFileAttach.tab = tab;
+                BlueFoxFileAttach.attributes.BlueFoxFileAttach.value = tab.id;
+                BlueFoxFileAttach.addEventListener("drop", async (event) => {
+                  event.preventDefault();
+                  event.dataTransfer.dropEffect = "copy";
+                  await dropHandler(
+                    BlueFoxFileAttach.tab.id,
+                    event.dataTransfer.files
+                  );
+                });
+                BlueFoxFileAttach.addEventListener(
+                  "dragover",
+                  async (event) => {
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = "copy";
+                  }
+                );
 
                 e.appendChild(clone);
 
