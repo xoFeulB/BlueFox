@@ -19,7 +19,7 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
 BlueFox automation are "Data structuralable". Here is a simple example.  
 It uses spreadsheets that engineers hate and a JSON format that can be easily generated from your favorite programming language.  
-That's why I say "not scripts, data structures".
+That's why I say "not scripts, It's data structures".
 
 ```JSON
 {
@@ -82,7 +82,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - ✅ Minimal user interface
   - ✅ Minimal Wiki
 - v1~
-  - Don't do "addEventListner" to target for safe
+  - ✅ Don't do "addEventListner" to target for safe
   - iframe support
   - Create, Inject element support
   - Endpoint scanner
