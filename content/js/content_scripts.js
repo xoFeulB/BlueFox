@@ -54,18 +54,19 @@
           type: "Debugger.attach",
           object: {},
         });
-
-        for (let J of object) {
+        for (let J of object.json) {
           let version = J.version;
           let jsonWalker = new (window.BlueFox.jsonWalker[version]())(J);
           await jsonWalker.do();
-          log(jsonWalker.take);
         }
 
         await sendMessage({
           type: "Debugger.detach",
           object: {},
         });
+      },
+      "BlueFox.Scan.NieAgresywny": async (object) => {
+        await window.BlueFox.scanner();
       },
     };
     browser.runtime.onConnect.addListener((connector) => {

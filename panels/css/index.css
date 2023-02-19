@@ -26,6 +26,11 @@ body {
 .theme-background-color-back {
   background-color: #ecc883 !important;
 }
+
+.bg-green {
+  background-color: #20b2aa !important;
+}
+
 .cw {
   color: white;
 }

@@ -88,9 +88,8 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - Create, Inject element support
   - Endpoint scanner
   - Text relationship scanner
-  - JavaScript HTML CSS : quality scanner
+  - ✅(Experimental) JavaScript HTML: quality scanner
   - Web security scanner based on OWASP Top 10, codeQL
-  - Keep automation when after page transitions
   - JavaScript AST traverse(find way to breakpoint)
   - Multiple languages
   - ✅(Experimental) Dark mode support
