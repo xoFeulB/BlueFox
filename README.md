@@ -19,7 +19,7 @@ BlueFox is a web automation tools being developed with a focusing to repurposing
 BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
 BlueFox automation are "Data structuralable". Here is a simple example.  
 It uses spreadsheets that engineers hate and a JSON format that can be easily generated from your favorite programming language.  
-That's why I say "not scripts, data structures".
+That's why I say "not scripts, It's data structures".
 
 ```JSON
 {
@@ -82,16 +82,20 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - ✅ Minimal user interface
   - ✅ Minimal Wiki
 - v1~
-  - Don't do "addEventListner" to target for safe
+  - ✅ Don't do "addEventListner" to target for safe
+  - File download support
   - iframe support
   - Create, Inject element support
   - Endpoint scanner
   - Text relationship scanner
-  - JavaScript HTML CSS : quality scanner
+  - ✅(Experimental) JavaScript HTML: quality scanner
   - Web security scanner based on OWASP Top 10, codeQL
-  - Keep automation when after page transitions
+  - JavaScript AST traverse(find way to breakpoint)
+  - Multiple languages
+  - ✅(Experimental) Dark mode support
+  - ✅(Experimental) Consideration for Photosensitive epilepsy 👀
 - v2~
   - AI implementation to make decisions based on visual information
-  - Communication with python library to automate something on outside browser field
+  - Communication with python library to automate something on outside browser field(and for Keep automation when after page transitions)
     - Nova ... web server
     - PhantomLilith ... windows aarch64 debugger

@@ -8,15 +8,29 @@
       console.log("background.js", ...args);
     };
     log("loaded");
-
-    let debuggee = {};
+    let sendMessage = async (arg) => {
+      try {
+        return await browser.runtime.sendMessage(arg);
+      } catch (err) {
+        log(err);
+      }
+    };
 
     let actions = {
       "Debugger.attach": async (o, sender) => {
         try {
-          debuggee[sender.tab.id] = sender;
           await browser.debugger.attach({ tabId: sender.tab.id }, "1.3");
           log("Debugger Attached", sender);
+          return sender.tab.id;
+        } catch (err) {
+          log(err);
+          return false;
+        }
+      },
+      "Debugger.detach": async (o, sender) => {
+        try {
+          browser.debugger.detach({ tabId: sender.tab.id });
+          log("Debugger Detached", sender);
           return sender.tab.id;
         } catch (err) {
           log(err);
@@ -35,19 +49,7 @@
           log(err);
         }
       },
-      "Debugger.getDebuggee": async (o, sender) => {
-        try {
-          return debuggee;
-        } catch (err) {
-          log(err);
-          return false;
-        }
-      },
     };
-
-    browser.debugger.onDetach.addListener((source, reason) => {
-      delete debuggee[source.tabId];
-    });
 
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       actions[message.type](message.object, sender).then((response) => {
