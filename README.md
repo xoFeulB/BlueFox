@@ -81,7 +81,7 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
     - ✅ Sleep while millisecond
   - ✅ Minimal user interface
   - ✅ Minimal Wiki
-- v1~
+- v1~ ✅(Beta) https://github.com/LobeliaSecurity/BlueFox/releases/tag/1.0.0.Beta.0.0.1
   - ✅ Don't do "addEventListner" to target for safe
   - File download support
   - iframe support
