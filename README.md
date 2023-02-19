@@ -96,6 +96,6 @@ then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://
   - ✅(Experimental) Consideration for Photosensitive epilepsy 👀
 - v2~
   - AI implementation to make decisions based on visual information
-  - Communication with python library to automate something on outside browser field
+  - Communication with python library to automate something on outside browser field(and for Keep automation when after page transitions)
     - Nova ... web server
     - PhantomLilith ... windows aarch64 debugger
