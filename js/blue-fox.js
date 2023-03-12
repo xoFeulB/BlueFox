@@ -70,10 +70,7 @@
           take: async (action) => {
             let e = document.querySelector(action.target);
             if (e) {
-              let take = {
-                type: "take",
-                target: action.target,
-              };
+              let take = action;
               if (action.property) {
                 let take_property = {};
                 for (let propertyPath in action.property) {
