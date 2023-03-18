@@ -50,20 +50,11 @@
 
     let messageHandler = {
       "BlueFox.Dispatch": async (object) => {
-        await sendMessage({
-          type: "Debugger.attach",
-          object: {},
-        });
         for (let J of object.json) {
           let version = J.version;
           let jsonWalker = new (window.BlueFox.jsonWalker[version]())(J);
           await jsonWalker.do();
         }
-
-        await sendMessage({
-          type: "Debugger.detach",
-          object: {},
-        });
       },
       "BlueFox.Scan.NieAgresywny": async (object) => {
         await window.BlueFox.scanner();
@@ -73,6 +64,11 @@
       connector.onMessage.addListener((message) => {
         messageHandler[message.type](message.object);
       });
+    });
+
+    await sendMessage({
+      type: "Debugger.attach",
+      object: {},
     });
   })();
 }
