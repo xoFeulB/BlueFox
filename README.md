@@ -16,6 +16,15 @@
 
 BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.
 
+## BOT demo (Experimental stage)
+in this video, BlueFox-chan is not a bot account.  
+BlueFox can act like a normal human more easily, and communicate web via web.
+<div>
+
+https://user-images.githubusercontent.com/31212444/226794728-41125a6a-62d4-403f-9afb-cafab7ed400f.mp4
+
+</div>
+
 BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
 BlueFox automation are "Data structuralable". Here is a simple example.  
 It uses spreadsheets that engineers hate and a JSON format that can be easily generated from your favorite programming language.  
