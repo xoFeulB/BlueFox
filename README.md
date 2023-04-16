@@ -1,7 +1,7 @@
 # ^.,.^ BlueFox
 
 <div align="center">
-<img src="https://github.com/LobeliaSecurity/BlueFox/raw/main/media/SocialPreview.png">
+<img src="https://user-images.githubusercontent.com/31212444/232337954-73feac2d-c27d-4a6c-b0b5-63ae5ccd9cab.png">
 </div>
 
 <div>
