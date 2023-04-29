@@ -47,12 +47,15 @@
                 "<all_urls>"
             ],
             "js": [
+                "/modules/css-selector-generator/css-selector-generator.js",
                 "/modules/estraverse/estraverse.js",
                 "/modules/esprima/esprima.js",
+                "/modules/anime/anime.min.js",
                 "/js/query-walker.js",
-                "/js/blue-fox-scanner.js",
-                "/js/blue-fox.js",
-                "/content/js/content_scripts.js"
+                "/js/bluefox-scanner.js",
+                "/js/bluefox.js",
+                "/content/js/content_scripts.js",
+                "/content/js/event_observer.js"
             ],
             "run_at": "document_idle"
         }

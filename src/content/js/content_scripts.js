@@ -4,7 +4,6 @@
 {
   (async () => {
     window.BlueFox ? null : (window.BlueFox = {});
-    let browser = chrome ? chrome : browser;
 
     let log = (...args) => {
       console.log("content_scripts.js", ...args);
@@ -13,7 +12,7 @@
 
     let sendMessage = async (arg) => {
       try {
-        return await browser.runtime.sendMessage(arg);
+        return await chrome.runtime.sendMessage(arg);
       } catch (err) {
         log(err);
       }
@@ -51,8 +50,7 @@
     let messageHandler = {
       "BlueFox.Dispatch": async (object) => {
         for (let J of object.json) {
-          let version = J.version;
-          let jsonWalker = new (window.BlueFox.jsonWalker[version]())(J);
+          let jsonWalker = new (window.BlueFox.v1())(J);
           await jsonWalker.do();
         }
       },
@@ -60,7 +58,7 @@
         await window.BlueFox.scanner();
       },
     };
-    browser.runtime.onConnect.addListener((connector) => {
+    chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener((message) => {
         messageHandler[message.type](message.object);
       });

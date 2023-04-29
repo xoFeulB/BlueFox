@@ -28,7 +28,7 @@
       }
     };
 
-    class JsonWalker_v0 {
+    window.BlueFox.v1 = class {
       constructor(J) {
         this.J = J;
         this.take = [];
@@ -151,13 +151,10 @@
           await this.actionHandler[action.type](action);
           this.msec != 0 ? await this.sleep(this.msec) : null;
         }
+        return this.take;
       }
     }
 
-    window.BlueFox.jsonWalker = {
-      0: () => {
-        return JsonWalker_v0;
-      },
-    };
+
   })();
 }

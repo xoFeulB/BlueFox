@@ -1,0 +1,100 @@
+{
+    "title":"v1 format",
+    "actions": [
+        {
+            "comment": "",
+            "type": "set",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "property": {
+                    "path": "value"
+                },
+                "attribute": {
+                    "key": "value"
+                }
+            }
+        },
+        {
+            "comment": "",
+            "type": "push",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "property": {
+                    "path": "value"
+                },
+                "attribute": {
+                    "key": "value"
+                }
+            }
+        },
+        {
+            "comment": "",
+            "type": "eval",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": "any"
+        },
+        {
+            "comment": "",
+            "type": "event",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "eventObject": "path",
+                "eventType": "event type",
+                "eventArgs": "any"
+            }
+        },
+        {
+            "comment": "",
+            "type": "sleep",
+            "option": "msec"
+        },
+        {
+            "comment": "",
+            "type": "open",
+            "option": {
+                "current": "boolean",
+                "url": "http..."
+            }
+        },
+        {
+            "comment": "",
+            "type": "focus",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            }
+        },
+        {
+            "comment": "need for human",
+            "type": "capture",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "fileName": "fileName",
+                "format": "jpeg|png|webp",
+                "quality": "0~100"
+            }
+        },
+        {
+            "comment": "need for human",
+            "type": "save",
+            "option": {
+                "fileName": "fileName"
+            }
+        }
+    ]
+}

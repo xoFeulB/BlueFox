@@ -4,10 +4,9 @@
 {
   (async () => {
     let log = console.log;
-    let browser = chrome ? chrome : browser;
     let sendMessage = async (arg) => {
       try {
-        return await browser.runtime.sendMessage(arg);
+        return await chrome.runtime.sendMessage(arg);
       } catch (err) {
         log(err);
       }
@@ -24,7 +23,7 @@
             },
           }[file.type]();
         }
-        let connector = await browser.tabs.connect(tabid);
+        let connector = await chrome.tabs.connect(tabid);
         await connector.postMessage({
           type: "BlueFox.Dispatch",
           object: {
@@ -152,7 +151,7 @@
             }
 
             /* create tab info  */ {
-              let tabs = await browser.tabs.query({ url: "<all_urls>" });
+              let tabs = await chrome.tabs.query({ url: "<all_urls>" });
               for (let tab of tabs) {
                 let clone = document
                   .querySelector("template#automation_tabs_template")
@@ -174,7 +173,7 @@
                 clone
                   .querySelector("[SwitchTab]")
                   .addEventListener("click", async (event) => {
-                    await browser.tabs.update(
+                    await chrome.tabs.update(
                       Number(event.target.attributes.SwitchTab.value),
                       { active: true }
                     );
@@ -249,7 +248,7 @@
             }
 
             /* create tab info  */ {
-              let tabs = await browser.tabs.query({ url: "<all_urls>" });
+              let tabs = await chrome.tabs.query({ url: "<all_urls>" });
               for (let tab of tabs) {
                 let clone = document
                   .querySelector("template#scanner_tabs_template")
@@ -271,7 +270,7 @@
                 clone
                   .querySelector("[SwitchTab]")
                   .addEventListener("click", async (event) => {
-                    await browser.tabs.update(
+                    await chrome.tabs.update(
                       Number(event.target.attributes.SwitchTab.value),
                       { active: true }
                     );
@@ -284,7 +283,7 @@
                 scanNowNieAgresywny.attributes["ScanNow-NieAgresywny"].value =
                   tab.id;
                 scanNowNieAgresywny.addEventListener("click", async (event) => {
-                  let connector = await browser.tabs.connect(
+                  let connector = await chrome.tabs.connect(
                     scanNowNieAgresywny.tab.id
                   );
                   await connector.postMessage({
