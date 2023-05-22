@@ -36,7 +36,8 @@
         "tabCapture",
         "unlimitedStorage",
         "webNavigation",
-        "webRequest"
+        "webRequest",
+        "bookmarks"
     ],
     "background": {
         "service_worker": "/background/js/background.js"
@@ -60,10 +61,12 @@
             "run_at": "document_idle"
         }
     ],
-    "devtools_page": "/panels/html/set_devtools_page.html",
+    "chrome_url_overrides": {
+        "newtab": "/tab/html/index.html"
+    },
     "icons": {
-        "16": "/media/BlueFox_tp.png",
-        "48": "/media/BlueFox_tp.png",
-        "128": "/media/BlueFox_tp.png"
+        "16": "/media/Abstract_Logo.png",
+        "48": "/media/Abstract_Logo.png",
+        "128": "/media/Abstract_Logo.png"
     }
 }

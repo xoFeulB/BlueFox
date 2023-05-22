@@ -2,10 +2,9 @@
 <html style="filter: invert(0);">
 
 <head>
-    <title>BlueFox</title>
+    <title>^.,.^ BlueFox</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
 
     <!-- UIkit -->
     <link rel="stylesheet" href="/modules/uikit/css/uikit.min.css" />
@@ -17,194 +16,86 @@
 
     <script src="/js/query-walker.js" defer></script>
     <script src="/js/sync-view.js" defer></script>
-    <script src="/panels/js/index.js" defer></script>
-    <link rel="stylesheet" href="/panels/css/index.css" />
+    <script src="/tab/js/index.js" defer></script>
+    <link rel="stylesheet" href="/tab/css/index.css" />
 </head>
 
 <body>
+    <div progress style="width: 0%;"></div>
     <div menu>
-        <div class="cw theme-background-color uk-padding-small">
-            <img class="radius" src="/media/BlueFox.png" width="50px">
-            <span class="padding-left-small uk-text-small">
-                <span>^.,.^ BlueFox</span>
-                <span set="Version"></span>
-            </span>
-        </div>
-
         <div list>
             <div constHide>
                 <input type="text" id="menuControll" value="Dashboard">
+                <input type="text" id="menuControll-side" value="Main">
+                <input type="text" id="focusTarget">
+                <input type="text" id="focusTarget-title">
             </div>
             <active></active>
-            <div setValueOnClick="#menuControll" value="Dashboard">
-                <div>
-                    <span uk-icon="grid"></span>
-                    <span>Dashboard</span>
+            <div showWhenSome="#menuControll-side" showWhenSome-values='["Main"]'>
+                <div list-child setValueOnClick="#menuControll" value="Dashboard">
+                    <div>
+                        <span uk-icon="grid"></span>
+                        <span>Dashboard</span>
+                    </div>
+                </div>
+                <div list-child setValueOnClick="#menuControll" value="Automation">
+                    <div>
+                        <span uk-icon="bolt"></span>
+                        <span>Automation</span>
+                    </div>
+                </div>
+                <div list-child setValueOnClick="#menuControll" value="Utility">
+                    <div>
+                        <span uk-icon="happy"></span>
+                        <span>Utility</span>
+                    </div>
+                </div>
+                <!-- <div list-child setValueOnClick="#menuControll" value="Scanner">
+                    <div>
+                        <span uk-icon="eye"></span>
+                        <span>Scanner</span>
+                    </div>
+                </div> -->
+                <!-- <div list-child setValueOnClick="#menuControll" value="Setting">
+                    <div>
+                        <span uk-icon="cog"></span>
+                        <span>Setting</span>
+                    </div>
+                </div> -->
+                <div list-child setValueOnClick="#menuControll" value="About">
+                    <div>
+                        <span>^.,.^ BlueFox-Chan</span>
+                    </div>
                 </div>
             </div>
-            <div setValueOnClick="#menuControll" value="Automation">
-                <div>
-                    <span uk-icon="bolt"></span>
-                    <span>Automation</span>
+            <div hide showWhenSome="#menuControll-side" showWhenSome-values='["Focus"]'>
+                <div list-child setValueOnClick="#menuControll-side" value="Main">
+                    <div>
+                        <span uk-icon="arrow-left"></span>
+                        <span>BACK</span>
+                    </div>
                 </div>
-            </div>
-            <div setValueOnClick="#menuControll" value="Utility">
-                <div>
-                    <span uk-icon="happy"></span>
-                    <span>Utility</span>
+                <div list-child setValueOnClick="#menuControll" value="Focus">
+                    <div capture="#focusTarget-title"></div>
                 </div>
-            </div>
-            <div setValueOnClick="#menuControll" value="Scanner">
-                <div>
-                    <span uk-icon="eye"></span>
-                    <span>Scanner</span>
-                </div>
-            </div>
-            <div setValueOnClick="#menuControll" value="Setting">
-                <div>
-                    <span uk-icon="settings"></span>
-                    <span>Setting</span>
-                </div>
+                <div otherTabs></div>
             </div>
         </div>
     </div>
     <div main>
-        <div progress style="width: 0%;"></div>
-
         <div class="uk-section uk-section-small uk-section-default">
             <div class="uk-container uk-container-small">
 
                 <div showWhenSome="#menuControll" showWhenSome-values='["Dashboard"]'>
                     <div class="uk-animation-slide-left-small">
-                        <h3 class="uk-heading-bullet">
-                            <span>^.,.^ BlueFox</span>
-                            <span set="Version"></span>
-                        </h3>
 
-                        <div class="uk-child-width-1-2@m" uk-grid>
-                            <div>
-                                <div class="uk-card uk-card-default">
-                                    <div class="uk-card-header">
-                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                            <div class="uk-width-auto">
-                                                <span uk-icon="icon: bolt; ratio: 2"></span>
-                                            </div>
-                                            <div class="uk-width-expand">
-                                                <h3 class="uk-card-title uk-margin-remove-bottom">Automation</h3>
-                                                <p class="uk-text-meta uk-margin-remove-top">
-                                                    Let's automate with JSON, JavaScript
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="uk-card-body">
-                                        <p>
-                                            BlueFox makes your test definitions highly available and portable,
-                                            taking your productivity to the next level.
-                                        </p>
-                                    </div>
-                                    <div class="uk-card-footer">
-                                        <button setValueOnClick="#menuControll" value="Automation"
-                                            class="uk-button uk-button-text">Get Started</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="uk-card uk-card-default">
-                                    <div class="uk-card-header">
-                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                            <div class="uk-width-auto">
-                                                <span uk-icon="icon: happy; ratio: 2"></span>
-                                            </div>
-                                            <div class="uk-width-expand">
-                                                <h3 class="uk-card-title uk-margin-remove-bottom">Utility</h3>
-                                                <p class="uk-text-meta uk-margin-remove-top">
-                                                    Let's automate with JSON, JavaScript
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="uk-card-body">
-                                        <p>
-                                            BlueFox makes your test definitions highly available and portable,
-                                            taking your productivity to the next level.
-                                        </p>
-                                    </div>
-                                    <div class="uk-card-footer">
-                                        <button setValueOnClick="#menuControll" value="Utility"
-                                            class="uk-button uk-button-text">Get Started</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="uk-card uk-card-default">
-                                    <div class="uk-card-header">
-                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                            <div class="uk-width-auto">
-                                                <span uk-icon="icon: eye; ratio: 2"></span>
-                                            </div>
-                                            <div class="uk-width-expand">
-                                                <h3 class="uk-card-title uk-margin-remove-bottom">Scanner</h3>
-                                                <p class="uk-text-meta uk-margin-remove-top">
-                                                    Let's automate with JSON, JavaScript
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="uk-card-body">
-                                        <p>
-                                            BlueFox makes your test definitions highly available and portable,
-                                            taking your productivity to the next level.
-                                        </p>
-                                    </div>
-                                    <div class="uk-card-footer">
-                                        <button setValueOnClick="#menuControll" value="Scanner"
-                                            class="uk-button uk-button-text">Get Started</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="uk-card uk-card-default">
-                                    <div class="uk-card-header">
-                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                            <div class="uk-width-auto">
-                                                <img class="radius" src="/media/BlueFox.png" width="50px">
-
-                                            </div>
-                                            <div class="uk-width-expand">
-                                                <h3 class="uk-card-title uk-margin-remove-bottom">Documentation</h3>
-                                                <p class="uk-text-meta uk-margin-remove-top">^.,.^</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="uk-card-body">
-                                        <p>
-                                            BlueFox makes your test definitions highly available and portable,
-                                            taking your productivity to the next level.
-                                        </p>
-                                    </div>
-                                    <div class="uk-card-footer">
-                                        <span class="uk-margin-right">
-                                            <a href="https://github.com/LobeliaSecurity/BlueFox/wiki" target="_blank"
-                                                class="uk-button uk-button-text">Go to Wiki (GitHub)</a>
-                                        </span>
-                                        <span>
-                                            <a href="https://github.com/LobeliaSecurity/BlueFox" target="_blank"
-                                                class="uk-button uk-button-text">Get Source (GitHub)</a>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <h3 class="uk-heading-bullet">Bookmarks</h3>
+                        <div bookmarks class="uk-child-width-1-2@m" uk-grid></div>
 
                         <div class="uk-margin">
-                            <img src="/media/SocialPreview.png">
+                            <div class="uk-text-meta uk-text-right" set="Copyright"></div>
                         </div>
-                        <div class="uk-text-meta uk-text-right" set="Copyright"></div>
                     </div>
-
                 </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Automation"]'>
                     <div class="uk-animation-slide-left-small">
@@ -368,6 +259,44 @@
                         </div>
                     </div>
                 </div>
+                <div showWhenSome="#menuControll" showWhenSome-values='["About"]'>
+                    <div class="uk-animation-slide-left-small">
+                        <h3 class="uk-heading-bullet">
+                            <span>^.,.^ BlueFox </span>
+                            <span set="Version"></span>
+                        </h3>
+                        <div>
+                            <div class="uk-margin">
+                                <img
+                                    src="https://repository-images.githubusercontent.com/589325811/c7f7aaa7-087e-4041-8abb-72b99ae5143b">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div FocusPanel showWhenSome="#menuControll" showWhenSome-values='["Focus"]'>
+                    <div class="uk-animation-slide-left-small">
+                        <div>
+                            <div class="uk-margin">
+                                <div class="uk-child-width-1-2@m" uk-grid>
+                                    <div>
+                                        <button class="uk-button uk-button-default">
+                                            <span uk-icon="camera" class="uk-margin-small-right"></span>
+                                            <span>Capture</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <img
+                                src="https://repository-images.githubusercontent.com/589325811/c7f7aaa7-087e-4041-8abb-72b99ae5143b">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -380,19 +309,16 @@
                         <header class="uk-comment-header">
                             <div class="uk-grid-medium uk-flex-middle" uk-grid>
                                 <div class="uk-width-auto">
-                                    <img favicon class="uk-comment-avatar" src="" width="40" height="40">
+                                    <img favicon class="uk-comment-avatar" src="" width="25" height="25">
                                 </div>
                                 <div class="uk-width-expand">
-                                    <h4 title class="uk-comment-title uk-margin-remove">
-                                    </h4>
-                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                        <li>URL</li>
-                                        <li url></li>
-                                    </ul>
+                                    <h4 title class="uk-comment-title uk-margin-remove"></h4>
+                                    <div class="uk-comment-meta" url></div>
                                 </div>
                             </div>
                         </header>
                         <div class="uk-comment-body">
+                            <a Focus target="_blank" class="uk-button uk-button-primary">Focus</a>
                             <button SwitchTab class="uk-button uk-button-default">Switch Tab</button>
                         </div>
                     </article>
@@ -461,6 +387,29 @@
 
                 </div>
                 <hr>
+            </div>
+        </template>
+        <template id="dashboard_tabs_bookmarks">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-body">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img favicon width="25px">
+                            </div>
+                            <div class="uk-width-expand">
+                                <p title class="uk-text-default uk-margin-remove-bottom">title</p>
+                                <p url class="uk-text-meta uk-margin-remove-top">url</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-footer">
+                        <span class="uk-margin-right">
+                            <a open_in_new_tab target="_blank" class="uk-button uk-button-text uk-margin-right"
+                            >Open in new tab</a>
+                        </span>
+                    </div>
+                </div>
             </div>
         </template>
     </div>

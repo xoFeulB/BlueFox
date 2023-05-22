@@ -49,24 +49,53 @@
 
     let messageHandler = {
       "BlueFox.Dispatch": async (object) => {
-        for (let J of object.json) {
-          let jsonWalker = new (window.BlueFox.v1())(J);
-          await jsonWalker.do();
+          log(object);
+          let R;
+          for (let f of object.files) {
+          await {
+            "application/json": async (_) => {
+              let bluefox = new (window.BlueFox.v1())(
+                JSON.parse(await _.text)
+              );
+              R = await bluefox.do();
+            },
+            "text/javascript": async (_) => {
+              await sendMessage({
+                type: "Runtime.evaluate",
+                object: {
+                  expression: (await _.text),
+                  objectGroup: "BlueFox-js-lanch",
+                },
+              });
+            },
+          }[f.type](f);
         }
+        return R;
       },
       "BlueFox.Scan.NieAgresywny": async (object) => {
         await window.BlueFox.scanner();
       },
+      "BlueFox.CaptureWindow": async (object) => {
+          let R = await sendMessage({
+            type: "Page.captureScreenshot",
+            object: object,
+          });
+          return R;
+      },
     };
     chrome.runtime.onConnect.addListener((connector) => {
-      connector.onMessage.addListener((message) => {
-        messageHandler[message.type](message.object);
+      connector.onMessage.addListener(async (message) => {
+        connector.postMessage(
+          {
+            type:message.type,
+            object:await messageHandler[message.type](message.object),
+          }
+        );
       });
     });
 
     await sendMessage({
       type: "Debugger.attach",
-      object: {},
     });
   })();
 }

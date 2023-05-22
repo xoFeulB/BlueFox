@@ -7,6 +7,7 @@ body {
 
 [menu] {
   position: fixed;
+  padding-top: 10px;
   top: 0;
   left: 0;
   width: 250px;
@@ -122,59 +123,6 @@ body {
   }
 }
 
-@keyframes online {
-  0% {
-    content: "__________";
-  }
-  6.25% {
-    content: "__________";
-  }
-  12.5% {
-    content: "^_________";
-  }
-  18.75% {
-    content: ".^________";
-  }
-  25.0% {
-    content: ",.^_______";
-  }
-  31.25% {
-    content: ".,.^______";
-  }
-  37.5% {
-    content: "^.,.^_____";
-  }
-  43.75% {
-    content: "_^.,.^____";
-  }
-  50% {
-    content: "__^.,.^___";
-  }
-  56.25% {
-    content: "___^.,.^__";
-  }
-  62.5% {
-    content: "____^.,.^_";
-  }
-  68.75% {
-    content: "_____^.,.^";
-  }
-  75% {
-    content: "______^.,.";
-  }
-  81.25% {
-    content: "_______^.,";
-  }
-  87.5% {
-    content: "________^.";
-  }
-  93.75% {
-    content: "_________^";
-  }
-  100% {
-    content: "__________";
-  }
-}
 
 @keyframes gradient {
   0% {
@@ -187,7 +135,7 @@ body {
     background-position: 0% 50%;
   }
 }
-[list] > div {
+[list] [list-child] {
   padding-left: 1.3em;
   height: 50px;
   display: flex;
@@ -199,7 +147,7 @@ body {
   user-select: none;
 }
 
-[list] > div:hover {
+[list] [list-child]:hover {
   background-color: gainsboro;
 }
 [list] [uk-icon] {
@@ -225,7 +173,6 @@ animstr {
 [progress] {
   position: fixed;
   height: 10px;
-  margin-bottom: 10px;
   background-color: #82b1ff;
   z-index: 999;
 }
@@ -247,4 +194,43 @@ animstr {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+
+/* Scrollbar size */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  transition: 1.0s;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(127, 127, 127, 0.6);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: 1.0s;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover,
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background-color: rgb(110, 110, 110);
+  transition: 0.3s;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+
+
+::-webkit-scrollbar-thumb:vertical:active,
+::-webkit-scrollbar-thumb:horizontal:active {
+  background: rgba(95, 91, 91, 1);
+
+}
+
+::-webkit-scrollbar-corner {
+  background: none;
 }

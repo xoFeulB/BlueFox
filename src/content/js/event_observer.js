@@ -27,11 +27,10 @@
 
       box.appendChild(message);
 
-
       let fil = document.createElement("div");
       fil.style.position = "fixed";
-      fil.style.width = "100vw"
-      fil.style.height = "100vh"
+      fil.style.width = "100vw";
+      fil.style.height = "100vh";
       fil.style.zIndex = "998";
       fil.style.top = "0";
       fil.style.left = "0";
@@ -51,26 +50,34 @@
       c.style.backgroundColor = "white";
       c.style.transformOrigin = "0px 30px";
 
-      for(let i = 0; i < 10; i++){
-
+      for (let i = 0; i < 5; i++) {
         let cloned = c.cloneNode(false);
         anime({
           targets: cloned,
-          rotate:"1turn",
-          duration: 5000,
-          delay: i * 50,
+          rotate: "1turn",
+          duration: 3000,
+          delay: i * 100,
           loop: true,
-          easing: "easeInOutExpo",
+          easing: "easeOutExpo",
         });
 
         box.appendChild(cloned);
         document.body.appendChild(box);
       }
-
-
     };
 
     load_start("bluefox-loading");
+
+    let getCssSelector = (e) => {
+      if (e.id) {
+        return `#${e.id}`;
+      }
+      return [...e.attributes]
+        .map((_) => {
+          return `[${_.name}="${_.value}"]`;
+        })
+        .join("");
+    };
 
     let sendMessage = async (arg) => {
       try {
@@ -85,11 +92,10 @@
         return {
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
-          target: CssSelectorGenerator.getCssSelector(event.target),
-          timestamp: Date.now(),
-          _meta_: {
-            DOM: event.target,
-          },
+          target: getCssSelector(event.target),
+          // target: CssSelectorGenerator.getCssSelector(event.target),
+
+          timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
@@ -101,11 +107,9 @@
         return {
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
-          target: CssSelectorGenerator.getCssSelector(event.target),
-          timestamp: Date.now(),
-          _meta_: {
-            DOM: event.target,
-          },
+          target: getCssSelector(event.target),
+          // target: CssSelectorGenerator.getCssSelector(event.target),
+          timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
@@ -119,7 +123,6 @@
             data: event.data,
             isComposing: event.isComposing,
             detail: event.detail,
-            detail: event.detail,
           },
         };
       },
@@ -127,11 +130,9 @@
         return {
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
-          target: CssSelectorGenerator.getCssSelector(event.target),
-          timestamp: Date.now(),
-          _meta_: {
-            DOM: event.target,
-          },
+          target: getCssSelector(event.target),
+          // target: CssSelectorGenerator.getCssSelector(event.target),
+          timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
@@ -160,11 +161,9 @@
         return {
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
-          target: CssSelectorGenerator.getCssSelector(event.target),
-          timestamp: Date.now(),
-          _meta_: {
-            DOM: event.target,
-          },
+          target: getCssSelector(event.target),
+          // target: CssSelectorGenerator.getCssSelector(event.target),
+          timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
@@ -172,7 +171,6 @@
 
             // UIEvent
             detail: event.detail,
-            // view: event.view,
           },
         };
       },
@@ -180,11 +178,9 @@
         return {
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
-          target: CssSelectorGenerator.getCssSelector(event.target),
-          timestamp: Date.now(),
-          _meta_: {
-            DOM: event.target,
-          },
+          target: getCssSelector(event.target),
+          // target: CssSelectorGenerator.getCssSelector(event.target),
+          timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
@@ -225,29 +221,15 @@
     };
 
     let eventListner = (event) => {
-      log(event);
-      return;
-      if (!event.target.checkVisibility()) {
-        return;
-      }
-      let last_one = R.actions.slice(-1)[0];
       let action = CaptureType[event.type](event);
-
-      if (
-        [
-          last_one?.type != action.type &&
-            last_one?.eventPrototype != action.eventPrototype,
-          last_one?._meta_.DOM != action._meta_.DOM,
-        ].some((_) => {
-          return _;
-        })
-      ) {
-        log(action);
-        R.actions.push(action);
-      }
+      log(action);
+      sendMessage({
+        type: "BlueFox.storeEvent",
+        object: { action: action },
+      });
     };
 
-    await sleep(5000);
+    await sleep(1000);
     let listners = (
       await sendMessage({
         type: "DOMDebugger.getEventListeners",
@@ -285,19 +267,18 @@
       return JSON.parse(_);
     });
     log(nodes);
-    nodes.filter((_) => {
-      return Object.keys(CaptureType).includes(_.eventType);
-    }).forEach((_) => {
-      [...document.querySelectorAll(_.description)].forEach(e => {
-        e.addEventListener(_.eventType, eventListner);
+    nodes
+      .filter((_) => {
+        return Object.keys(CaptureType).includes(_.eventType);
       })
-    });
+      .forEach((_) => {
+        try {
+          [...document.querySelectorAll(_.description)].forEach((e) => {
+            e.addEventListener(_.eventType, eventListner);
+          });
+        } catch {}
+      });
 
     document.querySelector("#bluefox-loading").remove();
-    // nodes.filter((_) => {
-    //   return _.eventType in CaptureType;
-    // }).forEach((_) => {
-
-    // });
   })();
 }

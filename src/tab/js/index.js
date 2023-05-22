@@ -12,22 +12,20 @@
       }
     };
 
-    window.BlueFox ? null : (window.BlueFox = {});
     let dropHandler = async (tabid, files) => {
       try {
-        json = [];
-        for (let file of files) {
-          await {
-            "application/json": async () => {
-              json.push(JSON.parse(await file.text()));
-            },
-          }[file.type]();
+        let r = [];
+        for (let f of files) {
+          r.push({
+            type: f.type,
+            text: await f.text(),
+          });
         }
         let connector = await chrome.tabs.connect(tabid);
         await connector.postMessage({
           type: "BlueFox.Dispatch",
           object: {
-            json: json,
+            files: r,
           },
         });
       } catch (err) {
@@ -57,7 +55,7 @@
 
     /* Display */ {
       let values = {
-        Copyright: `© ${new Date().getFullYear()} LobeliaSecurity™`,
+        Copyright: `© ${new Date().getFullYear()} BlueFox by Void Ark, inc.`,
         Version: `v${chrome.runtime.getManifest().version}`,
       };
 
@@ -89,13 +87,13 @@
           let target = document.querySelector(
             e.attributes["showWhenSome"].value
           );
-          let values = JSON.parse(
-            e.attributes["showWhenSome-values"].value
-          ).map((_) => {
-            return `${_}`;
-          });
 
           target.addEventListener("change", async (event) => {
+            let values = JSON.parse(
+              e.attributes["showWhenSome-values"].value
+            ).map((_) => {
+              return `${_}`;
+            });
             if (values.includes(`${target.value}`)) {
               await anime({
                 targets: e,
@@ -151,7 +149,14 @@
             }
 
             /* create tab info  */ {
-              let tabs = await chrome.tabs.query({ url: "<all_urls>" });
+              let tabs = [
+                ...(await chrome.tabs.query({ url: "<all_urls>" })),
+              ].filter((_) => {
+                return [
+                  !_.url.includes("chrome://"),
+                  !_.url.includes("chrome-extension://"),
+                ].every(__ => {return __});
+              });
               for (let tab of tabs) {
                 let clone = document
                   .querySelector("template#automation_tabs_template")
@@ -168,8 +173,7 @@
 
                 clone.querySelector("[title]").textContent = tab.title;
                 clone.querySelector("[URL]").textContent = tab.url;
-                clone.querySelector("[SwitchTab]").attributes.SwitchTab.value =
-                  tab.id;
+                clone.querySelector("[SwitchTab]").attributes.SwitchTab.value = tab.id;
                 clone
                   .querySelector("[SwitchTab]")
                   .addEventListener("click", async (event) => {
@@ -178,6 +182,8 @@
                       { active: true }
                     );
                   });
+
+                clone.querySelector("[Focus]").href = `./focus.html#${tab.id}`;
 
                 let BlueFoxFileAttach = clone.querySelector(
                   "[BlueFoxFileAttach]"
@@ -200,6 +206,10 @@
                     event.dataTransfer.dropEffect = "copy";
                   }
                 );
+
+
+                let queryWalker = new QueryWalker({"[setValueOnClick]":oDict["[setValueOnClick]"]}, clone);
+                await queryWalker.do();
 
                 e.appendChild(clone);
 
@@ -343,7 +353,6 @@
             }
           });
         },
-
         "textarea[in]": async (e) => {
           e.addEventListener("input", (event) => {
             let R = [];
@@ -403,15 +412,38 @@
             });
           });
         },
-      };
+        "[bookmarks]": async (e) => {
+          chrome.bookmarks.getTree((bookmarks) => {
+            bookmarks[0].children[0].children.forEach((_) => {
+              let card = document
+                .querySelector("#dashboard_tabs_bookmarks")
+                .content.cloneNode(true);
+
+              card.querySelector("[title]").textContent = _.title;
+              card.querySelector("[url]").textContent = new URL(_.url).host;
+              card.querySelector("[open_in_new_tab]").href = _.url;
+              card.querySelector("[favicon]").src = `${
+                new URL(_.url).origin
+              }/favicon.ico`;
+              card
+                .querySelector("[favicon]")
+                .addEventListener("error", (event) => {
+                  event.target.closest("div").setAttribute(
+                    "uk-icon",
+                    "icon: world; ratio: 1"
+                  );
+                  event.target.remove();
+                });
+
+              e.appendChild(card);
+            });
+          });
+        },
+        };
       let queryWalker = new QueryWalker(oDict, document);
       await queryWalker.do();
     }
 
-    // chrome.devtools.network.onRequestFinished.addListener(
-    //   (requestId, timestamp, dataLength, encodedDataLength) => {
-    //     log(requestId, timestamp, dataLength, encodedDataLength);
-    //   }
-    // );
+
   })();
 }
