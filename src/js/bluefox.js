@@ -29,12 +29,13 @@
     };
 
     window.BlueFox.v1 = class {
-      constructor(J) {
-        this.J = J;
+      constructor() {
+        this.J = null;
         this.take = [];
-        this.actions = J.actions;
-        this.dispatchEvents = J.dispatchEvents;
-        this.msec = J.sleep;
+        this.actions = null;
+        this.dispatchEvents = null;
+        this.msec = null;
+
         this.sleep = (msec) =>
           new Promise((resolve) => setTimeout(resolve, msec));
 
@@ -132,7 +133,7 @@
             }
           },
           save: async (action) => {
-            let R = J;
+            let R = this.J;
             Object.assign(R, {
               takes: this.take,
             });
@@ -146,7 +147,13 @@
           },
         };
       }
-      async do() {
+      async do(J) {
+        this.J = J;
+        this.take = [];
+        this.actions = J.actions;
+        this.dispatchEvents = J.dispatchEvents;
+        this.msec = J.sleep;
+
         for (let action of this.actions) {
           await this.actionHandler[action.type](action);
           this.msec != 0 ? await this.sleep(this.msec) : null;

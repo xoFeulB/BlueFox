@@ -49,21 +49,19 @@
 
     let messageHandler = {
       "BlueFox.Dispatch": async (object) => {
-          log(object);
-          let R;
-          for (let f of object.files) {
+        log(object);
+        let R;
+        for (let f of object.files) {
           await {
             "application/json": async (_) => {
-              let bluefox = new (window.BlueFox.v1())(
-                JSON.parse(await _.text)
-              );
-              R = await bluefox.do();
+              let bluefox = new window.BlueFox.v1();
+              R = await bluefox.do(JSON.parse(await _.text));
             },
             "text/javascript": async (_) => {
               await sendMessage({
                 type: "Runtime.evaluate",
                 object: {
-                  expression: (await _.text),
+                  expression: await _.text,
                   objectGroup: "BlueFox-js-lanch",
                 },
               });
@@ -76,21 +74,19 @@
         await window.BlueFox.scanner();
       },
       "BlueFox.CaptureWindow": async (object) => {
-          let R = await sendMessage({
-            type: "Page.captureScreenshot",
-            object: object,
-          });
-          return R;
+        let R = await sendMessage({
+          type: "Page.captureScreenshot",
+          object: object,
+        });
+        return R;
       },
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {
-        connector.postMessage(
-          {
-            type:message.type,
-            object:await messageHandler[message.type](message.object),
-          }
-        );
+        connector.postMessage({
+          type: message.type,
+          object: await messageHandler[message.type](message.object),
+        });
       });
     });
 

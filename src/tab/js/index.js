@@ -206,7 +206,10 @@
                     event.dataTransfer.dropEffect = "copy";
                   }
                 );
-
+                BlueFoxFileAttach.querySelector("input").addEventListener("input", async (event) => {
+                  await dropHandler(BlueFoxFileAttach.tab.id, event.target.files);
+                  event.target.value = null;
+                });
 
                 let queryWalker = new QueryWalker({"[setValueOnClick]":oDict["[setValueOnClick]"]}, clone);
                 await queryWalker.do();

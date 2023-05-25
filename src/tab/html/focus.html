@@ -19,7 +19,9 @@
     <script src="/tab/js/focus.js" defer></script>
     <link rel="stylesheet" href="/tab/css/focus.css" />
 </head>
+
 <body>
+
     <body>
         <div menu>
             <div list>
@@ -103,8 +105,20 @@
                                         <span>Capture Window</span>
                                     </button>
                                 </div>
-                                <img CapturePreview uk-img>
                             </div>
+
+                            <div class="uk-margin">
+                                <div BlueFoxFileAttach class="js-upload uk-placeholder uk-text-center uk-text-default">
+                                    <span uk-icon="icon: bolt; ratio: 2"></span>
+                                    <span>Attach JSON by dropping them here or</span>
+                                    <div uk-form-custom>
+                                        <input type="file" multiple>
+                                        <span class="uk-link padding-left-xsmall">selecting one</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img CapturePreview uk-img>
 
                             <div class="uk-margin">
                                 <div class="uk-text-meta uk-text-right" set="Copyright"></div>
@@ -287,8 +301,8 @@
                             </div>
                         </div>
                     </div>
-    
-    
+
+
                     <div FocusPanel showWhenSome="#menuControll" showWhenSome-values='["Focus"]'>
                         <div class="uk-animation-slide-left-small">
                             <div>
@@ -301,12 +315,12 @@
                                             </button>
                                         </div>
                                     </div>
-    
+
                                 </div>
-    
+
                                 <div>
                                     <img
-                                    src="https://repository-images.githubusercontent.com/589325811/c7f7aaa7-087e-4041-8abb-72b99ae5143b">
+                                        src="https://repository-images.githubusercontent.com/589325811/c7f7aaa7-087e-4041-8abb-72b99ae5143b">
                                 </div>
                             </div>
                         </div>
@@ -314,7 +328,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div hide templates>
             <template id="automation_tabs_template">
                 <div class="uk-margin">
@@ -393,12 +407,13 @@
                                         </p>
                                     </div>
                                     <div>
-                                        <button ScanNow-NieAgresywny class="uk-button uk-button-primary">Scan now</button>
+                                        <button ScanNow-NieAgresywny class="uk-button uk-button-primary">Scan
+                                            now</button>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-    
+
                     </div>
                     <hr>
                 </div>
@@ -419,7 +434,8 @@
                         </div>
                         <div class="uk-card-footer">
                             <span class="uk-margin-right">
-                                <a open_in_new_tab target="_blank" class="uk-button uk-button-text uk-margin-right">Open in
+                                <a open_in_new_tab target="_blank" class="uk-button uk-button-text uk-margin-right">Open
+                                    in
                                     new tab</a>
                             </span>
                         </div>
@@ -427,7 +443,8 @@
                 </div>
             </template>
         </div>
-    
+
     </body>
 </body>
+
 </html>

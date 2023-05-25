@@ -12,6 +12,27 @@
       }
     };
 
+    let dropHandler = async (tabid, files) => {
+      try {
+        let r = [];
+        for (let f of files) {
+          r.push({
+            type: f.type,
+            text: await f.text(),
+          });
+        }
+        let connector = await chrome.tabs.connect(tabid);
+        await connector.postMessage({
+          type: "BlueFox.Dispatch",
+          object: {
+            files: r,
+          },
+        });
+      } catch (err) {
+        log(err);
+      }
+    };
+
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
     let getProperty = (_path, _dict) => {
       let _key = _path.split(".")[0];
@@ -126,8 +147,10 @@
         },
         "[CaptureWindow]": async (e) => {
           connector.onMessage.addListener((message) => {
-            if(message.object){
-              document.querySelector("[CapturePreview]").src = `data:image/png;base64, ${message.object}`;
+            if (message.object) {
+              document.querySelector(
+                "[CapturePreview]"
+              ).src = `data:image/png;base64, ${message.object}`;
             }
           });
           e.addEventListener("click", async () => {
@@ -138,6 +161,21 @@
                 captureBeyondViewport: true,
               },
             });
+          });
+        },
+        "[BlueFoxFileAttach]": async (e) => {
+          e.addEventListener("drop", async (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "copy";
+            await dropHandler(values.TabInfo.id, event.dataTransfer.files);
+          });
+          e.addEventListener("dragover", async (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "copy";
+          });
+          e.querySelector("input").addEventListener("input", async (event) => {
+            await dropHandler(values.TabInfo.id, event.target.files);
+            event.target.value = null;
           });
         },
       };
