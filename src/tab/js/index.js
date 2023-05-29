@@ -3,7 +3,9 @@
 
 {
   (async () => {
-    let log = console.log;
+    let log = (...args) => {
+      console.log("index.js", ...args);
+    };
     let sendMessage = async (arg) => {
       try {
         return await chrome.runtime.sendMessage(arg);

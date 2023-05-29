@@ -80,13 +80,39 @@
         });
         return R;
       },
+      "BlueFox.GetEventListners": async (object) => {
+        let R = (
+          await sendMessage({
+            type: "DOMDebugger.getEventListeners",
+            object: {
+              objectId: (
+                await sendMessage({
+                  type: "Runtime.evaluate",
+                  object: {
+                    expression: "(()=>{return document;})()",
+                    objectGroup: "event-listeners-test",
+                  },
+                })
+              ).result.objectId,
+              depth: -1,
+            },
+          })
+        ).listeners;
+        return R;
+      },
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {
-        connector.postMessage({
-          type: message.type,
-          object: await messageHandler[message.type](message.object),
-        });
+        try{
+          connector.postMessage({
+            type: message.type,
+            object: await messageHandler[message.type](
+              Object.assign(message.object, {
+                connector: connector,
+              })
+            ),
+          });
+        } catch {}
       });
     });
 

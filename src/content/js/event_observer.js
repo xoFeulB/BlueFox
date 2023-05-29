@@ -66,8 +66,6 @@
       }
     };
 
-    load_start("bluefox-loading");
-
     let getCssSelector = (e) => {
       if (e.id) {
         return `#${e.id}`;
@@ -220,65 +218,140 @@
       change: EventFilter.Event,
     };
 
-    let eventListner = (event) => {
-      let action = CaptureType[event.type](event);
-      log(action);
-      sendMessage({
-        type: "BlueFox.storeEvent",
-        object: { action: action },
-      });
-    };
+    let messageHandler = {
+      "BlueFox.CapturEvents": async (object) => {
+        {
+          let box = document.createElement("div");
+          box.id = "bluefox-loading";
 
-    await sleep(1000);
-    let listners = (
-      await sendMessage({
-        type: "DOMDebugger.getEventListeners",
-        object: {
-          objectId: (
-            await sendMessage({
-              type: "Runtime.evaluate",
-              object: {
-                expression: "(()=>{return document;})()",
-                objectGroup: "event-listeners-test",
-              },
+          let message = document.createElement("div");
+          message.textContent = "BlueFox waiting for page to finish loading";
+          message.style.position = "fixed";
+          message.style.zIndex = "999";
+          message.style.top = "50vh";
+          message.style.left = "50vw";
+          message.style.paddingLeft = "1em";
+          message.style.color = "white";
+
+          box.appendChild(message);
+
+          let fil = document.createElement("div");
+          fil.style.position = "fixed";
+          fil.style.width = "100vw";
+          fil.style.height = "100vh";
+          fil.style.zIndex = "998";
+          fil.style.top = "0";
+          fil.style.left = "0";
+          fil.style.backgroundColor = "rgba(0,0,0,0.5)";
+
+          box.appendChild(fil);
+
+          let c = document.createElement("div");
+          c.style.position = "fixed";
+          c.style.zIndex = "999";
+          c.style.top = "50vh";
+          c.style.left = "50vw";
+
+          c.style.width = "2px";
+          c.style.height = "15px";
+          c.style.backgroundColor = "white";
+          c.style.transformOrigin = "0px 30px";
+
+          for (let i = 0; i < 5; i++) {
+            let cloned = c.cloneNode(false);
+            anime({
+              targets: cloned,
+              rotate: "1turn",
+              duration: 3000,
+              delay: i * 100,
+              loop: true,
+              easing: "easeOutExpo",
+            });
+
+            box.appendChild(cloned);
+            document.body.appendChild(box);
+          }
+        }
+
+        let eventListner = (event) => {
+          let action = CaptureType[event.type](event);
+          log(action);
+          sendMessage({
+            type: "BlueFox.storeEvent",
+            object: { action: action },
+          });
+        };
+        let listners = (
+          await sendMessage({
+            type: "DOMDebugger.getEventListeners",
+            object: {
+              objectId: (
+                await sendMessage({
+                  type: "Runtime.evaluate",
+                  object: {
+                    expression: "(()=>{return document;})()",
+                    objectGroup: "event-listeners-test",
+                  },
+                })
+              ).result.objectId,
+              depth: -1,
+            },
+          })
+        ).listeners;
+
+        let nodes = new Set();
+        for (let listner of listners) {
+          let node = await sendMessage({
+            type: "DOM.resolveNode",
+            object: { backendNodeId: listner.backendNodeId },
+          });
+
+          nodes.add(
+            JSON.stringify({
+              useCapture: listner.useCapture,
+              eventType: listner.type,
+              description: node.object.description,
             })
-          ).result.objectId,
-          depth: -1,
-        },
-      })
-    ).listeners;
+          );
+        }
+        nodes = [...nodes].map((_) => {
+          return JSON.parse(_);
+        });
+        log(nodes);
+        nodes
+          .filter((_) => {
+            return Object.keys(CaptureType).includes(_.eventType);
+          })
+          .forEach((_) => {
+            try {
+              [...document.querySelectorAll(_.description)].forEach((e) => {
+                e.addEventListener(_.eventType, eventListner);
+              });
+            } catch {}
+          });
 
-    let nodes = new Set();
-    for (let listner of listners) {
-      let node = await sendMessage({
-        type: "DOM.resolveNode",
-        object: { backendNodeId: listner.backendNodeId },
-      });
+        {
+          document.querySelector("#bluefox-loading").remove();
+        }
 
-      nodes.add(
-        JSON.stringify({
-          useCapture: listner.useCapture,
-          eventType: listner.type,
-          description: node.object.description,
-        })
-      );
-    }
-    nodes = [...nodes].map((_) => {
-      return JSON.parse(_);
-    });
-    log(nodes);
-    nodes
-      .filter((_) => {
-        return Object.keys(CaptureType).includes(_.eventType);
-      })
-      .forEach((_) => {
+        return nodes.filter((_) => {
+          return Object.keys(CaptureType).includes(_.eventType);
+        });
+      },
+    };
+    chrome.runtime.onConnect.addListener((connector) => {
+      connector.onMessage.addListener(async (message) => {
         try {
-          [...document.querySelectorAll(_.description)].forEach((e) => {
-            e.addEventListener(_.eventType, eventListner);
+          connector.postMessage({
+            type: message.type,
+            object: await messageHandler[message.type](
+              Object.assign(message.object, {
+                connector: connector,
+              })
+            ),
           });
         } catch {}
       });
-
-    document.querySelector("#bluefox-loading").remove();
+    });
   })();
 }

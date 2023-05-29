@@ -55,7 +55,7 @@
                 "/js/query-walker.js",
                 "/js/bluefox-scanner.js",
                 "/js/bluefox.js",
-                "/content/js/content_scripts.js",
+                "/content/js/content_script.js",
                 "/content/js/event_observer.js"
             ],
             "run_at": "document_idle"

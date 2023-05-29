@@ -3,7 +3,10 @@
 
 {
   (async () => {
-    let log = console.log;
+    let log = (...args) => {
+      console.log("focus.js", ...args);
+    };
+
     let sendMessage = async (arg) => {
       try {
         return await chrome.runtime.sendMessage(arg);
@@ -21,7 +24,6 @@
             text: await f.text(),
           });
         }
-        let connector = await chrome.tabs.connect(tabid);
         await connector.postMessage({
           type: "BlueFox.Dispatch",
           object: {
@@ -65,13 +67,45 @@
           return tabInfo[0];
         })(),
       };
-      let connector = await chrome.tabs.connect(values.TabInfo.id);
+
+      let connector;
 
       Object.assign(values, {
         Copyright: `© ${new Date().getFullYear()} BlueFox by Void Ark, inc.`,
         Title: values.TabInfo.title,
         url: values.TabInfo.url,
       });
+
+      let messageHandler = {
+        "BlueFox.CaptureWindow": (message) => {
+          if (message.object) {
+            document.querySelector(
+              "[CapturePreview]"
+            ).src = `data:image/png;base64, ${message.object}`;
+          }
+        },
+        "BlueFox.GetEventListners": (message) => {
+          document.querySelector("[EventListners]").textContent =
+            message.object.length;
+        },
+        "BlueFox.CapturEvents": (message) => {
+          document.querySelector("[HowManyCapturingEvents]").textContent =
+            message.object.length;
+        },
+      };
+
+
+      let reloadConnector = async () => {
+        connector = await chrome.tabs.connect(values.TabInfo.id);
+        connector.onMessage.addListener((message) => {
+          try {
+            messageHandler[message.type](message);
+          } catch {
+            log("failed", message);
+          }
+        });
+      };
+      await reloadConnector();
 
       let oDict = {
         "[set]": async (e) => {
@@ -146,14 +180,8 @@
           });
         },
         "[CaptureWindow]": async (e) => {
-          connector.onMessage.addListener((message) => {
-            if (message.object) {
-              document.querySelector(
-                "[CapturePreview]"
-              ).src = `data:image/png;base64, ${message.object}`;
-            }
-          });
           e.addEventListener("click", async () => {
+            await reloadConnector();
             await connector.postMessage({
               type: "BlueFox.CaptureWindow",
               object: {
@@ -178,9 +206,26 @@
             event.target.value = null;
           });
         },
+        "[StartCapturingEvents]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            await reloadConnector();
+            await connector.postMessage({
+              type: "BlueFox.CapturEvents",
+              object: {},
+            });
+          });
+        },
       };
       let queryWalker = new QueryWalker(oDict, document);
       await queryWalker.do();
+
+      {
+        await sleep(1000);
+        await connector.postMessage({
+          type: "BlueFox.GetEventListners",
+          object: {},
+        });
+      }
     }
   })();
 }
