@@ -15,26 +15,6 @@
       }
     };
 
-    let dropHandler = async (tabid, files) => {
-      try {
-        let r = [];
-        for (let f of files) {
-          r.push({
-            type: f.type,
-            text: await f.text(),
-          });
-        }
-        await connector.postMessage({
-          type: "BlueFox.Dispatch",
-          object: {
-            files: r,
-          },
-        });
-      } catch (err) {
-        log(err);
-      }
-    };
-
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
     let getProperty = (_path, _dict) => {
       let _key = _path.split(".")[0];
@@ -69,6 +49,25 @@
       };
 
       let connector;
+      let dropHandler = async (tabid, files) => {
+        try {
+          let r = [];
+          for (let f of files) {
+            r.push({
+              type: f.type,
+              text: await f.text(),
+            });
+          }
+          await connector.postMessage({
+            type: "BlueFox.Dispatch",
+            object: {
+              files: r,
+            },
+          });
+        } catch (err) {
+          log(err);
+        }
+      };
 
       Object.assign(values, {
         Copyright: `© ${new Date().getFullYear()} BlueFox by Void Ark, inc.`,
