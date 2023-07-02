@@ -54,7 +54,7 @@
         for (let f of object.files) {
           await {
             "application/json": async (_) => {
-              let bluefox = new window.BlueFox.v1();
+              let bluefox = new window.BlueFox();
               R = await bluefox.do(JSON.parse(await _.text));
             },
             "text/javascript": async (_) => {

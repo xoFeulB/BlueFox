@@ -36,17 +36,24 @@
     };
 
     /* Display */ {
-      let values = {
-        Version: `v${chrome.runtime.getManifest().version}`,
-        TabInfo: await (async () => {
-          let tabInfo = [
-            ...(await chrome.tabs.query({ url: "<all_urls>" })),
-          ].filter((_) => {
-            return Number(window.location.hash.substring(1)) == _.id;
-          });
-          return tabInfo[0];
-        })(),
-      };
+      let TabInfo = await (async () => {
+        let tabInfo = [
+          ...(await chrome.tabs.query({ url: "<all_urls>" })),
+        ].filter((_) => {
+          return Number(window.location.hash.substring(1)) == _.id;
+        });
+        return tabInfo[0];
+      })();
+      log(TabInfo);
+      TabInfo.DOM = document.querySelector("#TabInfo");
+      TabInfo.DOM.TabInfo = TabInfo;
+      TabInfo.DOM.dispatchEvent(new Event("sync"));
+
+      Object.keys(TabInfo).forEach((key) => {
+        [...document.querySelectorAll(`[TabInfo="${key}"]`)].forEach((_) => {
+          _.textContent = TabInfo[key];
+        });
+      });
 
       let connector;
       let dropHandler = async (tabid, files) => {
@@ -69,20 +76,7 @@
         }
       };
 
-      Object.assign(values, {
-        Copyright: `© ${new Date().getFullYear()} BlueFox by Void Ark, inc.`,
-        Title: values.TabInfo.title,
-        url: values.TabInfo.url,
-      });
-
-      let messageHandler = {
-        "BlueFox.CaptureWindow": (message) => {
-          if (message.object) {
-            document.querySelector(
-              "[CapturePreview]"
-            ).src = `data:image/png;base64, ${message.object}`;
-          }
-        },
+      let MessageHandler = {
         "BlueFox.GetEventListners": (message) => {
           document.querySelector("[EventListners]").textContent =
             message.object.length;
@@ -93,12 +87,11 @@
         },
       };
 
-
       let reloadConnector = async () => {
-        connector = await chrome.tabs.connect(values.TabInfo.id);
+        connector = await chrome.tabs.connect(TabInfo.id);
         connector.onMessage.addListener((message) => {
           try {
-            messageHandler[message.type](message);
+            MessageHandler[message.type](message);
           } catch {
             log("failed", message);
           }
@@ -106,27 +99,201 @@
       };
       await reloadConnector();
 
+      // let oDict = {
+      //   "[set]": async (e) => {
+      //     e.textContent = values[e.attributes.set.value];
+      //   },
+      //   "#menuControll": async (e) => {
+      //     let active = document.querySelector("[menu] > [list] > active");
+      //     let animate = () => {
+      //       let move_to = document
+      //         .querySelector(
+      //           `[value="${e.value}"][setValueOnClick="#menuControll"]`
+      //         )
+      //         .getBoundingClientRect().top;
+      //       anime({
+      //         targets: active,
+      //         top: move_to,
+      //         width: [0, 5],
+      //         duration: 500,
+      //         easing: "easeOutElastic",
+      //       });
+      //     };
+      //     e.addEventListener("change", (event) => {
+      //       animate();
+      //     });
+      //   },
+      //   "[showWhenSome]": async (e) => {
+      //     let target = document.querySelector(
+      //       e.attributes["showWhenSome"].value
+      //     );
+
+      //     target.addEventListener("change", async (event) => {
+      //       let values = JSON.parse(
+      //         e.attributes["showWhenSome-values"].value
+      //       ).map((_) => {
+      //         return `${_}`;
+      //       });
+      //       if (values.includes(`${target.value}`)) {
+      //         await anime({
+      //           targets: e,
+      //           opacity: 1,
+      //           duration: 200,
+      //           easing: "linear",
+      //         });
+      //         e.removeAttribute("hide");
+      //       } else {
+      //         await anime({
+      //           targets: e,
+      //           opacity: 0,
+      //           duration: 200,
+      //           easing: "linear",
+      //         });
+      //         e.setAttribute("hide", "");
+      //       }
+      //     });
+      //     target.dispatchEvent(new Event("change"));
+      //   },
+      //   "[setValueOnClick]": async (e) => {
+      //     let target = document.querySelector(
+      //       e.attributes["setValueOnClick"].value
+      //     );
+      //     e.addEventListener("click", (event) => {
+      //       target.value = e.attributes.value.value;
+      //       target.attributes.value.value = e.attributes.value.value;
+      //       target.dispatchEvent(new Event("change"));
+      //     });
+      //   },
+      //   "[TabToWindow]": async (e) => {
+      //     e.addEventListener("click", async () => {
+      //       await chrome.windows.create({
+      //         tabId: values.TabInfo.id,
+      //       });
+      //     });
+      //   },
+      //   "[CaptureWindow]": async (e) => {
+      //     e.addEventListener("click", async () => {
+      //       await reloadConnector();
+      //       await connector.postMessage({
+      //         type: "BlueFox.CaptureWindow",
+      //         object: {
+      //           format: "png",
+      //           captureBeyondViewport: true,
+      //         },
+      //       });
+      //     });
+      //   },
+      //   "[BlueFoxFileAttach]": async (e) => {
+      //     e.addEventListener("drop", async (event) => {
+      //       event.preventDefault();
+      //       event.dataTransfer.dropEffect = "copy";
+      //       await dropHandler(values.TabInfo.id, event.dataTransfer.files);
+      //     });
+      //     e.addEventListener("dragover", async (event) => {
+      //       event.preventDefault();
+      //       event.dataTransfer.dropEffect = "copy";
+      //     });
+      //     e.querySelector("input").addEventListener("input", async (event) => {
+      //       await dropHandler(values.TabInfo.id, event.target.files);
+      //       event.target.value = null;
+      //     });
+      //   },
+      //   "[StartCapturingEvents]": async (e) => {
+      //     e.addEventListener("click", async (event) => {
+      //       await reloadConnector();
+      //       await connector.postMessage({
+      //         type: "BlueFox.CapturEvents",
+      //         object: {},
+      //       });
+      //     });
+      //   },
+      // };
+
       let oDict = {
-        "[set]": async (e) => {
-          e.textContent = values[e.attributes.set.value];
+        '[sync-from-property="TabInfo.favIconUrl"]': async (e) => {
+          e.addEventListener("error", (event) => {
+            let parent = e.parentNode;
+            event.target.remove();
+
+            let icon = document.createElement("span");
+            icon.setAttribute("uk-icon", "icon: world; ratio: 2");
+            parent.appendChild(icon);
+          });
+        },
+        "[TabToWindow]": async (e) => {
+          e.addEventListener("click", async () => {
+            await chrome.windows.create({
+              tabId: TabInfo.id,
+            });
+          });
+        },
+        "[CaptureWindow]": async (e) => {
+          MessageHandler["BlueFox.CaptureWindow"] = (message) => {
+            if (message.object) {
+              document.querySelector(
+                "[CapturePreview]"
+              ).src = `data:image/png;base64, ${message.object}`;
+              document
+                .querySelector("[CapturePreview]")
+                .dispatchEvent(new Event("sync"));
+            }
+          };
+          e.addEventListener("click", async () => {
+            await reloadConnector();
+            await connector.postMessage({
+              type: "BlueFox.CaptureWindow",
+              object: {
+                format: "png",
+                captureBeyondViewport: true,
+              },
+            });
+          });
+        },
+        "[BlueFoxFileAttach]": async (e) => {
+          let SelectTargetTab = document.querySelector("[SelectTargetTab]");
+          e.addEventListener("drop", async (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "copy";
+            await dropHandler(TabInfo.id, event.dataTransfer.files);
+          });
+          e.addEventListener("dragover", async (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "copy";
+          });
+          e.querySelector("input").addEventListener("input", async (event) => {
+            await dropHandler(TabInfo.id, event.target.files);
+            event.target.value = null;
+          });
         },
         "#menuControll": async (e) => {
-          let active = document.querySelector("[menu] > [list] > active");
-          let animate = () => {
-            let move_to = document
-              .querySelector(
-                `[value="${e.value}"][setValueOnClick="#menuControll"]`
-              )
-              .getBoundingClientRect().top;
-            anime({
+          let active = document.querySelector("active");
+          let animate = async () => {
+            let move_to_elm = document.querySelector(
+              `[value="${e.value}"][setValueOnClick="#menuControll"]`
+            );
+            await anime({
               targets: active,
-              top: move_to,
-              width: [0, 5],
+              scale: 0.2,
               duration: 500,
-              easing: "easeOutElastic",
+              easing: "easeInExpo",
+            });
+            await anime({
+              targets: active,
+              left: move_to_elm.getBoundingClientRect().left - 25,
+              duration: 500,
+              easing: "easeOutBounce",
+            });
+            await anime({
+              targets: active,
+              scale: 1,
+              duration: 300,
+              easing: "easeInExpo",
             });
           };
           e.addEventListener("change", (event) => {
+            animate();
+          });
+          window.addEventListener("resize", (event) => {
             animate();
           });
         },
@@ -169,49 +336,6 @@
             target.value = e.attributes.value.value;
             target.attributes.value.value = e.attributes.value.value;
             target.dispatchEvent(new Event("change"));
-          });
-        },
-        "[TabToWindow]": async (e) => {
-          e.addEventListener("click", async () => {
-            await chrome.windows.create({
-              tabId: values.TabInfo.id,
-            });
-          });
-        },
-        "[CaptureWindow]": async (e) => {
-          e.addEventListener("click", async () => {
-            await reloadConnector();
-            await connector.postMessage({
-              type: "BlueFox.CaptureWindow",
-              object: {
-                format: "png",
-                captureBeyondViewport: true,
-              },
-            });
-          });
-        },
-        "[BlueFoxFileAttach]": async (e) => {
-          e.addEventListener("drop", async (event) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "copy";
-            await dropHandler(values.TabInfo.id, event.dataTransfer.files);
-          });
-          e.addEventListener("dragover", async (event) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "copy";
-          });
-          e.querySelector("input").addEventListener("input", async (event) => {
-            await dropHandler(values.TabInfo.id, event.target.files);
-            event.target.value = null;
-          });
-        },
-        "[StartCapturingEvents]": async (e) => {
-          e.addEventListener("click", async (event) => {
-            await reloadConnector();
-            await connector.postMessage({
-              type: "BlueFox.CapturEvents",
-              object: {},
-            });
           });
         },
       };

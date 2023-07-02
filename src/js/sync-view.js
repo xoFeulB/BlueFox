@@ -62,7 +62,7 @@
               ? e
               : document.querySelector(e.attributes["sync-to"].value),
             toProperty: e.attributes["sync-to-property"].value,
-            event: JSON.parse(e.attributes["sync-event"].value),
+            event: JSON.parse(e.attributes["sync-event"] ? e.attributes["sync-event"].value : '["sync"]'),
             entryNop: e.attributes["sync-entry-nop"],
             init: init,
           };

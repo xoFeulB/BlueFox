@@ -1,5 +1,6 @@
 {
-    "title":"v1 format",
+    "title": "v1 format",
+    "version": 1,
     "actions": [
         {
             "comment": "",
@@ -35,7 +36,7 @@
         },
         {
             "comment": "",
-            "type": "eval",
+            "type": "call",
             "target": {
                 "selector": "css selector",
                 "property": "property | null"
