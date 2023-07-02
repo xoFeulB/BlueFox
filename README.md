@@ -14,7 +14,7 @@
 </div>
 <hr>
 
-BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.
+BlueFoxは、プロフェッショナルのためのWeb自動化ツールです。
 
 ## BOT demo (Experimental stage)
 in this video, BlueFox-chan is not a bot account.  
