@@ -99,8 +99,8 @@ li > a {
 active {
   position: absolute;
   display: block;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   border-radius: 100%;
   background-color: #ecc883;
   opacity: 0.5;

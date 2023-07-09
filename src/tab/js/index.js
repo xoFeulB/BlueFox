@@ -141,7 +141,7 @@
             );
             await anime({
               targets: active,
-              scale: 0.2,
+              scale: 0.3,
               duration: 500,
               easing: "easeInExpo",
             });
