@@ -1,6 +1,8 @@
 {
-    "title": "v1 format",
-    "version": 1,
+    "meta":{
+        "version": 1,
+        "title": "v1 format"
+    },
     "actions": [
         {
             "comment": "",

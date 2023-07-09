@@ -169,7 +169,7 @@
             let _ = new v0();
             return _.do(J);
           },
-        }[J.version]();
+        }[J.meta.version]();
       }
     };
   })();
