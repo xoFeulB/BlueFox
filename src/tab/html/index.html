@@ -30,45 +30,15 @@
                     <img src="/media/BlueFox_tp.png" width="40" height="40" />
                 </div>
                 <div>
-                    <div class="uk-text-default uk-margin-small-left">Dashboard</div>
+                    <div class="uk-text-default uk-margin-small-left">^.,.^ BlueFox</div>
                 </div>
             </div>
         </div>
         <div class="uk-width-expand">
             <div class="uk-flex uk-flex-right uk-flex-middle">
-                <div class="uk-visible@m">
-                    <button href="#modal-search" uk-toggle class="uk-button uk-button-default uk-text-left">
-                        <span uk-icon="icon: search;"></span>
-                        <span class="uk-margin-small-left">Search or jump to...</span>
-                    </button>
-                </div>
-                <div class="uk-hidden@m">
-                    <button href="#modal-search" uk-toggle class="uk-icon-button" uk-icon="icon: search;">
-                    </button>
-                </div>
                 <div class="uk-margin-small-left">
                     <a href="https://github.com/LobeliaSecurity/BlueFox" target="_blank" rel="noopener noreferrer"
                         class="uk-icon-button" uk-icon="icon:github;"></a>
-                </div>
-                <div>
-                    <div id="modal-search" class="uk-modal-container" uk-modal>
-                        <div class="uk-modal-dialog uk-modal-body">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div class="uk-margin">
-                                <div class="uk-inline uk-width-1-1">
-                                    <span class="uk-form-icon" uk-icon="icon: tag"></span>
-                                    <input class="uk-input" type="text" placeholder="Enter charms separated by spaces">
-                                </div>
-                            </div>
-                            <div class="uk-margin">
-                                <ul class="uk-list uk-list-divider">
-                                    <li>List item 1</li>
-                                    <li>List item 2</li>
-                                    <li>List item 3</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -76,41 +46,19 @@
 
     <div MenuTabs class="bg-main">
         <div constHide>
-            <input type="text" value="Projects" id="menuControll">
+            <input type="text" value="Tabs" id="menuControll">
         </div>
         <div>
             <div class="uk-flex uk-flex-middle">
                 <active></active>
                 <div class="uk-padding-small">
-                    <span uk-icon="thumbnails"></span>
-                    <span class="uk-button uk-button-text uk-text-default" value="Projects"
-                        setValueOnClick="#menuControll">
-                        <span>Projects</span>
+                    <span uk-icon="world"></span>
+                    <span class="uk-button uk-button-text uk-text-default" value="Tabs" setValueOnClick="#menuControll">
+                        <span>Tabs</span>
                     </span>
                 </div>
                 <div class="uk-padding-small">
-                    <span uk-icon="table"></span>
-                    <span class="uk-button uk-button-text uk-text-default" value="Packages"
-                        setValueOnClick="#menuControll">
-                        <span>Packages</span>
-                    </span>
-                </div>
-                <div class="uk-padding-small">
-                    <img src="/media/tail.png" width="20" height="20">
-                    <span class="uk-button uk-button-text uk-text-default" value="Tails"
-                        setValueOnClick="#menuControll">
-                        <span>Tails</span>
-                    </span>
-                </div>
-                <div class="uk-padding-small">
-                    <span uk-icon="tag"></span>
-                    <span class="uk-button uk-button-text uk-text-default" value="Charms"
-                        setValueOnClick="#menuControll">
-                        <span>Charms</span>
-                    </span>
-                </div>
-                <div class="uk-padding-small">
-                    <span uk-icon="cog"></span>
+                    <span uk-icon="settings"></span>
                     <span class="uk-button uk-button-text uk-text-default" value="Settings"
                         setValueOnClick="#menuControll">
                         <span>Settings</span>
@@ -120,211 +68,35 @@
         </div>
     </div>
 
-    <div class="uk-flex uk-flex-center">
-        <div Main class="uk-width-expand uk-padding">
+    <div>
+        <div Main>
             <div>
-                <div>
-                    <div>Tab:</div>
-                    <select SelectTargetTab class="uk-select uk-form-large">
-                    </select>
-                </div>
-                <button Focus class="uk-button uk-button-default bg-white">
-                    <span uk-icon="icon: eye"></span>
-                    <span>Focus</span>
-                </button>
-                <div BlueFoxFileAttach class="uk-placeholder uk-text-center uk-text-default bg-white">
-                    <span uk-icon="icon: bolt; ratio: 2"></span>
-                    <span>Attach JSON by dropping them here or</span>
-                    <div uk-form-custom>
-                        <input type="file" multiple>
-                        <span class="uk-link">selecting one</span>
+                <div showWhenSome="#menuControll" showWhenSome-values='["Tabs"]'>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div Tabs>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="divider-icon"></div>
+                        <div class="uk-margin-left">
+                            <div set="Copyright"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <hr>
-                <div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Projects"]'>
-                        <div class="uk-animation-slide-left-small">
-                            <h2>Projects</h2>
-                        </div>
-                    </div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Packages"]' hide>
-                        <div class="uk-animation-slide-left-small">
-                            <h2>
-                                <img src="/media/tail.png" width="30" height="30">
-                                <span>Tails</span>
-                            </h2>
+                <div showWhenSome="#menuControll" showWhenSome-values='["Settings"]' hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
                             <div>
-                                <div class="uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>O won</a>
-                                            </h3>
-                                            <p>O won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Tails"]' hide>
-                        <div class="uk-animation-slide-left-small">
-                            <h2>
-                                <img src="/media/tail.png" width="30" height="30">
-                                <span>Tails</span>
-                            </h2>
-                            <div>
-                                <div class="uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>O won</a>
-                                            </h3>
-                                            <p>O won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Charms"]' hide>
-                        <div class="uk-animation-slide-left-small">
-                            <h2>
-                                <span uk-icon="icon: tag"></span>
-                                <span>Charms</span>
-                            </h2>
-                            <div>
-                                <div class="uk-child-width-1-3@s uk-grid-small uk-grid-match" uk-grid>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <div class="charms-header bg-blue"></div>
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <div class="charms-header bg-blue"></div>
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <div class="charms-header bg-orange"></div>
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Settings"]' hide>
-                        <div class="uk-animation-slide-left-small">
-                            <h2>Settings</h2>
-                            <div>
-                                <h3 class="uk-heading-divider">BlueFox</h3>
+                                <h3 class="uk-heading-bullet">BlueFox</h3>
                                 <div class="uk-flex uk-flex-middle">
                                     <div class="uk-width-1-3">
                                         <span class="uk-text-default">Server</span>
                                     </div>
                                     <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="Server">
+                                        <input id="BluefoxServer" class="uk-input uk-width-3-4" type="text"
+                                            placeholder="Server">
                                     </div>
                                 </div>
                                 <div class="uk-flex uk-flex-middle">
@@ -332,96 +104,100 @@
                                         <span class="uk-text-default">Token</span>
                                     </div>
                                     <div class="uk-width-2-3">
-                                        <div constHide>
-                                            <input id="BluefoxTokenInputState" type="text" value="hide">
+                                        <div>
+                                            <div constHide>
+                                                <input id="BluefoxTokenInputState" type="text" value="password" sync
+                                                    sync-to="#BluefoxToken" sync-to-property="type" sync-from-this
+                                                    sync-from-property="value" sync-event='["change"]'>
+                                            </div>
+                                            <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
+                                                placeholder="Password">
+                                            <span>
+                                                <button class="uk-icon-button" uk-icon="eye"
+                                                    setValueOnClick="#BluefoxTokenInputState" value="text"
+                                                    showWhenSome="#BluefoxTokenInputState"
+                                                    showWhenSome-values='["password"]'></button>
+                                                <button class="uk-icon-button" uk-icon="eye-slash"
+                                                    setValueOnClick="#BluefoxTokenInputState" value="password"
+                                                    showWhenSome="#BluefoxTokenInputState"
+                                                    showWhenSome-values='["text"]'></button>
+                                            </span>
                                         </div>
-
-                                        <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
-                                            placeholder="Token" showWhenSome="#BluefoxTokenInputState"
-                                            showWhenSome-values='["hide"]'>
-                                        <button class="uk-icon-button" uk-icon="eye"
-                                            setValueOnClick="#BluefoxTokenInputState" value="show"
-                                            showWhenSome="#BluefoxTokenInputState"
-                                            showWhenSome-values='["hide"]'></button>
-
-                                        <div capture="#BluefoxToken"
-                                            class="uk-input uk-width-3-4 hidden-overflow bg-main"
-                                            showWhenSome="#BluefoxTokenInputState" showWhenSome-values='["show"]'></div>
-                                        <button class="uk-icon-button" uk-icon="eye-slash"
-                                            setValueOnClick="#BluefoxTokenInputState" value="hide"
-                                            showWhenSome="#BluefoxTokenInputState"
-                                            showWhenSome-values='["show"]'></button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="divider-icon"></div>
-                            <div>
-                                <h3 class="uk-heading-divider">MySQL/MariaDB</h3>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">DatabaseName</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="DatabaseName">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Server</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="Server">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">User</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="User">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Password</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <div constHide>
-                                            <input id="DatabasePasswordInputState" type="text" value="hide">
+                            <div showWhenNotEvery="#BluefoxServer" showWhenNotEvery-values='["api.bluefox.tech"]' hide>
+                                <div>
+                                    <div class="divider-icon"></div>
+                                    <h3 class="uk-heading-bullet">MySQL/MariaDB</h3>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <div class="uk-width-1-3">
+                                            <span class="uk-text-default">DatabaseName</span>
                                         </div>
-
-                                        <input id="DatabasePassword" class="uk-input uk-width-3-4" type="password"
-                                            placeholder="Password" showWhenSome="#DatabasePasswordInputState"
-                                            showWhenSome-values='["hide"]'>
-                                        <button class="uk-icon-button" uk-icon="eye"
-                                            setValueOnClick="#DatabasePasswordInputState" value="show"
-                                            showWhenSome="#DatabasePasswordInputState"
-                                            showWhenSome-values='["hide"]'></button>
-
-                                        <div capture="#DatabasePassword"
-                                            class="uk-input uk-width-3-4 hidden-overflow bg-main"
-                                            showWhenSome="#DatabasePasswordInputState" showWhenSome-values='["show"]'>
+                                        <div class="uk-width-2-3">
+                                            <input class="uk-input uk-width-3-4" type="text" placeholder="DatabaseName">
                                         </div>
-                                        <button class="uk-icon-button" uk-icon="eye-slash"
-                                            setValueOnClick="#DatabasePasswordInputState" value="hide"
-                                            showWhenSome="#DatabasePasswordInputState"
-                                            showWhenSome-values='["show"]'></button>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <div class="uk-width-1-3">
+                                            <span class="uk-text-default">Server</span>
+                                        </div>
+                                        <div class="uk-width-2-3">
+                                            <input class="uk-input uk-width-3-4" type="text" placeholder="Server">
+                                        </div>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <div class="uk-width-1-3">
+                                            <span class="uk-text-default">User</span>
+                                        </div>
+                                        <div class="uk-width-2-3">
+                                            <input class="uk-input uk-width-3-4" type="text" placeholder="User">
+                                        </div>
+                                    </div>
+                                    <div class="uk-flex uk-flex-middle">
+                                        <div class="uk-width-1-3">
+                                            <span class="uk-text-default">Password</span>
+                                        </div>
+                                        <div class="uk-width-2-3">
+                                            <div>
+                                                <div constHide>
+                                                    <input id="DatabasePasswordInputState" type="text" value="password" sync
+                                                        sync-to="#DatabasePassword" sync-to-property="type" sync-from-this
+                                                        sync-from-property="value" sync-event='["change"]'>
+                                                </div>
+                                                <input id="DatabasePassword" class="uk-input uk-width-3-4" type="password"
+                                                    placeholder="Password">
+                                                <span>
+                                                    <button class="uk-icon-button" uk-icon="eye"
+                                                        setValueOnClick="#DatabasePasswordInputState" value="text"
+                                                        showWhenSome="#DatabasePasswordInputState"
+                                                        showWhenSome-values='["password"]'></button>
+                                                    <button class="uk-icon-button" uk-icon="eye-slash"
+                                                        setValueOnClick="#DatabasePasswordInputState" value="password"
+                                                        showWhenSome="#DatabasePasswordInputState"
+                                                        showWhenSome-values='["text"]'></button>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <div class="divider-icon"></div>
+                        <div class="uk-margin-left">
+                            <div set="Copyright"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="uk-margin">
-                <div class="divider-icon"></div>
-                <span set="Copyright"></span>
+
             </div>
         </div>
     </div>
 
     <div constHide>
-        <template id="automation_tabs_template">
+        <template id="TabsTemplate">
             <div class="uk-margin">
                 <div tabInfo class="uk-margin">
                     <article class="uk-comment" role="comment">
@@ -441,6 +217,7 @@
                             </div>
                         </header>
                         <div class="uk-comment-body">
+                            <a Focus class="uk-button uk-button-primary">Focus</a>
                             <button SwitchTab class="uk-button uk-button-default">Switch Tab</button>
                         </div>
                     </article>

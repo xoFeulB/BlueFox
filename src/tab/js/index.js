@@ -57,7 +57,7 @@
 
     /* Display */ {
       let oDict = {
-        "[SelectTargetTab]": async (e) => {
+        "[Tabs]": async (e) => {
           let reloading = false;
           e.reload = async () => {
             let value = `${e.value}`;
@@ -76,6 +76,7 @@
               ...(await chrome.tabs.query({ url: "<all_urls>" })),
             ].filter((_) => {
               return [
+                _.url != "",
                 !_.url.includes("chrome://"),
                 !_.url.includes("chrome-extension://"),
               ].every((__) => {
@@ -83,16 +84,62 @@
               });
             });
             for (let tab of tabs) {
-              let option = Object.assign(document.createElement("option"), {
-                textContent: `${tab.title} ... ${tab.url}`,
-                tab: tab,
-                value: tab.id,
+              let TabsTemplate = document.querySelector("#TabsTemplate").content.cloneNode(true);
+              if (tab.favIconUrl) {
+                TabsTemplate.querySelector("[favicon]").src = tab.favIconUrl;
+              } else {
+                TabsTemplate
+                  .querySelector("div:has(>[favicon])")
+                  .setAttribute("uk-icon", "icon: world; ratio: 2");
+                  TabsTemplate.querySelector("[favicon]").remove();
+              }
+
+              TabsTemplate.querySelector("[title]").textContent = tab.title;
+              TabsTemplate.querySelector("[URL]").textContent = tab.url;
+              TabsTemplate.querySelector("[SwitchTab]").attributes.SwitchTab.value =
+                tab.id;
+                TabsTemplate
+                .querySelector("[SwitchTab]")
+                .addEventListener("click", async (event) => {
+                  await chrome.tabs.update(
+                    Number(event.target.attributes.SwitchTab.value),
+                    { active: true }
+                  );
+                });
+
+              let BlueFoxFileAttach = TabsTemplate.querySelector(
+                "[BlueFoxFileAttach]"
+              );
+
+              BlueFoxFileAttach.tab = tab;
+              BlueFoxFileAttach.attributes.BlueFoxFileAttach.value = tab.id;
+              BlueFoxFileAttach.addEventListener("drop", async (event) => {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "copy";
+                await dropHandler(
+                  BlueFoxFileAttach.tab.id,
+                  event.dataTransfer.files
+                );
               });
-              e.appendChild(option);
+              BlueFoxFileAttach.addEventListener(
+                "dragover",
+                async (event) => {
+                  event.preventDefault();
+                  event.dataTransfer.dropEffect = "copy";
+                }
+              );
+              TabsTemplate.querySelector("[Focus]").addEventListener("click", (event) => {
+                window.open(
+                  `./focus.html#${tab.id}`,
+                  "_blank"
+                );
+              });
+              e.appendChild(TabsTemplate);
             }
-            e.value = [...e.options].includes(value) ? value : "";
             reloading = false;
           };
+          e.reload();
+
           chrome.tabs.onCreated.addListener(e.reload);
           chrome.tabs.onRemoved.addListener(e.reload);
           chrome.tabs.onDetached.addListener(e.reload);
@@ -120,17 +167,6 @@
               event.target.files
             );
             event.target.value = null;
-          });
-        },
-        "[Focus]": async (e) => {
-          e.addEventListener("click", (event) => {
-            let SelectTargetTab = document.querySelector("[SelectTargetTab]");
-            if(SelectTargetTab.selectedOptions[0].tab.id){
-              window.open(
-                `./focus.html#${SelectTargetTab.selectedOptions[0].tab.id}`,
-                "_blank"
-              );
-            }
           });
         },
         "#menuControll": async (e) => {
@@ -177,13 +213,48 @@
               return `${_}`;
             });
             if (values.includes(`${target.value}`)) {
+              e.style.opacity = 0;
+              e.removeAttribute("hide");
               await anime({
                 targets: e,
                 opacity: 1,
+                duration: 250,
+                delay:200,
+                easing: "linear",
+              });
+            } else {
+              await anime({
+                targets: e,
+                opacity: 0,
                 duration: 200,
                 easing: "linear",
               });
+              e.setAttribute("hide", "");
+            }
+          });
+          target.dispatchEvent(new Event("change"));
+        },
+        "[showWhenNotEvery]": async (e) => {
+          let target = document.querySelector(
+            e.attributes["showWhenNotEvery"].value
+          );
+
+          target.addEventListener("change", async (event) => {
+            let values = JSON.parse(
+              e.attributes["showWhenNotEvery-values"].value
+            ).map((_) => {
+              return `${_}`;
+            });
+            if (!(values.includes(`${target.value}`))) {
+              e.style.opacity = 0;
               e.removeAttribute("hide");
+              await anime({
+                targets: e,
+                opacity: 1,
+                duration: 250,
+                delay:200,
+                easing: "linear",
+              });
             } else {
               await anime({
                 targets: e,

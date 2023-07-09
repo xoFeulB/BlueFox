@@ -33,7 +33,7 @@
             <div class="uk-flex uk-flex-left uk-flex-middle">
                 <div>
                     <img sync sync-to-this sync-to-property="src" sync-from="#TabInfo"
-                        sync-from-property="TabInfo.favIconUrl" width="40" height="40"/>
+                        sync-from-property="TabInfo.favIconUrl" width="40" height="40" />
                 </div>
                 <div>
                     <div class="uk-margin-small-left">
@@ -53,10 +53,10 @@
             <div class="uk-flex uk-flex-right uk-flex-middle">
                 <div class="uk-visible@m">
                     <img CapturePreview uk-img uk-toggle="target: #modal-CapturePreview">
-                    <div id="modal-CapturePreview" uk-modal>
+                    <div id="modal-CapturePreview" uk-modal class="uk-modal-container">
                         <div class="uk-modal-dialog uk-modal-body">
                             <button class="uk-modal-close-outside" type="button" uk-close></button>
-                            <div>
+                            <div class="uk-text-center">
                                 <img uk-img sync sync-to-this sync-to-property="src" sync-from="[CapturePreview]"
                                     sync-from-property="src" class="uk-box-shadow-default">
                             </div>
@@ -80,7 +80,7 @@
             <div class="uk-flex uk-flex-middle">
                 <active></active>
                 <div class="uk-padding-small">
-                    <span uk-icon="thumbnails"></span>
+                    <span uk-icon="bolt"></span>
                     <span class="uk-button uk-button-text uk-text-default" value="Automation"
                         setValueOnClick="#menuControll">
                         <span>Automation</span>
@@ -105,13 +105,6 @@
                     <span class="uk-button uk-button-text uk-text-default" value="Charms"
                         setValueOnClick="#menuControll">
                         <span>Charms</span>
-                    </span>
-                </div>
-                <div class="uk-padding-small">
-                    <span uk-icon="cog"></span>
-                    <span class="uk-button uk-button-text uk-text-default" value="Settings"
-                        setValueOnClick="#menuControll">
-                        <span>Settings</span>
                     </span>
                 </div>
             </div>
@@ -197,16 +190,22 @@
                 </div>
             </div>
             <div>
-
                 <hr>
                 <div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Automation"]'>
-                        <div class="uk-animation-slide-left-small">
+                        <div>
                             <h2>Automation</h2>
+                        </div>
+
+                        <div>
+                            <div class="divider-icon"></div>
+                            <div class="uk-margin-left">
+                                <div set="Copyright"></div>
+                            </div>
                         </div>
                     </div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Packages"]' hide>
-                        <div class="uk-animation-slide-left-small">
+                        <div>
                             <h2>
                                 <img src="/media/tail.png" width="30" height="30">
                                 <span>Tails</span>
@@ -242,11 +241,18 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="divider-icon"></div>
+                            <div class="uk-margin-left">
+                                <div set="Copyright"></div>
                             </div>
                         </div>
                     </div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Tails"]' hide>
-                        <div class="uk-animation-slide-left-small">
+                        <div>
                             <h2>
                                 <img src="/media/tail.png" width="30" height="30">
                                 <span>Tails</span>
@@ -284,9 +290,16 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div>
+                            <div class="divider-icon"></div>
+                            <div class="uk-margin-left">
+                                <div set="Copyright"></div>
+                            </div>
+                        </div>
                     </div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Charms"]' hide>
-                        <div class="uk-animation-slide-left-small">
+                        <div>
                             <h2>
                                 <span uk-icon="icon: tag"></span>
                                 <span>Charms</span>
@@ -369,109 +382,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Settings"]' hide>
-                        <div class="uk-animation-slide-left-small">
-                            <h2>Settings</h2>
-                            <div>
-                                <h3 class="uk-heading-divider">BlueFox</h3>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Server</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="Server">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Token</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <div constHide>
-                                            <input id="BluefoxTokenInputState" type="text" value="hide">
-                                        </div>
 
-                                        <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
-                                            placeholder="Token" showWhenSome="#BluefoxTokenInputState"
-                                            showWhenSome-values='["hide"]'>
-                                        <button class="uk-icon-button" uk-icon="eye"
-                                            setValueOnClick="#BluefoxTokenInputState" value="show"
-                                            showWhenSome="#BluefoxTokenInputState"
-                                            showWhenSome-values='["hide"]'></button>
-
-                                        <div capture="#BluefoxToken"
-                                            class="uk-input uk-width-3-4 hidden-overflow bg-main"
-                                            showWhenSome="#BluefoxTokenInputState" showWhenSome-values='["show"]'></div>
-                                        <button class="uk-icon-button" uk-icon="eye-slash"
-                                            setValueOnClick="#BluefoxTokenInputState" value="hide"
-                                            showWhenSome="#BluefoxTokenInputState"
-                                            showWhenSome-values='["show"]'></button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
                             <div class="divider-icon"></div>
-                            <div>
-                                <h3 class="uk-heading-divider">MySQL/MariaDB</h3>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">DatabaseName</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="DatabaseName">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Server</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="Server">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">User</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input class="uk-input uk-width-3-4" type="text" placeholder="User">
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Password</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <div constHide>
-                                            <input id="DatabasePasswordInputState" type="text" value="hide">
-                                        </div>
-
-                                        <input id="DatabasePassword" class="uk-input uk-width-3-4" type="password"
-                                            placeholder="Password" showWhenSome="#DatabasePasswordInputState"
-                                            showWhenSome-values='["hide"]'>
-                                        <button class="uk-icon-button" uk-icon="eye"
-                                            setValueOnClick="#DatabasePasswordInputState" value="show"
-                                            showWhenSome="#DatabasePasswordInputState"
-                                            showWhenSome-values='["hide"]'></button>
-
-                                        <div capture="#DatabasePassword"
-                                            class="uk-input uk-width-3-4 hidden-overflow bg-main"
-                                            showWhenSome="#DatabasePasswordInputState" showWhenSome-values='["show"]'>
-                                        </div>
-                                        <button class="uk-icon-button" uk-icon="eye-slash"
-                                            setValueOnClick="#DatabasePasswordInputState" value="hide"
-                                            showWhenSome="#DatabasePasswordInputState"
-                                            showWhenSome-values='["show"]'></button>
-                                    </div>
-                                </div>
+                            <div class="uk-margin-left">
+                                <div set="Copyright"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="uk-margin">
-                <div class="divider-icon"></div>
-                <span set="Copyright"></span>
             </div>
         </div>
     </div>

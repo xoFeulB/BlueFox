@@ -309,13 +309,48 @@
               return `${_}`;
             });
             if (values.includes(`${target.value}`)) {
+              e.style.opacity = 0;
+              e.removeAttribute("hide");
               await anime({
                 targets: e,
                 opacity: 1,
+                duration: 250,
+                delay: 200,
+                easing: "linear",
+              });
+            } else {
+              await anime({
+                targets: e,
+                opacity: 0,
                 duration: 200,
                 easing: "linear",
               });
+              e.setAttribute("hide", "");
+            }
+          });
+          target.dispatchEvent(new Event("change"));
+        },
+        "[showWhenNotEvery]": async (e) => {
+          let target = document.querySelector(
+            e.attributes["showWhenNotEvery"].value
+          );
+
+          target.addEventListener("change", async (event) => {
+            let values = JSON.parse(
+              e.attributes["showWhenNotEvery-values"].value
+            ).map((_) => {
+              return `${_}`;
+            });
+            if (!values.includes(`${target.value}`)) {
+              e.style.opacity = 0;
               e.removeAttribute("hide");
+              await anime({
+                targets: e,
+                opacity: 1,
+                duration: 250,
+                delay: 200,
+                easing: "linear",
+              });
             } else {
               await anime({
                 targets: e,

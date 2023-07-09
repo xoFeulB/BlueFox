@@ -108,3 +108,23 @@ active {
   opacity: 0.5;
   pointer-events: none;
 }
+div:has(> [setValueOnClick="#menuControll"]) {
+  user-select: none;
+}
+[showWhenSome="#menuControll"] {
+  position: absolute;
+  width: 100%;
+}
+div:has([showWhenSome="#menuControll"]) {
+  position: relative;
+}
+[showWhenSome="#BluefoxTokenInputState"],
+[showWhenSome="#DatabasePasswordInputState"] {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 500px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 500px;
+}

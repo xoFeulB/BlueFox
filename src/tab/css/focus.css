@@ -110,3 +110,10 @@ active {
 div:has(> [setValueOnClick="#menuControll"]) {
   user-select: none;
 }
+[showWhenSome="#menuControll"] {
+  position: absolute;
+  width: 100%;
+}
+div:has([showWhenSome="#menuControll"]) {
+  position: relative;
+}
