@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title set="Title">^.,.^ BlueFox</title>
+    <title setTextContent="Title">^.,.^ BlueFox</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -81,7 +81,7 @@
                     <div>
                         <div class="divider-icon"></div>
                         <div class="uk-margin-left">
-                            <div set="Copyright"></div>
+                            <div setTextContent="Copyright"></div>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="uk-width-2-3">
                                         <input id="BluefoxServer" class="uk-input uk-width-3-4" type="text"
-                                            placeholder="Server">
+                                            placeholder="Server" setValue="BluefoxOpenBetaServer" readonly>
                                     </div>
                                 </div>
                                 <div class="uk-flex uk-flex-middle">
@@ -111,7 +111,9 @@
                                                     sync-from-property="value" sync-event='["change"]'>
                                             </div>
                                             <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
-                                                placeholder="Password">
+                                                placeholder="Token"
+                                                setValue="BluefoxOpenBetaToken"
+                                                readonly>
                                             <span>
                                                 <button class="uk-icon-button" uk-icon="eye"
                                                     setValueOnClick="#BluefoxTokenInputState" value="text"
@@ -135,7 +137,8 @@
                                             <span class="uk-text-default">DatabaseName</span>
                                         </div>
                                         <div class="uk-width-2-3">
-                                            <input class="uk-input uk-width-3-4" type="text" placeholder="DatabaseName">
+                                            <input id="DatabaseName" class="uk-input uk-width-3-4" type="text"
+                                                placeholder="DatabaseName">
                                         </div>
                                     </div>
                                     <div class="uk-flex uk-flex-middle">
@@ -143,7 +146,8 @@
                                             <span class="uk-text-default">Server</span>
                                         </div>
                                         <div class="uk-width-2-3">
-                                            <input class="uk-input uk-width-3-4" type="text" placeholder="Server">
+                                            <input id="DatabaseServer" class="uk-input uk-width-3-4" type="text"
+                                                placeholder="Server">
                                         </div>
                                     </div>
                                     <div class="uk-flex uk-flex-middle">
@@ -151,7 +155,8 @@
                                             <span class="uk-text-default">User</span>
                                         </div>
                                         <div class="uk-width-2-3">
-                                            <input class="uk-input uk-width-3-4" type="text" placeholder="User">
+                                            <input id="DatabaseUser" class="uk-input uk-width-3-4" type="text"
+                                                placeholder="User">
                                         </div>
                                     </div>
                                     <div class="uk-flex uk-flex-middle">
@@ -161,12 +166,13 @@
                                         <div class="uk-width-2-3">
                                             <div>
                                                 <div constHide>
-                                                    <input id="DatabasePasswordInputState" type="text" value="password" sync
-                                                        sync-to="#DatabasePassword" sync-to-property="type" sync-from-this
-                                                        sync-from-property="value" sync-event='["change"]'>
+                                                    <input id="DatabasePasswordInputState" type="text" value="password"
+                                                        sync sync-to="#DatabasePassword" sync-to-property="type"
+                                                        sync-from-this sync-from-property="value"
+                                                        sync-event='["change"]'>
                                                 </div>
-                                                <input id="DatabasePassword" class="uk-input uk-width-3-4" type="password"
-                                                    placeholder="Password">
+                                                <input id="DatabasePassword" class="uk-input uk-width-3-4"
+                                                    type="password" placeholder="Password">
                                                 <span>
                                                     <button class="uk-icon-button" uk-icon="eye"
                                                         setValueOnClick="#DatabasePasswordInputState" value="text"
@@ -187,7 +193,7 @@
                     <div>
                         <div class="divider-icon"></div>
                         <div class="uk-margin-left">
-                            <div set="Copyright"></div>
+                            <div setTextContent="Copyright"></div>
                         </div>
                     </div>
                 </div>
