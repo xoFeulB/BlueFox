@@ -49,7 +49,7 @@
                     found.object[found.property] =
                       action.property[propertyPath];
                     for (let eventType of this.dispatchEvents) {
-                      e.dispatchEvent(new Event(eventType));
+                      e.dispatchEvent(new Event(eventType, {bubbles:true}));
                     }
                   }
                 }
@@ -61,7 +61,7 @@
                     action.attribute[attributeName]
                   );
                   for (let eventType of this.dispatchEvents) {
-                    e.dispatchEvent(new Event(eventType));
+                    e.dispatchEvent(new Event(eventType, {bubbles:true}));
                   }
                 }
               }
@@ -128,7 +128,7 @@
           event: async (action) => {
             let e = document.querySelector(action.target);
             if (e) {
-              e.dispatchEvent(new Event(action.dispatchEvent));
+              e.dispatchEvent(new Event(action.dispatchEvent, {bubbles:true}));
             }
           },
           save: async (action) => {

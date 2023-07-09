@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "^.,.^ BlueFox",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.",
     "host_permissions": [
         "<all_urls>"
@@ -65,8 +65,8 @@
         "newtab": "/tab/html/index.html"
     },
     "icons": {
-        "16": "/media/Abstract_Logo.png",
-        "48": "/media/Abstract_Logo.png",
-        "128": "/media/Abstract_Logo.png"
+        "16": "/media/tail.png",
+        "48": "/media/tail.png",
+        "128": "/media/tail.png"
     }
 }

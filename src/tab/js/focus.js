@@ -36,24 +36,33 @@
     };
 
     /* Display */ {
-      let TabInfo = await (async () => {
-        let tabInfo = [
-          ...(await chrome.tabs.query({ url: "<all_urls>" })),
-        ].filter((_) => {
-          return Number(window.location.hash.substring(1)) == _.id;
-        });
-        return tabInfo[0];
-      })();
-      log(TabInfo);
-      TabInfo.DOM = document.querySelector("#TabInfo");
-      TabInfo.DOM.TabInfo = TabInfo;
-      TabInfo.DOM.dispatchEvent(new Event("sync"));
-
-      Object.keys(TabInfo).forEach((key) => {
-        [...document.querySelectorAll(`[TabInfo="${key}"]`)].forEach((_) => {
-          _.textContent = TabInfo[key];
-        });
-      });
+      let TabInfo = {
+        reload: async () => {
+          Object.assign(
+            TabInfo,
+            await (async () => {
+              let tabInfo = [
+                ...(await chrome.tabs.query({ url: "<all_urls>" })),
+              ].filter((_) => {
+                return Number(window.location.hash.substring(1)) == _.id;
+              });
+              return tabInfo[0];
+            })()
+          );
+          TabInfo.DOM = document.querySelector("#TabInfo");
+          TabInfo.DOM.TabInfo = TabInfo;
+          TabInfo.DOM.dispatchEvent(new Event("sync"));
+          Object.keys(TabInfo).forEach((key) => {
+            [...document.querySelectorAll(`[TabInfo="${key}"]`)].forEach(
+              (_) => {
+                _.textContent = TabInfo[key];
+              }
+            );
+          });
+        },
+      };
+      await TabInfo.reload();
+      chrome.tabs.onUpdated.addListener(TabInfo.reload);
 
       let connector;
       let dropHandler = async (tabid, files) => {
@@ -99,116 +108,6 @@
       };
       await reloadConnector();
 
-      // let oDict = {
-      //   "[set]": async (e) => {
-      //     e.textContent = values[e.attributes.set.value];
-      //   },
-      //   "#menuControll": async (e) => {
-      //     let active = document.querySelector("[menu] > [list] > active");
-      //     let animate = () => {
-      //       let move_to = document
-      //         .querySelector(
-      //           `[value="${e.value}"][setValueOnClick="#menuControll"]`
-      //         )
-      //         .getBoundingClientRect().top;
-      //       anime({
-      //         targets: active,
-      //         top: move_to,
-      //         width: [0, 5],
-      //         duration: 500,
-      //         easing: "easeOutElastic",
-      //       });
-      //     };
-      //     e.addEventListener("change", (event) => {
-      //       animate();
-      //     });
-      //   },
-      //   "[showWhenSome]": async (e) => {
-      //     let target = document.querySelector(
-      //       e.attributes["showWhenSome"].value
-      //     );
-
-      //     target.addEventListener("change", async (event) => {
-      //       let values = JSON.parse(
-      //         e.attributes["showWhenSome-values"].value
-      //       ).map((_) => {
-      //         return `${_}`;
-      //       });
-      //       if (values.includes(`${target.value}`)) {
-      //         await anime({
-      //           targets: e,
-      //           opacity: 1,
-      //           duration: 200,
-      //           easing: "linear",
-      //         });
-      //         e.removeAttribute("hide");
-      //       } else {
-      //         await anime({
-      //           targets: e,
-      //           opacity: 0,
-      //           duration: 200,
-      //           easing: "linear",
-      //         });
-      //         e.setAttribute("hide", "");
-      //       }
-      //     });
-      //     target.dispatchEvent(new Event("change"));
-      //   },
-      //   "[setValueOnClick]": async (e) => {
-      //     let target = document.querySelector(
-      //       e.attributes["setValueOnClick"].value
-      //     );
-      //     e.addEventListener("click", (event) => {
-      //       target.value = e.attributes.value.value;
-      //       target.attributes.value.value = e.attributes.value.value;
-      //       target.dispatchEvent(new Event("change"));
-      //     });
-      //   },
-      //   "[TabToWindow]": async (e) => {
-      //     e.addEventListener("click", async () => {
-      //       await chrome.windows.create({
-      //         tabId: values.TabInfo.id,
-      //       });
-      //     });
-      //   },
-      //   "[CaptureWindow]": async (e) => {
-      //     e.addEventListener("click", async () => {
-      //       await reloadConnector();
-      //       await connector.postMessage({
-      //         type: "BlueFox.CaptureWindow",
-      //         object: {
-      //           format: "png",
-      //           captureBeyondViewport: true,
-      //         },
-      //       });
-      //     });
-      //   },
-      //   "[BlueFoxFileAttach]": async (e) => {
-      //     e.addEventListener("drop", async (event) => {
-      //       event.preventDefault();
-      //       event.dataTransfer.dropEffect = "copy";
-      //       await dropHandler(values.TabInfo.id, event.dataTransfer.files);
-      //     });
-      //     e.addEventListener("dragover", async (event) => {
-      //       event.preventDefault();
-      //       event.dataTransfer.dropEffect = "copy";
-      //     });
-      //     e.querySelector("input").addEventListener("input", async (event) => {
-      //       await dropHandler(values.TabInfo.id, event.target.files);
-      //       event.target.value = null;
-      //     });
-      //   },
-      //   "[StartCapturingEvents]": async (e) => {
-      //     e.addEventListener("click", async (event) => {
-      //       await reloadConnector();
-      //       await connector.postMessage({
-      //         type: "BlueFox.CapturEvents",
-      //         object: {},
-      //       });
-      //     });
-      //   },
-      // };
-
       let oDict = {
         '[sync-from-property="TabInfo.favIconUrl"]': async (e) => {
           e.addEventListener("error", (event) => {
@@ -247,6 +146,11 @@
                 captureBeyondViewport: true,
               },
             });
+          });
+        },
+        "[ReloadTab]": async (e) => {
+          e.addEventListener("click", async () => {
+            chrome.tabs.reload(TabInfo.id);
           });
         },
         "[BlueFoxFileAttach]": async (e) => {

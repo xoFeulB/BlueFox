@@ -30,7 +30,10 @@
                     <img src="/media/BlueFox_tp.png" width="40" height="40" />
                 </div>
                 <div>
-                    <div class="uk-text-default uk-margin-small-left">^.,.^ BlueFox</div>
+                    <div class="uk-text-default uk-margin-small-left">
+                        <span>BlueFox</span>
+                        <span setTextContent="Version"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,6 +65,13 @@
                     <span class="uk-button uk-button-text uk-text-default" value="Settings"
                         setValueOnClick="#menuControll">
                         <span>Settings</span>
+                    </span>
+                </div>
+                <div class="uk-padding-small">
+                    <span uk-icon="info"></span>
+                    <span class="uk-button uk-button-text uk-text-default" value="Information"
+                        setValueOnClick="#menuControll">
+                        <span>Information</span>
                     </span>
                 </div>
             </div>
@@ -111,9 +121,7 @@
                                                     sync-from-property="value" sync-event='["change"]'>
                                             </div>
                                             <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
-                                                placeholder="Token"
-                                                setValue="BluefoxOpenBetaToken"
-                                                readonly>
+                                                placeholder="Token" setValue="BluefoxOpenBetaToken" readonly>
                                             <span>
                                                 <button class="uk-icon-button" uk-icon="eye"
                                                     setValueOnClick="#BluefoxTokenInputState" value="text"
@@ -197,7 +205,31 @@
                         </div>
                     </div>
                 </div>
-
+                <div showWhenSome="#menuControll" showWhenSome-values='["Information"]' hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div>
+                                <div class="uk-text-center">
+                                    <div>
+                                        <img src="/media/Abstract_Logo.png" width="150" height="150">
+                                        <img src="/media/BlueFox_tp.png" width="150" height="150">
+                                        <img src="/media/tail.png" width="150" height="150">
+                                    </div>
+                                    <div class="uk-text-lead uk-margin">
+                                        <span setTextContent="Title"></span>
+                                        <span setTextContent="Version"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="divider-icon"></div>
+                        <div class="uk-margin-left">
+                            <div setTextContent="Copyright"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -103,7 +103,7 @@
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {
-        try{
+        try {
           connector.postMessage({
             type: message.type,
             object: await messageHandler[message.type](
@@ -119,5 +119,10 @@
     await sendMessage({
       type: "Debugger.attach",
     });
+    setInterval(async () => {
+      await sendMessage({
+        type: "Debugger.attach",
+      });
+    }, 5000);
   })();
 }
