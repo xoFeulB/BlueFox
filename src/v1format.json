@@ -3,6 +3,8 @@
         "version": 1,
         "title": "v1 format"
     },
+    "sleep": 0,
+    "dispatchEvents": [],
     "actions": [
         {
             "comment": "",

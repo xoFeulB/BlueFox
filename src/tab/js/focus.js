@@ -67,7 +67,7 @@
               .setAttribute("uk-icon", "icon: world; ratio: 2");
             document
               .querySelector(`img[sync-from-property="TabInfo.favIconUrl"]`)
-              .remove();
+              ?.remove();
           }
         },
       };
@@ -75,8 +75,21 @@
       chrome.tabs.onUpdated.addListener(TabInfo.reload);
 
       let connector;
+      let reloadConnector = async () => {
+        connector = await chrome.tabs.connect(TabInfo.id);
+        connector.onMessage.addListener((message) => {
+          try {
+            MessageHandler[message.type](message);
+          } catch {
+            log("failed", message);
+          }
+        });
+      };
+      await reloadConnector();
+      
       let dropHandler = async (tabid, files) => {
         try {
+          await reloadConnector();
           let r = [];
           for (let f of files) {
             r.push({
@@ -106,17 +119,7 @@
         },
       };
 
-      let reloadConnector = async () => {
-        connector = await chrome.tabs.connect(TabInfo.id);
-        connector.onMessage.addListener((message) => {
-          try {
-            MessageHandler[message.type](message);
-          } catch {
-            log("failed", message);
-          }
-        });
-      };
-      await reloadConnector();
+
 
       let oDict = {
         "[TabToWindow]": async (e) => {
