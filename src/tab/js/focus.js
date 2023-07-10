@@ -64,7 +64,7 @@
               .querySelector(
                 `div:has(>img[sync-from-property="TabInfo.favIconUrl"])`
               )
-              .setAttribute("uk-icon", "icon: world; ratio: 2");
+              ?.setAttribute("uk-icon", "icon: world; ratio: 2");
             document
               .querySelector(`img[sync-from-property="TabInfo.favIconUrl"]`)
               ?.remove();
@@ -86,7 +86,7 @@
         });
       };
       await reloadConnector();
-      
+
       let dropHandler = async (tabid, files) => {
         try {
           await reloadConnector();
