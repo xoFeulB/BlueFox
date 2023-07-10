@@ -59,6 +59,16 @@
               }
             );
           });
+          if (!TabInfo.favIconUrl) {
+            document
+              .querySelector(
+                `div:has(>img[sync-from-property="TabInfo.favIconUrl"])`
+              )
+              .setAttribute("uk-icon", "icon: world; ratio: 2");
+            document
+              .querySelector(`img[sync-from-property="TabInfo.favIconUrl"]`)
+              .remove();
+          }
         },
       };
       await TabInfo.reload();
@@ -109,16 +119,6 @@
       await reloadConnector();
 
       let oDict = {
-        '[sync-from-property="TabInfo.favIconUrl"]': async (e) => {
-          e.addEventListener("error", (event) => {
-            let parent = e.parentNode;
-            event.target.remove();
-
-            let icon = document.createElement("span");
-            icon.setAttribute("uk-icon", "icon: world; ratio: 2");
-            parent.appendChild(icon);
-          });
-        },
         "[TabToWindow]": async (e) => {
           e.addEventListener("click", async () => {
             await chrome.windows.create({
