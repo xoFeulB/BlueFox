@@ -79,7 +79,9 @@
         connector = await chrome.tabs.connect(TabInfo.id);
         connector.onMessage.addListener((message) => {
           try {
-            MessageHandler[message.type](message);
+            if(Object.keys(MessageHandler).includes(message.type)){
+              MessageHandler[message.type](message);
+            }
           } catch {
             log("failed", message);
           }
@@ -88,21 +90,62 @@
       await reloadConnector();
 
       let dropHandler = async (tabid, files) => {
+        let updateHistory = async (files) => {
+          document.querySelector("[RecentlyAttached]").textContent="";
+          {
+            let li = document.createElement("li");
+            let div = document.createElement("div");
+            div.className="uk-button uk-button-text";
+            div.textContent = `ALL [${files.length}]`;
+            div.files = files;
+            li.appendChild(div);
+            document.querySelector("[RecentlyAttached]").appendChild(li);
+            div.addEventListener("click", async (event) => {
+              await reloadConnector();
+              await connector.postMessage({
+                type: "BlueFox.Dispatch",
+                object: {
+                  files: event.target.files,
+                },
+              });
+            });
+          }
+          files.forEach(_ => {
+            let li = document.createElement("li");
+            let div = document.createElement("div");
+            div.className="uk-button uk-button-text";
+            div.textContent = _.name;
+            div.file = _;
+            li.appendChild(div);
+            document.querySelector("[RecentlyAttached]").appendChild(li);
+            div.addEventListener("click", async (event) => {
+              await reloadConnector();
+              await connector.postMessage({
+                type: "BlueFox.Dispatch",
+                object: {
+                  files: [event.target.file],
+                },
+              });
+            });
+          });
+        };
         try {
-          await reloadConnector();
           let r = [];
           for (let f of files) {
             r.push({
+              name: f.name,
               type: f.type,
               text: await f.text(),
             });
           }
+          await reloadConnector();
           await connector.postMessage({
             type: "BlueFox.Dispatch",
             object: {
               files: r,
             },
           });
+          updateHistory(r);
         } catch (err) {
           log(err);
         }
