@@ -61,6 +61,13 @@
                     </span>
                 </div>
                 <div class="uk-padding-small">
+                    <span uk-icon="happy"></span>
+                    <span class="uk-button uk-button-text uk-text-default" value="Utility"
+                        setValueOnClick="#menuControll">
+                        <span>Utility</span>
+                    </span>
+                </div>
+                <div class="uk-padding-small">
                     <span uk-icon="settings"></span>
                     <span class="uk-button uk-button-text uk-text-default" value="Settings"
                         setValueOnClick="#menuControll">
@@ -85,6 +92,107 @@
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div Tabs>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="divider-icon"></div>
+                        <div class="uk-margin-left">
+                            <div setTextContent="Copyright"></div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#menuControll" showWhenSome-values='["Utility"]'>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div>
+                                <ul uk-accordion="multiple: true">
+                                    <li>
+                                        <a class="uk-accordion-title" href="#">
+                                            <span>TSV to BlueFox:v0-JSON</span>
+                                            <span class="uk-badge">Experimental</span>
+                                        </a>
+                                        <div class="uk-accordion-content">
+                                            <div class="uk-margin">
+                                                <div>
+                                                    <div>in↓</div>
+                                                    <textarea in class="uk-textarea" rows="10" cols="20"></textarea>
+                                                </div>
+                                                <div>
+                                                    <div>out↓</div>
+                                                    <textarea out class="uk-textarea" rows="10" cols="20"></textarea>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <table class="uk-table">
+                                                    <caption>TSV format</caption>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>type</th>
+                                                            <th>target</th>
+                                                            <th>objectPath</th>
+                                                            <th>value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>set</td>
+                                                            <td>CSS Selector</td>
+                                                            <td>property.propertyName | attribute.attributeName</td>
+                                                            <td>Value</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>eval</td>
+                                                            <td>CSS Selector</td>
+                                                            <td>property.propertyName | attribute.attributeName</td>
+                                                            <td>Argument</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>capture</td>
+                                                            <td>CSS Selector</td>
+                                                            <td></td>
+                                                            <td>FileName</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>take</td>
+                                                            <td>CSS Selector</td>
+                                                            <td>property.propertyName | attribute.attributeName</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>save</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>FileName</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>sleep</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>Millisecond</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>event</td>
+                                                            <td>CSS Selector</td>
+                                                            <td></td>
+                                                            <td>EventType</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

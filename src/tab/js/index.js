@@ -61,7 +61,7 @@
           let reloading = false;
           e.reload = async () => {
             let value = `${e.value}`;
-            if(reloading){
+            if (reloading) {
               return;
             }
             reloading = true;
@@ -84,28 +84,33 @@
               });
             });
             for (let tab of tabs) {
-              let TabsTemplate = document.querySelector("#TabsTemplate").content.cloneNode(true);
+              let TabsTemplate = document
+                .querySelector("#TabsTemplate")
+                .content.cloneNode(true);
               if (tab.favIconUrl) {
                 TabsTemplate.querySelector("[favicon]").src = tab.favIconUrl;
               } else {
-                TabsTemplate
-                  .querySelector("div:has(>[favicon])")
-                  .setAttribute("uk-icon", "icon: world; ratio: 2");
-                  TabsTemplate.querySelector("[favicon]").remove();
+                TabsTemplate.querySelector("div:has(>[favicon])").setAttribute(
+                  "uk-icon",
+                  "icon: world; ratio: 2"
+                );
+                TabsTemplate.querySelector("[favicon]").remove();
               }
 
               TabsTemplate.querySelector("[title]").textContent = tab.title;
               TabsTemplate.querySelector("[URL]").textContent = tab.url;
-              TabsTemplate.querySelector("[SwitchTab]").attributes.SwitchTab.value =
-                tab.id;
-                TabsTemplate
-                .querySelector("[SwitchTab]")
-                .addEventListener("click", async (event) => {
+              TabsTemplate.querySelector(
+                "[SwitchTab]"
+              ).attributes.SwitchTab.value = tab.id;
+              TabsTemplate.querySelector("[SwitchTab]").addEventListener(
+                "click",
+                async (event) => {
                   await chrome.tabs.update(
                     Number(event.target.attributes.SwitchTab.value),
                     { active: true }
                   );
-                });
+                }
+              );
 
               let BlueFoxFileAttach = TabsTemplate.querySelector(
                 "[BlueFoxFileAttach]"
@@ -121,19 +126,16 @@
                   event.dataTransfer.files
                 );
               });
-              BlueFoxFileAttach.addEventListener(
-                "dragover",
-                async (event) => {
-                  event.preventDefault();
-                  event.dataTransfer.dropEffect = "copy";
+              BlueFoxFileAttach.addEventListener("dragover", async (event) => {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "copy";
+              });
+              TabsTemplate.querySelector("[Focus]").addEventListener(
+                "click",
+                (event) => {
+                  window.open(`./focus.html#${tab.id}`, "_blank");
                 }
               );
-              TabsTemplate.querySelector("[Focus]").addEventListener("click", (event) => {
-                window.open(
-                  `./focus.html#${tab.id}`,
-                  "_blank"
-                );
-              });
               e.appendChild(TabsTemplate);
             }
             reloading = false;
@@ -219,7 +221,7 @@
                 targets: e,
                 opacity: 1,
                 duration: 250,
-                delay:200,
+                delay: 200,
                 easing: "linear",
               });
             } else {
@@ -245,14 +247,14 @@
             ).map((_) => {
               return `${_}`;
             });
-            if (!(values.includes(`${target.value}`))) {
+            if (!values.includes(`${target.value}`)) {
               e.style.opacity = 0;
               e.removeAttribute("hide");
               await anime({
                 targets: e,
                 opacity: 1,
                 duration: 250,
-                delay:200,
+                delay: 200,
                 easing: "linear",
               });
             } else {
@@ -275,6 +277,67 @@
             target.value = e.attributes.value.value;
             target.attributes.value.value = e.attributes.value.value;
             target.dispatchEvent(new Event("change"));
+          });
+        },
+        "textarea[in]": async (e) => {
+          e.addEventListener("input", (event) => {
+            let R = [];
+            let lines = e.value
+              .split("\n")
+              .filter((_) => {
+                return _ != "";
+              })
+              .map((_) => {
+                return _.split("\t");
+              });
+            for (let line of lines.slice(1)) {
+              let r = {};
+              for (let i in lines[0]) {
+                r[lines[0][i]] = line[i].replaceAll("\\n", "\n");
+              }
+              if (r.type) {
+                R.push(r);
+              }
+            }
+
+            let J = R.map((_) => {
+              _.value =
+                {
+                  null: null,
+                  true: true,
+                  false: false,
+                }[_.value.toLowerCase()] ?? _.value;
+              let j = {
+                type: _.type,
+                target: _.target,
+              };
+
+              if (_.type == "event") {
+                j.dispatchEvent = _.value;
+              } else if (_.type == "sleep") {
+                j.target = Number(_.value);
+              } else if (_.type == "capture") {
+                j.fileName = _.value;
+              } else if (_.type == "save") {
+                j.fileName = _.value;
+              } else if (_.objectPath) {
+                let objectPath = _.objectPath.split(".");
+                j[objectPath[0]] = {};
+                j[objectPath[0]][
+                  objectPath[1].join ? objectPath[1].join(".") : objectPath[1]
+                ] = _.value;
+              }
+              return j;
+            });
+
+            document.querySelector("textarea[out]").value = JSON.stringify({
+              meta:{
+                version: 0,
+              },
+              sleep: 0,
+              dispatchEvents: ["change"],
+              actions: J,
+            });
           });
         },
       };
