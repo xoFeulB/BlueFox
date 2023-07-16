@@ -331,7 +331,7 @@
             });
 
             document.querySelector("textarea[out]").value = JSON.stringify({
-              meta:{
+              meta: {
                 version: 0,
               },
               sleep: 0,

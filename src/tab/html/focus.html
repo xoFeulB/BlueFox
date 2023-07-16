@@ -99,7 +99,7 @@
                 </div>
                 <div class="uk-padding-small">
                     <span uk-icon="crosshairs"></span>
-                    <span class="uk-button uk-button-text uk-text-default" value="Packages"
+                    <span class="uk-button uk-button-text uk-text-default" value="Selector"
                         setValueOnClick="#menuControll">
                         <span>Selector</span>
                     </span>
@@ -109,6 +109,13 @@
                     <span class="uk-button uk-button-text uk-text-default" value="Tails"
                         setValueOnClick="#menuControll">
                         <span>Tails</span>
+                    </span>
+                </div>
+                <div class="uk-padding-small">
+                    <span uk-icon="calendar"></span>
+                    <span class="uk-button uk-button-text uk-text-default" value="Scenario"
+                        setValueOnClick="#menuControll">
+                        <span>Scenario</span>
                     </span>
                 </div>
             </div>
@@ -151,7 +158,8 @@
                 <div class="divider-icon"></div>
                 <div>
                     <div class="uk-flex uk-flex-middle">
-                            <span class="uk-text-default uk-text-bold">Manga</span>
+                        <span uk-icon="icon: calendar;" class="uk-margin-small-right"></span>
+                        <span class="uk-text-default uk-text-bold">Scenario</span>
                     </div>
                     <div class="uk-margin-top">
                         <ul class="uk-list uk-link-text uk-text-small">
@@ -184,10 +192,8 @@
                 <hr>
                 <div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Automation"]'>
-                        <div>
-                            <h2>Automation</h2>
+                        <div AttachedTails class="uk-child-width-expand">
                         </div>
-
                         <div>
                             <div class="divider-icon"></div>
                             <div class="uk-margin-left">
@@ -195,7 +201,7 @@
                             </div>
                         </div>
                     </div>
-                    <div showWhenSome="#menuControll" showWhenSome-values='["Packages"]' hide>
+                    <div showWhenSome="#menuControll" showWhenSome-values='["Selector"]' hide>
                         <div>
                             <h2>
                                 <img src="/media/tail.png" width="30" height="30">
@@ -289,11 +295,79 @@
                             </div>
                         </div>
                     </div>
+                    <div showWhenSome="#menuControll" showWhenSome-values='["Scenario"]' hide>
+                        <div>
+                            <h2>
+                                <img src="/media/tail.png" width="30" height="30">
+                                <span>Tails</span>
+                            </h2>
+                            <div>
+                                <div class="uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
+                                    <div>
+                                        <div class="uk-card uk-card-default uk-card-body">
+                                            <h3 class="uk-card-title">
+                                                <a>O won</a>
+                                            </h3>
+                                            <p>O won payload description</p>
+                                            <div>
+                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
+                                                    href="#">BlueFox-official</a>
+                                                <a class="uk-button uk-button-default uk-button-small"
+                                                    href="#">package@TicTacToe.v1@Demo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="uk-card uk-card-default uk-card-body">
+                                            <h3 class="uk-card-title">
+                                                <a>X won</a>
+                                            </h3>
+                                            <p>X won payload description</p>
+                                            <div>
+                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
+                                                    href="#">BlueFox-official</a>
+                                                <a class="uk-button uk-button-default uk-button-small"
+                                                    href="#">package@TicTacToe.v1@Demo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="divider-icon"></div>
+                            <div class="uk-margin-left">
+                                <div setTextContent="Copyright"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div constHide>
+        <template id="AttachedTailTemplate">
+            <div>
+                <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small-bottom">
+                    <h3 Title class="uk-button uk-button-text uk-card-title uk-margin-remove-bottom"></h3>
+                    <div class="uk-text-meta">
+                        <div>
+                            <span Version></span>
+                            <span> | </span>
+                            <span ActionsLength></span>
+                            <span> | </span>
+                            <span DateTime></span>
+                        </div>
+                    </div>
+                    <div>
+                        <p Description></p>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
 </body>
 
 </html>

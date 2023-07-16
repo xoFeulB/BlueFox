@@ -79,7 +79,7 @@
         connector = await chrome.tabs.connect(TabInfo.id);
         connector.onMessage.addListener((message) => {
           try {
-            if(Object.keys(MessageHandler).includes(message.type)){
+            if (Object.keys(MessageHandler).includes(message.type)) {
               MessageHandler[message.type](message);
             }
           } catch {
@@ -89,31 +89,16 @@
       };
       await reloadConnector();
 
-      let dropHandler = async (tabid, files) => {
+      let dropHandler = async (files) => {
         let updateHistory = async (files) => {
-          document.querySelector("[RecentlyAttached]").textContent="";
-          {
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            div.className="uk-button uk-button-text";
-            div.textContent = `ALL [${files.length}]`;
-            div.files = files;
-            li.appendChild(div);
-            document.querySelector("[RecentlyAttached]").appendChild(li);
-            div.addEventListener("click", async (event) => {
-              await reloadConnector();
-              await connector.postMessage({
-                type: "BlueFox.Dispatch",
-                object: {
-                  files: event.target.files,
-                },
-              });
-            });
+          document.querySelector("[RecentlyAttached]").textContent = "";
+          if (files.length == 0) {
+            return;
           }
-          files.forEach(_ => {
+          files.forEach((_) => {
             let li = document.createElement("li");
             let div = document.createElement("div");
-            div.className="uk-button uk-button-text";
+            div.className = "uk-button uk-button-text";
             div.textContent = _.name;
             div.file = _;
             li.appendChild(div);
@@ -127,6 +112,42 @@
                 },
               });
             });
+            if (_.type == "application/json") {
+              let J = JSON.parse(_.text);
+              let AttachedTailTemplate = document
+                .querySelector("#AttachedTailTemplate")
+                .content.cloneNode(true);
+              AttachedTailTemplate.querySelector("[Title]").textContent =
+                J.meta.title;
+              AttachedTailTemplate.querySelector("[Title]").file = _;
+              AttachedTailTemplate.querySelector(
+                "[Version]"
+              ).textContent = `v.${J.meta.version}`;
+              AttachedTailTemplate.querySelector(
+                "[ActionsLength]"
+              ).textContent = `${J.actions.length} Actions`;
+              AttachedTailTemplate.querySelector(
+                "[DateTime]"
+              ).textContent = `${new Date().toString()}`;
+              AttachedTailTemplate.querySelector(
+                "[Description]"
+              ).textContent = `${J.meta?.description}`;
+              document
+                .querySelector("[AttachedTails]")
+                .prepend(AttachedTailTemplate);
+              document
+                .querySelector("[AttachedTails]")
+                .children[0].querySelector("[Title]")
+                .addEventListener("click", async (event) => {
+                  await reloadConnector();
+                  await connector.postMessage({
+                    type: "BlueFox.Dispatch",
+                    object: {
+                      files: [event.target.file],
+                    },
+                  });
+                });
+            }
           });
         };
         try {
@@ -145,7 +166,11 @@
               files: r,
             },
           });
-          updateHistory(r);
+          updateHistory(
+            r.filter((_) => {
+              return ["application/json", "text/javascript"].includes(_.type);
+            })
+          );
         } catch (err) {
           log(err);
         }
@@ -161,8 +186,6 @@
             message.object.length;
         },
       };
-
-
 
       let oDict = {
         "[TabToWindow]": async (e) => {
@@ -200,18 +223,17 @@
           });
         },
         "[BlueFoxFileAttach]": async (e) => {
-          let SelectTargetTab = document.querySelector("[SelectTargetTab]");
           e.addEventListener("drop", async (event) => {
             event.preventDefault();
             event.dataTransfer.dropEffect = "copy";
-            await dropHandler(TabInfo.id, event.dataTransfer.files);
+            await dropHandler(event.dataTransfer.files);
           });
           e.addEventListener("dragover", async (event) => {
             event.preventDefault();
             event.dataTransfer.dropEffect = "copy";
           });
           e.querySelector("input").addEventListener("input", async (event) => {
-            await dropHandler(TabInfo.id, event.target.files);
+            await dropHandler(event.target.files);
             event.target.value = null;
           });
         },

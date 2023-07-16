@@ -1,7 +1,8 @@
 {
     "meta":{
         "version": 1,
-        "title": "v1 format"
+        "title": "v1 format",
+        "description": "description"
     },
     "sleep": 0,
     "dispatchEvents": [],
