@@ -178,6 +178,7 @@
 
       let MessageHandler = {
         "BlueFox.GetEventListners": (message) => {
+          log(message.object);
           document.querySelector("[EventListners]").textContent =
             message.object.length;
         },
@@ -351,10 +352,17 @@
 
       {
         await sleep(1000);
-        await connector.postMessage({
-          type: "BlueFox.GetEventListners",
-          object: {},
-        });
+        let GetEventListners = async () => {
+          await reloadConnector();
+          await connector.postMessage({
+            type: "BlueFox.GetEventListners",
+            object: {},
+          });
+        }
+        await GetEventListners();
+        setInterval(async () => {
+          await GetEventListners();
+        }, 5000);
       }
     }
   })();
