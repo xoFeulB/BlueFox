@@ -9,7 +9,6 @@
       console.log("event_observer.js", ...args);
     };
     log("loaded");
-
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
 
     let load_start = (id) => {

@@ -100,6 +100,12 @@
         ).listeners;
         return R;
       },
+      "BlueFox.GetSelectors": async (object) => {
+        let R = [...document.querySelectorAll(object.selector)].map((_) => {
+          return CssSelectorGenerator.getCssSelector(_);
+        });
+        return R;
+      },
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {

@@ -178,13 +178,44 @@
 
       let MessageHandler = {
         "BlueFox.GetEventListners": (message) => {
-          log(message.object);
           document.querySelector("[EventListners]").textContent =
             message.object.length;
         },
         "BlueFox.CapturEvents": (message) => {
           document.querySelector("[HowManyCapturingEvents]").textContent =
             message.object.length;
+        },
+        "BlueFox.CapturEvents": (message) => {
+          document.querySelector("[HowManyCapturingEvents]").textContent =
+            message.object.length;
+        },
+        "BlueFox.GetSelectors": (message) => {
+          if (message.object) {
+            let SelectorsList = document.querySelector("[SelectorsList]");
+            SelectorsList.textContent = "";
+            message.object.forEach((_) => {
+              let li = document.createElement("li");
+              let div = Object.assign(document.createElement("div"), {
+                className: "uk-flex",
+              });
+              let Key = Object.assign(document.createElement("input"), {
+                type: "text",
+                className: "uk-input uk-width-1-3 uk-margin-small-right",
+                placeholder: "Key",
+                value: "",
+              });
+              let Selector = Object.assign(document.createElement("input"), {
+                type: "text",
+                className: "uk-input uk-width-1-3",
+                placeholder: "Selector",
+                value: _,
+              });
+              div.appendChild(Key);
+              div.appendChild(Selector);
+              li.appendChild(div);
+              SelectorsList.appendChild(li);
+            });
+          }
         },
       };
 
@@ -346,6 +377,25 @@
             target.dispatchEvent(new Event("change"));
           });
         },
+        "[GetSelectors]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            let selector = document.querySelector("#QuerySelector").value;
+            if (selector) {
+              let SelectorsList = document.querySelector("[SelectorsList]");
+              SelectorsList.textContent = "";
+              let div = document.createElement("div");
+              div.setAttribute("uk-spinner", "");
+              div.className = "uk-text-center";
+              SelectorsList.appendChild(div);
+              await connector.postMessage({
+                type: "BlueFox.GetSelectors",
+                object: {
+                  selector: selector,
+                },
+              });
+            }
+          });
+        },
       };
       let queryWalker = new QueryWalker(oDict, document);
       await queryWalker.do();
@@ -358,7 +408,7 @@
             type: "BlueFox.GetEventListners",
             object: {},
           });
-        }
+        };
         await GetEventListners();
         setInterval(async () => {
           await GetEventListners();

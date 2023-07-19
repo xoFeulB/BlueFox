@@ -120,3 +120,11 @@ div:has([showWhenSome="#menuControll"]) {
 [Description] {
   white-space: pre-wrap;
 }
+[uk-tooltip="title: Get selectors; pos: top"] {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 500px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 500px;
+}
