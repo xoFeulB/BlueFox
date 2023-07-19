@@ -101,9 +101,14 @@
         return R;
       },
       "BlueFox.GetSelectors": async (object) => {
-        let R = [...document.querySelectorAll(object.selector)].map((_) => {
-          return CssSelectorGenerator.getCssSelector(_);
-        });
+        let R = [];
+        try {
+          [...document.querySelectorAll(object.selector)].forEach((_) => {
+            try {
+              R.push(CssSelectorGenerator.getCssSelector(_));
+            } catch {}
+          });
+        } catch {}
         return R;
       },
     };
