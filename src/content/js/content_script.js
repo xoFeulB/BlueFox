@@ -105,7 +105,23 @@
         try {
           [...document.querySelectorAll(object.selector)].forEach((_) => {
             try {
-              R.push(CssSelectorGenerator.getCssSelector(_));
+              R.push({
+                selector: CssSelectorGenerator.getCssSelector(_),
+                attributes: (() => {
+                  let r = {};
+                  [..._.attributes]
+                    .map((attribute) => {
+                      return {
+                        name: attribute.name,
+                        value: attribute.value,
+                      };
+                    })
+                    .forEach((attribute) => {
+                      r[attribute.name] = attribute.value;
+                    });
+                  return r;
+                })(),
+              });
             } catch {}
           });
         } catch {}

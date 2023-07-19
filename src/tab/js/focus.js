@@ -200,15 +200,15 @@
               });
               let Key = Object.assign(document.createElement("input"), {
                 type: "text",
-                className: "uk-input uk-width-1-3 uk-margin-small-right",
+                className: "uk-input uk-width-expand uk-margin-small-right",
                 placeholder: "Key",
-                value: "",
+                value: _.attributes["name"] ? _.attributes["name"] : null,
               });
               let Selector = Object.assign(document.createElement("input"), {
                 type: "text",
-                className: "uk-input uk-width-1-3",
+                className: "uk-input uk-width-expand",
                 placeholder: "Selector",
-                value: _,
+                value: _.selector,
               });
               div.appendChild(Key);
               div.appendChild(Selector);
