@@ -117,3 +117,6 @@ div:has(> [setValueOnClick="#menuControll"]) {
 div:has([showWhenSome="#menuControll"]) {
   position: relative;
 }
+[Description] {
+  white-space: pre-wrap;
+}
