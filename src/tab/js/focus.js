@@ -377,6 +377,14 @@
             target.dispatchEvent(new Event("change"));
           });
         },
+        "#QuerySelector": async (e) => {
+          e.addEventListener("keypress", async (event) => {
+            if (event.keyCode === 13) {
+              e.blur();
+              document.querySelector("[GetSelectors]").click();
+            }
+          });
+        },
         "[GetSelectors]": async (e) => {
           e.addEventListener("click", async (event) => {
             let selector = document.querySelector("#QuerySelector").value;
@@ -394,6 +402,48 @@
                 },
               });
             }
+          });
+        },
+        "[SelectorDownloadJSON]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            let R = [];
+            let SelectorsList = document.querySelector("[SelectorsList]");
+            [...SelectorsList.querySelectorAll("li")].forEach((_) => {
+              R.push({
+                key: _.querySelector(`[placeholder="Key"]`).value,
+                selector: _.querySelector(`[placeholder="Selector"]`).value,
+              });
+            });
+
+            Object.assign(document.createElement("a"), {
+              href: window.URL.createObjectURL(
+                new Blob([JSON.stringify(R)], { type: "application/json" })
+              ),
+              download: `${
+                document.querySelector("#QuerySelector").value
+              }.json`,
+            }).click();
+          });
+        },
+        "[SelectorDownloadCSV]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            let R = ["Key\tSelector"];
+            let SelectorsList = document.querySelector("[SelectorsList]");
+            [...SelectorsList.querySelectorAll("li")].forEach((_) => {
+              R.push(
+                [
+                  _.querySelector(`[placeholder="Key"]`).value,
+                  _.querySelector(`[placeholder="Selector"]`).value,
+                ].join("\t")
+              );
+            });
+
+            Object.assign(document.createElement("a"), {
+              href: window.URL.createObjectURL(
+                new Blob([R.join("\n")], { type: "text/csv" })
+              ),
+              download: `${document.querySelector("#QuerySelector").value}.csv`,
+            }).click();
           });
         },
       };
