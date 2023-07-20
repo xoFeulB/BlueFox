@@ -3,7 +3,7 @@
     Title: `^.,.^ BlueFox`,
     Copyright: `© ${new Date().getFullYear()} BlueFox.Tech-Team`,
     Version: `v${chrome.runtime.getManifest().version}`,
-    BluefoxOpenBetaServer: "api.bluefox.tech",
+    BluefoxOpenBetaServer: "api.bluefox.local",
     BluefoxOpenBetaToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJCbHVlRm94T3BlbkJldGEiOiJCbHVlRm94T3BlbkJldGEifQ.FmEvhzj_ujU9nN1TnuzB3OMF1s-mF-hL3N0iim6cikg",
   };
   window.set = {

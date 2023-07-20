@@ -1,0 +1,27 @@
+{
+    "meta": {
+        "title": "scenario format",
+        "description": "description"
+    },
+    "tails": [
+        {
+            "tail": {},
+            "by": {
+                "path": "meta.title",
+                "value": "title",
+            },
+            "when": {
+                "location.hash": "regex | null",
+                "location.host": "regex | null",
+                "location.hostname": "regex | null",
+                "location.href": "regex | null",
+                "location.origin": "regex | null",
+                "location.pathname": "regex | null",
+                "location.port": "regex | null",
+                "location.protocol": "regex | null",
+                "location.search": "regex | null",
+                "document.title": "regex | null"
+            }
+        }
+    ]
+}
