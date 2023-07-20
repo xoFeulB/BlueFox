@@ -193,16 +193,22 @@
           if (message.object) {
             let SelectorsList = document.querySelector("[SelectorsList]");
             SelectorsList.textContent = "";
+            let QuerySelectorsAttribute = document.querySelector(
+              "#QuerySelectorsAttribute"
+            );
             message.object.forEach((_) => {
               let li = document.createElement("li");
               let div = Object.assign(document.createElement("div"), {
                 className: "uk-flex",
               });
+              div.Selector = _;
               let Key = Object.assign(document.createElement("input"), {
                 type: "text",
                 className: "uk-input uk-width-expand uk-margin-small-right",
                 placeholder: "Key",
-                value: _.attributes["name"] ? _.attributes["name"] : null,
+                value: _.attributes[QuerySelectorsAttribute.value]
+                  ? _.attributes[QuerySelectorsAttribute.value]
+                  : null,
               });
               let Selector = Object.assign(document.createElement("input"), {
                 type: "text",
@@ -378,11 +384,9 @@
           });
         },
         "#QuerySelector": async (e) => {
-          e.addEventListener("keypress", async (event) => {
-            if (event.keyCode === 13) {
-              e.blur();
-              document.querySelector("[GetSelectors]").click();
-            }
+          e.addEventListener("change", (event) => {
+            e.blur();
+            document.querySelector("[GetSelectors]").click();
           });
         },
         "[GetSelectors]": async (e) => {
@@ -444,6 +448,18 @@
               ),
               download: `${document.querySelector("#QuerySelector").value}.csv`,
             }).click();
+          });
+        },
+        "#QuerySelectorsAttribute": async (e) => {
+          e.addEventListener("change", (event) => {
+            e.blur();
+            let SelectorsList = document.querySelector("[SelectorsList]");
+            [...SelectorsList.querySelectorAll("div")].forEach((_) => {
+              _.querySelector(`[placeholder="Key"]`).value = _.Selector
+                .attributes[e.value]
+                ? _.Selector.attributes[e.value]
+                : null;
+            });
           });
         },
       };
