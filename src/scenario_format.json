@@ -8,7 +8,7 @@
             "tail": {},
             "by": {
                 "path": "meta.title",
-                "value": "title",
+                "value": "title"
             },
             "when": {
                 "location.hash": "regex | null",
