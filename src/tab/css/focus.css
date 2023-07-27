@@ -129,5 +129,5 @@ div:has([showWhenSome="#menuControll"]) {
   border-bottom-right-radius: 500px;
 }
 [GetElementPropertiesNotification]{
-  max-height: 90vh;
+  max-height: 80vh;
 }

@@ -224,9 +224,12 @@
           let R = JSON.stringify(message.object, null, 4);
           navigator.clipboard.writeText(R);
           UIkit.notification(
-            `<div><span uk-icon="check"></span><span>Copied to clipboard!</span></div><code><pre GetElementPropertiesNotification>${R}</pre></code>`,
-            { timeout: 2000 }
+            `<div><span uk-icon="check"></span><span> Copied to clipboard!</span></div><pre GetElementPropertiesNotification><code></code></pre>`,
+            { timeout: 2000, status: "success" }
           );
+          document.querySelector(
+            "[GetElementPropertiesNotification] > code"
+          ).textContent = R;
         },
       };
 
