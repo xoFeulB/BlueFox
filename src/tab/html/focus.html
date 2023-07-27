@@ -133,15 +133,14 @@
                         <span class="uk-text-default uk-text-bold">Recently Attached</span>
                     </div>
                     <div class="uk-margin-top">
-                        <ul RecentlyAttached class="uk-list uk-link-text uk-text-small">
-                        </ul>
+                        <ul RecentlyAttached class="uk-list uk-link-text uk-text-small"></ul>
                     </div>
                 </div>
                 <div class="divider-icon"></div>
                 <div>
                     <div class="uk-flex uk-flex-middle">
                         <img src="/media/tail.png" width="30" height="30" class="uk-margin-small-right">
-                        <span class="uk-text-default uk-text-bold">Top Tails</span>
+                        <span class="uk-text-default uk-text-bold">Tails</span>
                     </div>
                     <div class="uk-margin-top">
                         <ul class="uk-list uk-link-text uk-text-small">
@@ -195,7 +194,6 @@
                 <div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Automation"]'>
                         <div AttachedTails class="uk-child-width-expand">
-
                         </div>
                         <div>
                             <div class="divider-icon"></div>
@@ -232,8 +230,8 @@
                                 <input type="text" id="QuerySelector" class="uk-input uk-form-width-medium"
                                     placeholder="QuerySelector">
                                 <span>
-                                    <button GetSelectors class="uk-icon-button" uk-icon="crosshairs"
-                                        uk-tooltip="title: Get selectors; pos: top">
+                                    <button GetSelectors class="uk-icon-button button-radius-right" uk-icon="crosshairs"
+                                        uk-tooltip="Get selectors">
                                     </button>
                                 </span>
                             </span>
@@ -299,45 +297,8 @@
                         </div>
                     </div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Scenario"]' hide>
-                        <div>
-                            <h2>
-                                <img src="/media/tail.png" width="30" height="30">
-                                <span>Tails</span>
-                            </h2>
-                            <div>
-                                <div class="uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>O won</a>
-                                            </h3>
-                                            <p>O won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="uk-card uk-card-default uk-card-body">
-                                            <h3 class="uk-card-title">
-                                                <a>X won</a>
-                                            </h3>
-                                            <p>X won payload description</p>
-                                            <div>
-                                                <a class="uk-button uk-button-default uk-button-small bg-blue"
-                                                    href="#">BlueFox-official</a>
-                                                <a class="uk-button uk-button-default uk-button-small"
-                                                    href="#">package@TicTacToe.v1@Demo</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div AttachedScenarios class="uk-child-width-expand">
                         </div>
-
                         <div>
                             <div class="divider-icon"></div>
                             <div class="uk-margin">
@@ -368,6 +329,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </template>
+        <template id="SelectorTemplate">
+            <div class="uk-flex">
+                <input type="text" class="uk-input uk-width-expand uk-margin-small-right" placeholder="Key">
+                <input type="text" class="uk-input uk-width-expand" placeholder="Selector">
+                <button GetElementProperties class="uk-icon-button button-radius-right" uk-tooltip="Get properties"
+                    uk-icon="eye"></button>
             </div>
         </template>
     </div>

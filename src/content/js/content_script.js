@@ -127,6 +127,16 @@
         } catch {}
         return R;
       },
+      "BlueFox.GetElementProperties": async (object) => {
+        let R = {};
+        try {
+          let target = document.querySelector(object.selector);
+          for(let property in target){
+            R[property] = target[property];
+          }
+        } catch {}
+        return R;
+      },
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {

@@ -159,6 +159,11 @@
               text: await f.text(),
             });
           }
+
+          for (let _ of r) {
+            // TODO:scenario
+          }
+
           await reloadConnector();
           await connector.postMessage({
             type: "BlueFox.Dispatch",
@@ -198,30 +203,30 @@
             );
             message.object.forEach((_) => {
               let li = document.createElement("li");
-              let div = Object.assign(document.createElement("div"), {
-                className: "uk-flex",
-              });
-              div.Selector = _;
-              let Key = Object.assign(document.createElement("input"), {
-                type: "text",
-                className: "uk-input uk-width-expand uk-margin-small-right",
-                placeholder: "Key",
-                value: _.attributes[QuerySelectorsAttribute.value]
-                  ? _.attributes[QuerySelectorsAttribute.value]
-                  : null,
-              });
-              let Selector = Object.assign(document.createElement("input"), {
-                type: "text",
-                className: "uk-input uk-width-expand",
-                placeholder: "Selector",
-                value: _.selector,
-              });
-              div.appendChild(Key);
-              div.appendChild(Selector);
-              li.appendChild(div);
+
+              let SelectorTemplate = document
+                .querySelector("#SelectorTemplate")
+                .content.cloneNode(true);
+              SelectorTemplate.querySelector(`[placeholder="Key"]`).value = _
+                .attributes[QuerySelectorsAttribute.value]
+                ? _.attributes[QuerySelectorsAttribute.value]
+                : null;
+              SelectorTemplate.querySelector(`[placeholder="Selector"]`).value =
+                _.selector;
+
+              li.appendChild(SelectorTemplate);
               SelectorsList.appendChild(li);
+              SelectorsList.lastChild.querySelector("div").Selector = _;
             });
           }
+        },
+        "BlueFox.GetElementProperties": (message) => {
+          let R = JSON.stringify(message.object, null, 4);
+          navigator.clipboard.writeText(R);
+          UIkit.notification(
+            `<div><span uk-icon="check"></span><span>Copied to clipboard!</span></div><code><pre GetElementPropertiesNotification>${R}</pre></code>`,
+            { timeout: 2000 }
+          );
         },
       };
 
@@ -421,7 +426,9 @@
 
             Object.assign(document.createElement("a"), {
               href: window.URL.createObjectURL(
-                new Blob([JSON.stringify(R)], { type: "application/json" })
+                new Blob([JSON.stringify(R, null, 4)], {
+                  type: "application/json",
+                })
               ),
               download: `${
                 document.querySelector("#QuerySelector").value
@@ -460,6 +467,21 @@
                 ? _.Selector.attributes[e.value]
                 : null;
             });
+          });
+        },
+        "[SelectorsList]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            if (
+              event.target.attributes["GetElementProperties"] ||
+              event.target.closest("[GetElementProperties]")
+            ) {
+              await connector.postMessage({
+                type: "BlueFox.GetElementProperties",
+                object: {
+                  selector: event.target.closest("div").Selector.selector,
+                },
+              });
+            }
           });
         },
       };
