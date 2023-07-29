@@ -1,0 +1,30 @@
+{
+    "meta": {
+        "title": "scenario format",
+        "description": "description"
+    },
+    "tails": [
+        {
+            "sleep": 0,
+            "tail": {},
+            "by": {
+                "path": "meta.title",
+                "value": "title"
+            },
+            "when": {
+                "css selector": {
+                    "ownerDocument.hash": "regex | null",
+                    "ownerDocument.host": "regex | null",
+                    "ownerDocument.hostname": "regex | null",
+                    "ownerDocument.href": "regex | null",
+                    "ownerDocument.origin": "regex | null",
+                    "ownerDocument.pathname": "regex | null",
+                    "ownerDocument.port": "regex | null",
+                    "ownerDocument.protocol": "regex | null",
+                    "ownerDocument.search": "regex | null",
+                    "innerText": "regex | null"
+                }
+            }
+        }
+    ]
+}
