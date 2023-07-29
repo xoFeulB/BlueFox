@@ -131,7 +131,7 @@
         let R = {};
         try {
           let target = document.querySelector(object.selector);
-          for(let property in target){
+          for (let property in target) {
             R[property] = target[property];
           }
         } catch {}
@@ -142,6 +142,7 @@
       connector.onMessage.addListener(async (message) => {
         try {
           connector.postMessage({
+            uuid: message.uuid,
             type: message.type,
             object: await messageHandler[message.type](
               Object.assign(message.object, {

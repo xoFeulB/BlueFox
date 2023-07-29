@@ -74,20 +74,8 @@
       await TabInfo.reload();
       chrome.tabs.onUpdated.addListener(TabInfo.reload);
 
-      let connector;
-      let reloadConnector = async () => {
-        connector = await chrome.tabs.connect(TabInfo.id);
-        connector.onMessage.addListener((message) => {
-          try {
-            if (Object.keys(MessageHandler).includes(message.type)) {
-              MessageHandler[message.type](message);
-            }
-          } catch {
-            log("failed", message);
-          }
-        });
-      };
-      await reloadConnector();
+      let connector = new window.Connector();
+      await connector.load(TabInfo.id);
 
       let dropHandler = async (files) => {
         let updateHistory = async (files) => {
@@ -104,8 +92,7 @@
             li.appendChild(div);
             document.querySelector("[RecentlyAttached]").appendChild(li);
             div.addEventListener("click", async (event) => {
-              await reloadConnector();
-              await connector.postMessage({
+              await connector.post({
                 type: "BlueFox.Dispatch",
                 object: {
                   files: [event.target.file],
@@ -139,8 +126,7 @@
                 .querySelector("[AttachedTails]")
                 .children[0].querySelector("[Title]")
                 .addEventListener("click", async (event) => {
-                  await reloadConnector();
-                  await connector.postMessage({
+                  await connector.post({
                     type: "BlueFox.Dispatch",
                     object: {
                       files: [event.target.file],
@@ -164,8 +150,7 @@
             // TODO:scenario
           }
 
-          await reloadConnector();
-          await connector.postMessage({
+          await connector.post({
             type: "BlueFox.Dispatch",
             object: {
               files: r,
@@ -181,58 +166,6 @@
         }
       };
 
-      let MessageHandler = {
-        "BlueFox.GetEventListners": (message) => {
-          document.querySelector("[EventListners]").textContent =
-            message.object.length;
-        },
-        "BlueFox.CapturEvents": (message) => {
-          document.querySelector("[HowManyCapturingEvents]").textContent =
-            message.object.length;
-        },
-        "BlueFox.CapturEvents": (message) => {
-          document.querySelector("[HowManyCapturingEvents]").textContent =
-            message.object.length;
-        },
-        "BlueFox.GetSelectors": (message) => {
-          if (message.object) {
-            let SelectorsList = document.querySelector("[SelectorsList]");
-            SelectorsList.textContent = "";
-            let QuerySelectorsAttribute = document.querySelector(
-              "#QuerySelectorsAttribute"
-            );
-            message.object.forEach((_) => {
-              let li = document.createElement("li");
-
-              let SelectorTemplate = document
-                .querySelector("#SelectorTemplate")
-                .content.cloneNode(true);
-              SelectorTemplate.querySelector(`[placeholder="Key"]`).value = _
-                .attributes[QuerySelectorsAttribute.value]
-                ? _.attributes[QuerySelectorsAttribute.value]
-                : null;
-              SelectorTemplate.querySelector(`[placeholder="Selector"]`).value =
-                _.selector;
-
-              li.appendChild(SelectorTemplate);
-              SelectorsList.appendChild(li);
-              SelectorsList.lastChild.querySelector("div").Selector = _;
-            });
-          }
-        },
-        "BlueFox.GetElementProperties": (message) => {
-          let R = JSON.stringify(message.object, null, 4);
-          navigator.clipboard.writeText(R);
-          UIkit.notification(
-            `<div><span uk-icon="check"></span><span> Copied to clipboard!</span></div><pre GetElementPropertiesNotification><code></code></pre>`,
-            { timeout: 2000, status: "success" }
-          );
-          document.querySelector(
-            "[GetElementPropertiesNotification] > code"
-          ).textContent = R;
-        },
-      };
-
       let oDict = {
         "[TabToWindow]": async (e) => {
           e.addEventListener("click", async () => {
@@ -242,7 +175,14 @@
           });
         },
         "[CaptureWindow]": async (e) => {
-          MessageHandler["BlueFox.CaptureWindow"] = (message) => {
+          e.addEventListener("click", async () => {
+            let message = await connector.post({
+              type: "BlueFox.CaptureWindow",
+              object: {
+                format: "png",
+                captureBeyondViewport: true,
+              },
+            });
             if (message.object) {
               document.querySelector(
                 "[CapturePreview]"
@@ -251,16 +191,6 @@
                 .querySelector("[CapturePreview]")
                 .dispatchEvent(new Event("sync"));
             }
-          };
-          e.addEventListener("click", async () => {
-            await reloadConnector();
-            await connector.postMessage({
-              type: "BlueFox.CaptureWindow",
-              object: {
-                format: "png",
-                captureBeyondViewport: true,
-              },
-            });
           });
         },
         "[ReloadTab]": async (e) => {
@@ -407,12 +337,38 @@
               div.setAttribute("uk-spinner", "");
               div.className = "uk-text-center";
               SelectorsList.appendChild(div);
-              await connector.postMessage({
+
+              let message = await connector.post({
                 type: "BlueFox.GetSelectors",
                 object: {
                   selector: selector,
                 },
               });
+              if (message.object) {
+                let SelectorsList = document.querySelector("[SelectorsList]");
+                SelectorsList.textContent = "";
+                let QuerySelectorsAttribute = document.querySelector(
+                  "#QuerySelectorsAttribute"
+                );
+                message.object.forEach((_) => {
+                  let li = document.createElement("li");
+
+                  let SelectorTemplate = document
+                    .querySelector("#SelectorTemplate")
+                    .content.cloneNode(true);
+                  SelectorTemplate.querySelector(`[placeholder="Key"]`).value =
+                    _.attributes[QuerySelectorsAttribute.value]
+                      ? _.attributes[QuerySelectorsAttribute.value]
+                      : null;
+                  SelectorTemplate.querySelector(
+                    `[placeholder="Selector"]`
+                  ).value = _.selector;
+
+                  li.appendChild(SelectorTemplate);
+                  SelectorsList.appendChild(li);
+                  SelectorsList.lastChild.querySelector("div").Selector = _;
+                });
+              }
             }
           });
         },
@@ -478,12 +434,21 @@
               event.target.attributes["GetElementProperties"] ||
               event.target.closest("[GetElementProperties]")
             ) {
-              await connector.postMessage({
+              let message = await connector.post({
                 type: "BlueFox.GetElementProperties",
                 object: {
                   selector: event.target.closest("div").Selector.selector,
                 },
               });
+              let R = JSON.stringify(message.object, null, 4);
+              navigator.clipboard.writeText(R);
+              UIkit.notification(
+                `<div><span uk-icon="check"></span><span> Copied to clipboard!</span></div><pre GetElementPropertiesNotification><code></code></pre>`,
+                { timeout: 2000, status: "success" }
+              );
+              document.querySelector(
+                "[GetElementPropertiesNotification] > code"
+              ).textContent = R;
             }
           });
         },
@@ -494,11 +459,12 @@
       {
         await sleep(1000);
         let GetEventListners = async () => {
-          await reloadConnector();
-          await connector.postMessage({
+          let message = await connector.post({
             type: "BlueFox.GetEventListners",
             object: {},
           });
+          document.querySelector("[EventListners]").textContent =
+            message.object.length;
         };
         await GetEventListners();
         setInterval(async () => {
