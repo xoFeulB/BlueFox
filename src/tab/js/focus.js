@@ -77,90 +77,189 @@
       let connector = new window.Connector();
       await connector.load(TabInfo.id);
 
-      let dropHandler = async (files) => {
-        let updateHistory = async (files) => {
-          document.querySelector("[RecentlyAttached]").textContent = "";
-          if (files.length == 0) {
-            return;
+      let scenarioHandler = async (scenarios) => {
+        for (let scenario of scenarios) {
+          let json_parsed = JSON.parse(scenario.text);
+          for (let tail of json_parsed.tails) {
+            if (tail.when) {
+              for (let key of Object.keys(tail.when)) {
+                let message = await connector.post({
+                  type: "BlueFox.GetElementProperties",
+                  object: {
+                    selector: key,
+                  },
+                });
+                if (
+                  [...Object.keys(tail.when[key])].every((_) => {
+                    let property = getProperty(_, message.object);
+                    if (property.object) {
+                      try {
+                        let regex = new RegExp(tail.when[key][_], "g");
+                        return regex.test(property.object[property.property]);
+                      } catch {
+                        return false;
+                      }
+                    }
+                    return false;
+                  })
+                ) {
+                  await connector.post({
+                    type: "BlueFox.Dispatch.Action",
+                    object: JSON.stringify(tail.tail),
+                  });
+                  await sleep(tail.sleep);
+                }
+              }
+            } else {
+              await connector.post({
+                type: "BlueFox.Dispatch.Action",
+                object: JSON.stringify(tail.tail),
+              });
+              await sleep(tail.sleep);
+            }
           }
-          files.forEach((_) => {
+        }
+      };
+
+      let dropHandler = async (files) => {
+        document.querySelector("[RecentlyAttached]").textContent = "";
+
+        try {
+          let actions = [];
+          let scenarios = [];
+          let scripts = [];
+
+          for (let f of files) {
+            try {
+              await {
+                "application/json": async () => {
+                  let json_parsed = JSON.parse(await f.text());
+                  if (json_parsed.actions) {
+                    actions.push({
+                      name: f.name,
+                      type: f.type,
+                      text: await f.text(),
+                    });
+                  }
+                  if (json_parsed.tails) {
+                    scenarios.push({
+                      name: f.name,
+                      type: f.type,
+                      text: await f.text(),
+                    });
+                  }
+                },
+                "text/javascript": async () => {
+                  scripts.push({
+                    name: f.name,
+                    type: f.type,
+                    text: await f.text(),
+                  });
+                },
+              }[f.type]();
+            } catch {}
+          }
+
+          for (let action of actions) {
+            await connector.post({
+              type: "BlueFox.Dispatch.Action",
+              object: action.text,
+            });
+            let _ = JSON.parse(action.text);
             let li = document.createElement("li");
             let div = document.createElement("div");
             div.className = "uk-button uk-button-text";
-            div.textContent = _.name;
-            div.file = _;
+            div.textContent = action.name;
+            div.action = action;
             li.appendChild(div);
             document.querySelector("[RecentlyAttached]").appendChild(li);
             div.addEventListener("click", async (event) => {
               await connector.post({
-                type: "BlueFox.Dispatch",
-                object: {
-                  files: [event.target.file],
-                },
+                type: "BlueFox.Dispatch.Action",
+                object: event.target.action.text,
               });
             });
-            if (_.type == "application/json") {
-              let J = JSON.parse(_.text);
-              let AttachedTailTemplate = document
-                .querySelector("#AttachedTailTemplate")
-                .content.cloneNode(true);
-              AttachedTailTemplate.querySelector("[Title]").textContent =
-                J.meta.title;
-              AttachedTailTemplate.querySelector("[Title]").file = _;
-              AttachedTailTemplate.querySelector(
-                "[Version]"
-              ).textContent = `v.${J.meta.version}`;
-              AttachedTailTemplate.querySelector(
-                "[ActionsLength]"
-              ).textContent = `${J.actions.length} Actions`;
-              AttachedTailTemplate.querySelector(
-                "[DateTime]"
-              ).textContent = `${new Date().toString()}`;
-              AttachedTailTemplate.querySelector(
-                "[Description]"
-              ).textContent = `${J.meta?.description}`;
-              document
-                .querySelector("[AttachedTails]")
-                .prepend(AttachedTailTemplate);
-              document
-                .querySelector("[AttachedTails]")
-                .children[0].querySelector("[Title]")
-                .addEventListener("click", async (event) => {
-                  await connector.post({
-                    type: "BlueFox.Dispatch",
-                    object: {
-                      files: [event.target.file],
-                    },
-                  });
+            let AttachedTailTemplate = document
+              .querySelector("#AttachedTailTemplate")
+              .content.cloneNode(true);
+            AttachedTailTemplate.querySelector("[Title]").textContent =
+              _.meta.title;
+            AttachedTailTemplate.querySelector("[Title]").action = action;
+            AttachedTailTemplate.querySelector(
+              "[Version]"
+            ).textContent = `v.${_.meta.version}`;
+            AttachedTailTemplate.querySelector(
+              "[ActionsLength]"
+            ).textContent = `${_.actions.length} Actions`;
+            AttachedTailTemplate.querySelector(
+              "[DateTime]"
+            ).textContent = `${new Date().toString()}`;
+            AttachedTailTemplate.querySelector(
+              "[Description]"
+            ).textContent = `${_.meta?.description}`;
+            document
+              .querySelector("[AttachedTails]")
+              .prepend(AttachedTailTemplate);
+            document
+              .querySelector("[AttachedTails]")
+              .children[0].querySelector("[Title]")
+              .addEventListener("click", async (event) => {
+                await connector.post({
+                  type: "BlueFox.Dispatch.Action",
+                  object: event.target.action.text,
                 });
-            }
-          });
-        };
-        try {
-          let r = [];
-          for (let f of files) {
-            r.push({
-              name: f.name,
-              type: f.type,
-              text: await f.text(),
+              });
+          }
+          for (let script of scripts) {
+            await connector.post({
+              type: "BlueFox.Dispatch.Script",
+              object: script.text,
+            });
+            let li = document.createElement("li");
+            let div = document.createElement("div");
+            div.className = "uk-button uk-button-text";
+            div.textContent = script.name;
+            div.script = script;
+            li.appendChild(div);
+            document.querySelector("[RecentlyAttached]").appendChild(li);
+            div.addEventListener("click", async (event) => {
+              await connector.post({
+                type: "BlueFox.Dispatch.Script",
+                object: event.target.script.text,
+              });
             });
           }
-
-          for (let _ of r) {
-            // TODO:scenario
+          await scenarioHandler(scenarios);
+          for (let scenario of scenarios) {
+            let _ = JSON.parse(scenario.text);
+            let AttachedTailTemplate = document
+              .querySelector("#AttachedTailTemplate")
+              .content.cloneNode(true);
+            AttachedTailTemplate.querySelector("[Title]").textContent =
+              _.meta.title;
+            AttachedTailTemplate.querySelector("[Title]").file = _;
+            AttachedTailTemplate.querySelector(
+              "[Version]"
+            ).textContent = `v.${_.meta.version}`;
+            AttachedTailTemplate.querySelector(
+              "[ActionsLength]"
+            ).textContent = `${_.tails.length} Tails`;
+            AttachedTailTemplate.querySelector(
+              "[DateTime]"
+            ).textContent = `${new Date().toString()}`;
+            AttachedTailTemplate.querySelector(
+              "[Description]"
+            ).textContent = `${_.meta?.description}`;
+            document
+              .querySelector("[AttachedScenarios]")
+              .prepend(AttachedTailTemplate);
+            document
+              .querySelector("[AttachedScenarios]")
+              .children[0].querySelector("[Title]")
+              .addEventListener("click", async (event) => {
+                await scenarioHandler(scenarios);
+              });
           }
-
-          await connector.post({
-            type: "BlueFox.Dispatch",
-            object: {
-              files: r,
-            },
-          });
-          updateHistory(
-            r.filter((_) => {
-              return ["application/json", "text/javascript"].includes(_.type);
-            })
-          );
         } catch (err) {
           log(err);
         }

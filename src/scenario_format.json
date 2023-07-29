@@ -5,22 +5,25 @@
     },
     "tails": [
         {
+            "sleep": 0,
             "tail": {},
             "by": {
                 "path": "meta.title",
                 "value": "title"
             },
             "when": {
-                "location.hash": "regex | null",
-                "location.host": "regex | null",
-                "location.hostname": "regex | null",
-                "location.href": "regex | null",
-                "location.origin": "regex | null",
-                "location.pathname": "regex | null",
-                "location.port": "regex | null",
-                "location.protocol": "regex | null",
-                "location.search": "regex | null",
-                "document.title": "regex | null"
+                "css selector": {
+                    "ownerDocument.hash": "regex | null",
+                    "ownerDocument.host": "regex | null",
+                    "ownerDocument.hostname": "regex | null",
+                    "ownerDocument.href": "regex | null",
+                    "ownerDocument.origin": "regex | null",
+                    "ownerDocument.pathname": "regex | null",
+                    "ownerDocument.port": "regex | null",
+                    "ownerDocument.protocol": "regex | null",
+                    "ownerDocument.search": "regex | null",
+                    "innerText": "regex | null"
+                }
             }
         }
     ]

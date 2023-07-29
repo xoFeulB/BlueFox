@@ -70,6 +70,22 @@
         }
         return R;
       },
+      "BlueFox.Dispatch.Action": async (object) => {
+        log("BlueFox.Dispatch.Action", object);
+        let bluefox = new window.BlueFox();
+        return await bluefox.do(JSON.parse(await object));
+      },
+      "BlueFox.Dispatch.Script": async (object) => {
+        log("BlueFox.Dispatch.Script", object);
+        await sendMessage({
+          type: "Runtime.evaluate",
+          object: {
+            expression: await object,
+            objectGroup: "BlueFox-js-lanch",
+          },
+        });
+        return {};
+      },
       "BlueFox.Scan.NieAgresywny": async (object) => {
         await window.BlueFox.scanner();
       },
