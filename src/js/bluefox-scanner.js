@@ -1,10 +1,10 @@
 (async () => {
-  window.BlueFox ? null : (window.BlueFox = {});
+  window.BlueFoxScanner ? null : (window.BlueFoxScanner = {});
   let log = (...args) => {
     console.log("blue-fox-scanner.js", ...args);
   };
   log("loaded");
-  window.BlueFox.scanner = async () => {
+  window.BlueFoxScanner.scanner = async () => {
     let R = {
       Strings: new Set(),
       Attribute: {

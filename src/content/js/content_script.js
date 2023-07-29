@@ -87,7 +87,7 @@
         return {};
       },
       "BlueFox.Scan.NieAgresywny": async (object) => {
-        await window.BlueFox.scanner();
+        await window.BlueFoxScanner.scanner();
       },
       "BlueFox.CaptureWindow": async (object) => {
         let R = await sendMessage({
