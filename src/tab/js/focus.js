@@ -231,16 +231,30 @@
           }
           await scenarioHandler(scenarios);
           for (let scenario of scenarios) {
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            div.className = "uk-button uk-button-text";
-            div.textContent = scenario.name;
-            div.scenario = scenario;
-            li.appendChild(div);
-            document.querySelector("[RecentlyAttached]").appendChild(li);
-            div.addEventListener("click", async (event) => {
-              await scenarioHandler([event.target.scenario]);
-            });
+            {
+              let li = document.createElement("li");
+              let div = document.createElement("div");
+              div.className = "uk-button uk-button-text";
+              div.textContent = scenario.name;
+              div.scenario = scenario;
+              li.appendChild(div);
+              document.querySelector("[RecentlyAttached]").appendChild(li);
+              div.addEventListener("click", async (event) => {
+                await scenarioHandler([event.target.scenario]);
+              });
+              li = document.createElement("li");
+              div = document.createElement("div");
+              div.className = "uk-button uk-button-text";
+              div.textContent = scenario.name;
+              div.scenario = scenario;
+              li.appendChild(div);
+              document
+                .querySelector("[RecentlyAttachedScenarios]")
+                .appendChild(li);
+              div.addEventListener("click", async (event) => {
+                await scenarioHandler([event.target.scenario]);
+              });
+            }
             let _ = JSON.parse(scenario.text);
             let AttachedTailTemplate = document
               .querySelector("#AttachedTailTemplate")
