@@ -336,11 +336,13 @@
                 await window.BlueFox.captureDOM(
                   action.option.fileName,
                   e,
-                  this.focus,
+                  window,
                   action.option.format,
                   action.option.quality
                 );
-              } catch {}
+              } catch(err) {
+                log(err);
+              }
             }
           },
           save: async (action) => {
