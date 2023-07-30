@@ -3,8 +3,6 @@
 
 {
   (async () => {
-    window.BlueFox ? null : (window.BlueFox = {});
-
     let log = (...args) => {
       console.log("event_observer.js", ...args);
     };
@@ -275,8 +273,8 @@
         let eventListner = (event) => {
           let action = CaptureType[event.type](event);
           log(action);
-          sendMessage({
-            type: "BlueFox.storeEvent",
+          object.connector.postMessage({
+            type: "BlueFox.CapturedEvent",
             object: { action: action },
           });
         };

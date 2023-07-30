@@ -575,6 +575,28 @@
             }
           });
         },
+        "[CapturEvents]": async (e) => {
+          let CapturEventsOut = document.querySelector("[CapturEventsOut]");
+          let connector = null;
+          e.addEventListener("click", async (event) => {
+            if (e.attributes.disabled) {
+              e.removeAttribute("disabled");
+            } else {
+              e.setAttribute("disabled", "");
+            }
+            connector = await chrome.tabs.connect(TabInfo.id);
+            connector.onMessage.addListener((P) => {
+              if (P.type == "BlueFox.CapturedEvent") {
+                log(P);
+                CapturEventsOut.textContent += `${JSON.stringify(P.object, null, 4)},\n`;
+              }
+            });
+            await connector.postMessage({
+              type: "BlueFox.CapturEvents",
+              object: {},
+            });
+          });
+        },
       };
       let queryWalker = new QueryWalker(oDict, document);
       await queryWalker.do();

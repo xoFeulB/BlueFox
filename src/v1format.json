@@ -1,11 +1,20 @@
 {
-    "meta":{
+    "meta": {
         "version": 1,
         "title": "v1 format",
         "description": "description"
     },
     "sleep": 0,
-    "dispatchEvents": [],
+    "dispatchEvents": [
+        {
+            "comment": "",
+            "option": {
+                "eventObject": "path",
+                "eventType": "event type",
+                "eventArgs": "any"
+            }
+        }
+    ],
     "actions": [
         {
             "comment": "",
@@ -64,13 +73,14 @@
         {
             "comment": "",
             "type": "sleep",
-            "option": "msec"
+            "option": {
+                "msec": "int"
+            }
         },
         {
             "comment": "",
             "type": "open",
             "option": {
-                "current": "boolean",
                 "url": "http..."
             }
         },
@@ -79,7 +89,8 @@
             "type": "focus",
             "target": {
                 "selector": "css selector",
-                "property": "property | null"
+                "property": "property | null",
+                "reset": "boolean"
             }
         },
         {

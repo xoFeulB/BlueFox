@@ -121,6 +121,13 @@
                         <span>Scenario</span>
                     </span>
                 </div>
+                <div class="uk-padding-small">
+                    <span uk-icon="eye"></span>
+                    <span class="uk-button uk-button-text uk-text-default" value="CapturEvents"
+                        setValueOnClick="#menuControll">
+                        <span>CapturEvents</span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -245,6 +252,27 @@
                     </div>
                     <div showWhenSome="#menuControll" showWhenSome-values='["Scenario"]' hide>
                         <div AttachedScenarios class="uk-child-width-expand">
+                        </div>
+                        <div>
+                            <div class="divider-icon"></div>
+                            <div class="uk-margin">
+                                <div setTextContent="Copyright"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div showWhenSome="#menuControll" showWhenSome-values='["CapturEvents"]' hide>
+                        <div class="uk-margin">
+                            <span class="uk-badge">Experimental</span>
+                            <div>
+                                <button CapturEvents class="uk-button uk-button-default">
+                                    <span uk-icon="play"></span>
+                                    <span> CapturEvents</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <div>[out] CapturEventsOut↓</div>
+                            <div CapturEventsOut></div>
                         </div>
                         <div>
                             <div class="divider-icon"></div>

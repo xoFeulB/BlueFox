@@ -17,6 +17,7 @@
     <script src="/js/sync-value.js" defer></script>
     <script src="/js/query-walker.js" defer></script>
     <script src="/js/sync-view.js" defer></script>
+    <script src="/js/postMessage.awaitable.js" defer></script>
     <script src="/tab/js/index.js" defer></script>
     <link rel="stylesheet" href="/tab/css/index.css" />
     <link rel="stylesheet" href="/tab/css/modern-ui.css" />
@@ -109,10 +110,32 @@
                         </div>
                     </div>
                 </div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Server"]'  hide>
+                <div showWhenSome="#menuControll" showWhenSome-values='["Server"]' hide>
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div>
+                                <div class="uk-margin">
+                                    <span class="uk-badge">Experimental</span>
+
+                                    <div>
+                                        <button RunScript class="uk-button uk-button-default">
+                                            <span uk-icon="play"></span>
+                                            <span> RunScript</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>[out] Info↓</div>
+                                    <textarea ServerScriptInfo class="uk-textarea" rows="10"></textarea>
+                                </div>
+                                <div>
+                                    <div>[in] ServerScript↓</div>
+                                    <textarea ServerScript class="uk-textarea" rows="10"></textarea>
+                                </div>
+                                <div>
+                                    <div>[out] ServerScriptOut↓</div>
+                                    <textarea ServerScriptOut class="uk-textarea" rows="10"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -123,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Utility"]'  hide>
+                <div showWhenSome="#menuControll" showWhenSome-values='["Utility"]' hide>
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div>
@@ -137,11 +160,11 @@
                                             <div class="uk-margin">
                                                 <div>
                                                     <div>in↓</div>
-                                                    <textarea in class="uk-textarea" rows="10" cols="20"></textarea>
+                                                    <textarea in class="uk-textarea" rows="10"></textarea>
                                                 </div>
                                                 <div>
                                                     <div>out↓</div>
-                                                    <textarea out class="uk-textarea" rows="10" cols="20"></textarea>
+                                                    <textarea out class="uk-textarea" rows="10"></textarea>
                                                 </div>
                                             </div>
                                             <div>
@@ -383,20 +406,10 @@
                             </div>
                         </header>
                         <div class="uk-comment-body">
-                            <a Focus class="uk-button uk-button-primary">Focus</a>
+                            <button Focus class="uk-button uk-button-primary">Focus</button>
                             <button SwitchTab class="uk-button uk-button-default">Switch Tab</button>
                         </div>
                     </article>
-                </div>
-                <div>
-                    <div BlueFoxFileAttach class="js-upload uk-placeholder uk-text-center uk-text-default">
-                        <span uk-icon="icon: bolt; ratio: 2"></span>
-                        <span>Attach JSON by dropping them here or</span>
-                        <div uk-form-custom>
-                            <input type="file" multiple>
-                            <span class="uk-link padding-left-xsmall">selecting one</span>
-                        </div>
-                    </div>
                 </div>
                 <hr>
             </div>

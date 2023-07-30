@@ -84,7 +84,7 @@ li > a {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.divider-icon::after  {
+.divider-icon::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -94,7 +94,7 @@ li > a {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.hidden-overflow{
+.hidden-overflow {
   overflow-x: scroll;
   overflow-y: hidden;
 }

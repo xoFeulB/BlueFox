@@ -111,25 +111,6 @@
                   );
                 }
               );
-
-              let BlueFoxFileAttach = TabsTemplate.querySelector(
-                "[BlueFoxFileAttach]"
-              );
-
-              BlueFoxFileAttach.tab = tab;
-              BlueFoxFileAttach.attributes.BlueFoxFileAttach.value = tab.id;
-              BlueFoxFileAttach.addEventListener("drop", async (event) => {
-                event.preventDefault();
-                event.dataTransfer.dropEffect = "copy";
-                await dropHandler(
-                  BlueFoxFileAttach.tab.id,
-                  event.dataTransfer.files
-                );
-              });
-              BlueFoxFileAttach.addEventListener("dragover", async (event) => {
-                event.preventDefault();
-                event.dataTransfer.dropEffect = "copy";
-              });
               TabsTemplate.querySelector("[Focus]").addEventListener(
                 "click",
                 (event) => {
@@ -148,28 +129,6 @@
           chrome.tabs.onAttached.addListener(e.reload);
           chrome.tabs.onUpdated.addListener(e.reload);
           chrome.tabs.onMoved.addListener(e.reload);
-        },
-        "[BlueFoxFileAttach]": async (e) => {
-          let SelectTargetTab = document.querySelector("[SelectTargetTab]");
-          e.addEventListener("drop", async (event) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "copy";
-            await dropHandler(
-              SelectTargetTab.selectedOptions[0].tab.id,
-              event.dataTransfer.files
-            );
-          });
-          e.addEventListener("dragover", async (event) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "copy";
-          });
-          e.querySelector("input").addEventListener("input", async (event) => {
-            await dropHandler(
-              SelectTargetTab.selectedOptions[0].tab.id,
-              event.target.files
-            );
-            event.target.value = null;
-          });
         },
         "#menuControll": async (e) => {
           let active = document.querySelector("active");
