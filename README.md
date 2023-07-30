@@ -24,6 +24,13 @@ BlueFox can act like a normal human more easily, and communicate web via web.
 https://github.com/LobeliaSecurity/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f04672dbb2c6
 
 </div>
+<div>
+    
+
+https://github.com/LobeliaSecurity/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de870ceef85
+
+
+</div>
 
 BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
 BlueFox automation are "Data structuralable". Here is a simple example.  
