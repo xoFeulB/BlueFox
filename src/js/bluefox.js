@@ -253,7 +253,7 @@
                     stack_property[propertyPath] = found.object[found.property];
                   }
                 }
-                Object.assign(stack, {
+                Object.assign(stack.option, {
                   property: stack_property,
                 });
               }
@@ -263,7 +263,7 @@
                   stack_attribute[attributeName] =
                     e.getAttribute(attributeName);
                 }
-                Object.assign(stack, {
+                Object.assign(stack.option, {
                   attribute: stack_attribute,
                 });
               }
@@ -340,7 +340,7 @@
                   action.option.format,
                   action.option.quality
                 );
-              } catch(err) {
+              } catch (err) {
                 log(err);
               }
             }
@@ -348,11 +348,13 @@
           save: async (action) => {
             let R = this.J;
             Object.assign(R, {
-              takes: this.stack,
+              stack: this.stack,
             });
             Object.assign(this.focus.createElement("a"), {
               href: window.URL.createObjectURL(
-                new Blob([JSON.stringify(R)], { type: "application/json" })
+                new Blob([JSON.stringify(R, null, 4)], {
+                  type: "application/json",
+                })
               ),
               download: `${action.option.fileName}.json`,
             }).click();
