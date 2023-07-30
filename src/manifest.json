@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "^.,.^ BlueFox",
     "version": "0.1.0",
-    "description": "BlueFox is a web automation tools being developed with a focusing to repurposing several security related tools.",
+    "description": "BlueFoxは、過酷な開発現場で働くプロフェッショナルのためのWeb自動化ツールです。",
     "host_permissions": [
         "<all_urls>"
     ],
