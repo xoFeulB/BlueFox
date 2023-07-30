@@ -77,6 +77,8 @@
             ].filter((_) => {
               return [
                 _.url != "",
+                !_.url.includes("edge://"),
+                !_.url.includes("extension://"),
                 !_.url.includes("chrome://"),
                 !_.url.includes("chrome-extension://"),
               ].every((__) => {
