@@ -103,7 +103,7 @@
             "option": {
                 "fileName": "fileName",
                 "format": "jpeg|png|webp",
-                "quality": "0~100"
+                "quality": "int | 0~100"
             }
         },
         {
