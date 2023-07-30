@@ -313,12 +313,13 @@
               if (action?.target?.property) {
                 let _ = getProperty(action.target.property, e);
                 if (_.object) {
-                  e = _.object[_.property];
+                  this.focus = _.object[_.property];
                 }
+              } else {
+                this.focus = e;
               }
-              this.focus = e;
             }
-            if (action.option.reset) {
+            if (action?.target?.reset) {
               this.focus = document;
             }
           },
