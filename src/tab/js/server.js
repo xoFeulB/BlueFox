@@ -161,7 +161,6 @@
         },
         "button[RunScript]": async (e) => {
           window.ServerScriptOut = document.querySelector("[ServerScriptOut]");
-          let ServerScript = document.querySelector("[ServerScript]");
           e.addEventListener("click", async (event) => {
             await sendMessage({
               type: "Debugger.attach",
@@ -169,7 +168,7 @@
             await sendMessage({
               type: "Runtime.evaluate",
               object: {
-                expression: ServerScript.value,
+                expression: window.MonacoEditor.getValue(),
                 objectGroup: "BlueFox-js-lanch",
               },
             });
@@ -188,6 +187,15 @@
           e.querySelector("input").addEventListener("input", async (event) => {
             await dropHandler(event.target.files);
             event.target.value = null;
+          });
+        },
+        "[ServerScript]": async (e) => {
+          require.config({ paths: { vs: "/modules/monaco-editor/min/vs" } });
+          require(["vs/editor/editor.main"], function () {
+            window.MonacoEditor = monaco.editor.create(e, {
+              value: "",
+              language: "javascript",
+            });
           });
         },
       };
