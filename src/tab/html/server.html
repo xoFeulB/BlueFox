@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>^.,.^ BlueFox</title>
+    <title>^.,.^ BlueFox | Server</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,9 +17,10 @@
     <script src="/js/sync-value.js" defer></script>
     <script src="/js/query-walker.js" defer></script>
     <script src="/js/sync-view.js" defer></script>
+    <script src="/js/bluefox.lib.js" defer></script>
     <script src="/js/postMessage.awaitable.js" defer></script>
-    <script src="/tab/js/index.js" defer></script>
-    <link rel="stylesheet" href="/tab/css/index.css" />
+    <script src="/tab/js/server.js" defer></script>
+    <link rel="stylesheet" href="/tab/css/server.css" />
     <link rel="stylesheet" href="/tab/css/modern-ui.css" />
 </head>
 
@@ -50,17 +51,11 @@
 
     <div MenuTabs class="bg-main">
         <div constHide>
-            <input type="text" value="Tabs" id="menuControll">
+            <input type="text" value="Server" id="menuControll">
         </div>
         <div>
             <div class="uk-flex uk-flex-middle">
                 <active></active>
-                <div class="uk-padding-small">
-                    <span uk-icon="world"></span>
-                    <span class="uk-button uk-button-text uk-text-default" value="Tabs" setValueOnClick="#menuControll">
-                        <span>Tabs</span>
-                    </span>
-                </div>
                 <div class="uk-padding-small">
                     <img src="/media/tail.png" width="20" height="20">
                     <span class="uk-button uk-button-text uk-text-default" value="Server"
@@ -68,7 +63,7 @@
                         <span>Server</span>
                     </span>
                 </div>
-                <div class="uk-padding-small">
+                <!-- <div class="uk-padding-small">
                     <span uk-icon="happy"></span>
                     <span class="uk-button uk-button-text uk-text-default" value="Utility"
                         setValueOnClick="#menuControll">
@@ -88,7 +83,7 @@
                         setValueOnClick="#menuControll">
                         <span>Information</span>
                     </span>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -96,30 +91,10 @@
     <div>
         <div Main>
             <div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Tabs"]'>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div Tabs>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin-left">
-                            <div setTextContent="Copyright"></div>
-                        </div>
-                    </div>
-                </div>
                 <div showWhenSome="#menuControll" showWhenSome-values='["Server"]' hide>
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div>
-                                <button OpenServerTab class="uk-button uk-button-default">
-                                    <span>OpenServer </span>
-                                    <span class="uk-badge">Experimental</span>
-                                </button>
-                            </div>
-                            <!-- <div>
                                 <div class="uk-margin">
                                     <span class="uk-badge">Experimental</span>
 
@@ -131,18 +106,25 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div>[out] Info↓</div>
-                                    <textarea ServerScriptInfo class="uk-textarea" rows="10"></textarea>
-                                </div>
-                                <div>
-                                    <div>[in] ServerScript↓</div>
+                                    <div>[ServerScript] (in)↓</div>
                                     <textarea ServerScript class="uk-textarea" rows="10"></textarea>
                                 </div>
                                 <div>
-                                    <div>[out] ServerScriptOut↓</div>
+                                    <div>[ServerScriptOut] (out)↓</div>
                                     <textarea ServerScriptOut class="uk-textarea" rows="10"></textarea>
                                 </div>
-                            </div> -->
+                            </div>
+                            <div class="uk-margin">
+                                <div BlueFoxServerFileAttach
+                                    class="uk-placeholder uk-text-center uk-text-default bg-white">
+                                    <span uk-icon="icon: bolt; ratio: 2"></span>
+                                    <span>Attach JSON by dropping them here or</span>
+                                    <div uk-form-custom>
+                                        <input type="file" multiple>
+                                        <span class="uk-link">selecting one</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div>

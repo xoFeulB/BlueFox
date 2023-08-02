@@ -301,6 +301,26 @@
             });
           });
         },
+        "button[RunScript]": async (e) => {
+          let ServerScript = document.querySelector("[ServerScript]");
+          e.addEventListener("click", async (event) => {
+            await sendMessage({
+              type: "Debugger.attach",
+            });
+            await sendMessage({
+              type: "Runtime.evaluate",
+              object: {
+                expression: ServerScript.value,
+                objectGroup: "BlueFox-js-lanch",
+              },
+            });
+          });
+        },
+        '[OpenServerTab]': async (e) => {
+          e.addEventListener("click", async (event) => {
+            window.open("./server.html", "_blank");
+          });
+        },
       };
       let queryWalker = new QueryWalker(oDict, document);
       await queryWalker.do();

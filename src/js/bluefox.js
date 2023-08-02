@@ -160,7 +160,9 @@
           await this.actionHandler[action.type](action);
           this.msec != 0 ? await this.sleep(this.msec) : null;
         }
-        return this.take;
+        return Object.assign(J, {
+          stack: this.take,
+        });
       }
     };
 
@@ -375,20 +377,22 @@
           await this.actionHandler[action.type](action);
           this.msec != 0 ? await this.sleep(this.msec) : null;
         }
-        return this.stack;
+        return Object.assign(J, {
+          stack: this.stack,
+        });
       }
     };
 
     window.BlueFox = class {
       async do(J) {
-        await {
+        return await {
           0: async () => {
             let _ = new v0();
-            return _.do(J);
+            return await _.do(J);
           },
           1: async () => {
             let _ = new v1();
-            return _.do(J);
+            return await _.do(J);
           },
         }[J.meta.version]();
       }
