@@ -5,12 +5,12 @@
 </div>
 
 <div>
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/LobeliaSecurity/BlueFox?style=social">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/LobeliaSecurity/BlueFox?style=social">
-<img alt="GitHub forks" src="https://img.shields.io/github/forks/LobeliaSecurity/BlueFox?style=social">
-<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/LobeliaSecurity/BlueFox?style=social">
-<img alt="GitHub milestones" src="https://img.shields.io/github/milestones/open/LobeliaSecurity/BlueFox?style=social">
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/LobeliaSecurity/BlueFox?style=social">
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/xoFeulB/BlueFox?style=social">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/xoFeulB/BlueFox?style=social">
+<img alt="GitHub forks" src="https://img.shields.io/github/forks/xoFeulB/BlueFox?style=social">
+<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/xoFeulB/BlueFox?style=social">
+<img alt="GitHub milestones" src="https://img.shields.io/github/milestones/open/xoFeulB/BlueFox?style=social">
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/xoFeulB/BlueFox?style=social">
 </div>
 <hr>
 
@@ -21,13 +21,13 @@ in this video, BlueFox-chan is not a bot account.
 BlueFox can act like a normal human more easily, and communicate web via web.
 <div>
 
-https://github.com/LobeliaSecurity/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f04672dbb2c6
+https://github.com/xoFeulB/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f04672dbb2c6
 
 </div>
 <div>
     
 
-https://github.com/LobeliaSecurity/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de870ceef85
+https://github.com/xoFeulB/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de870ceef85
 
 
 </div>
@@ -70,15 +70,15 @@ That's why I say "not scripts, It's data structures".
 ## Installation
 
 ```bash
-git clone https://github.com/LobeliaSecurity/BlueFox.git
+git clone https://github.com/xoFeulB/BlueFox.git
 ```
 
 or Download archive(ZIP) from releases page or repo top page this repo, and export files.  
-releases : https://github.com/LobeliaSecurity/BlueFox/releases  
-DownloadZIP : https://github.com/LobeliaSecurity/BlueFox/archive/refs/heads/main.zip
+releases : https://github.com/xoFeulB/BlueFox/releases  
+DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 
 then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
 
 ## Usage : check Wiki↓
 
-<a href="https://github.com/LobeliaSecurity/BlueFox/wiki" target="_blank">https://github.com/LobeliaSecurity/BlueFox/wiki</a>
+<a href="https://github.com/xoFeulB/BlueFox/wiki" target="_blank">https://github.com/xoFeulB/BlueFox/wiki</a>
