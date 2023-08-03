@@ -40,26 +40,118 @@ That's why I say "not scripts, It's data structures".
 ```JSON
 {
     "meta": {
-        "version": 0,
+        "version": 1,
+        "title": "v1 format",
+        "description": "description"
     },
     "sleep": 0,
     "dispatchEvents": [
-        "change"
+        {
+            "comment": "",
+            "option": {
+                "eventObject": "path",
+                "eventType": "event type",
+                "eventArgs": "any"
+            }
+        }
     ],
     "actions": [
         {
+            "comment": "",
             "type": "set",
-            "target": "#target",
-            "property": {
-                "value": "new input"
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "property": {
+                    "path": "value"
+                },
+                "attribute": {
+                    "key": "value"
+                }
             }
         },
         {
-            "comment": "capture screen when debugger has active",
+            "comment": "",
+            "type": "push",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "property": {
+                    "path": "value"
+                },
+                "attribute": {
+                    "key": "value"
+                }
+            }
+        },
+        {
+            "comment": "",
+            "type": "call",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": "any"
+        },
+        {
+            "comment": "",
+            "type": "event",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "eventObject": "path",
+                "eventType": "event type",
+                "eventArgs": "any"
+            }
+        },
+        {
+            "comment": "",
+            "type": "sleep",
+            "option": {
+                "msec": "int"
+            }
+        },
+        {
+            "comment": "",
+            "type": "open",
+            "option": {
+                "url": "http..."
+            }
+        },
+        {
+            "comment": "",
+            "type": "focus",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null",
+                "reset": "boolean"
+            }
+        },
+        {
+            "comment": "need for human",
             "type": "capture",
-            "target": "body",
-            "fileName": "result",
-            "format": "png"
+            "target": {
+                "selector": "css selector",
+                "property": "property | null"
+            },
+            "option": {
+                "fileName": "fileName",
+                "format": "jpeg|png|webp",
+                "quality": "int | 0~100"
+            }
+        },
+        {
+            "comment": "need for human",
+            "type": "save",
+            "option": {
+                "fileName": "fileName"
+            }
         }
     ]
 }
