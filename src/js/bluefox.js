@@ -291,16 +291,43 @@
               if (action?.target?.property) {
                 let _ = getProperty(action.target.property, e);
                 if (_.object) {
-                  e = _.object[_.property];
+                  let eventObject = getProperty(
+                    action.option.eventObject,
+                    window
+                  );
+                  let event = eventObject.object[eventObject.property];
+                  _.object[_.property].dispatchEvent(
+                    new event(
+                      action.option.eventType,
+                      Object.assign(
+                        {
+                          target: _.object[_.property],
+                          view: window,
+                        },
+                        action.option.eventArgs
+                      )
+                    )
+                  );
                 }
+              } else {
+                let eventObject = getProperty(
+                  action.option.eventObject,
+                  window
+                );
+                let event = eventObject.object[eventObject.property];
+                e.dispatchEvent(
+                  new event(
+                    action.option.eventType,
+                    Object.assign(
+                      {
+                        target: e,
+                        view: window,
+                      },
+                      action.option.eventArgs
+                    )
+                  )
+                );
               }
-
-              let _ = getProperty(dispatchEvent.option.eventObject, window);
-              let event = _.object[_.property];
-
-              e.dispatchEvent(
-                new event(action.option.eventType, action.option.eventArgs)
-              );
             }
           },
           sleep: async (action) => {

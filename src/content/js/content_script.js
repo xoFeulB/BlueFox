@@ -157,16 +157,19 @@
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {
         try {
+          let R = await messageHandler[message.type](
+            Object.assign(message.object, {
+              connector: connector,
+            })
+          );
           connector.postMessage({
             uuid: message.uuid,
             type: message.type,
-            object: await messageHandler[message.type](
-              Object.assign(message.object, {
-                connector: connector,
-              })
-            ),
+            object: R,
           });
-        } catch {}
+        } catch (err) {
+          log(err);
+        }
       });
     });
 

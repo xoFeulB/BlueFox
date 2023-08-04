@@ -576,6 +576,7 @@
           });
         },
         "[CapturEvents]": async (e) => {
+          let EventHistory = [];
           let CapturEventsOut = document.querySelector("[CapturEventsOut]");
           let connector = null;
           e.addEventListener("click", async (event) => {
@@ -583,7 +584,23 @@
             connector.onMessage.addListener((P) => {
               if (P.type == "BlueFox.CapturedEvent") {
                 log(P);
-                CapturEventsOut.textContent += `${JSON.stringify(P.object, null, 4)},\n`;
+                EventHistory.push(P.object);
+                let out = {
+                  type: "event",
+                  target: {
+                    selector: P.object.action.target,
+                  },
+                  option: {
+                    eventObject: P.object.action.eventPrototype,
+                    eventType: P.object.action.type,
+                    eventArgs: P.object.action.property,
+                  },
+                };
+                CapturEventsOut.textContent += `${JSON.stringify(
+                  out,
+                  null,
+                  4
+                )},\n`;
               }
             });
             await connector.postMessage({
