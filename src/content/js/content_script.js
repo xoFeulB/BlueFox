@@ -46,6 +46,13 @@
         download: `${file_name}.${format}`,
       }).click();
     };
+    window.BlueFox.dispatchKeyEvent = async (o) => {
+      let R = await sendMessage({
+        type: "Input.dispatchKeyEvent",
+        object: o,
+      });
+      return R;
+    };
 
     let messageHandler = {
       "BlueFox.Dispatch": async (object) => {

@@ -330,6 +330,13 @@
               }
             }
           },
+          key: async (action) => {
+            try {
+              await window.BlueFox.dispatchKeyEvent(action.option);
+            } catch (err) {
+              log(err);
+            }
+          },
           sleep: async (action) => {
             await this.sleep(action.option.msec);
           },

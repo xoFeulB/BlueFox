@@ -72,6 +72,11 @@
         },
         {
             "comment": "",
+            "type": "key",
+            "option": "any (https://chromedevtools.github.io/devtools-protocol/1-3/Input/#method-dispatchKeyEvent)"
+        },
+        {
+            "comment": "",
             "type": "sleep",
             "option": {
                 "msec": "int"

@@ -152,6 +152,18 @@
           action: o,
         });
       },
+      "Input.dispatchKeyEvent": async (o, sender) => {
+        try {
+          let result = await chrome.debugger.sendCommand(
+            { tabId: sender.tab.id },
+            "Input.dispatchKeyEvent",
+            o
+          );
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
     };
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

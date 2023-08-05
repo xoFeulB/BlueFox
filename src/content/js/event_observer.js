@@ -64,6 +64,7 @@
     };
 
     let getCssSelector = (e) => {
+      return CssSelectorGenerator.getCssSelector(e);
       if (e.id) {
         return `#${e.id}`;
       }
