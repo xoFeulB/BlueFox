@@ -31,6 +31,13 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de87
 
 
 </div>
+<div>
+    
+
+https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-8383247d7ecc
+
+
+</div>
 
 BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
 BlueFox automation are "Data structuralable". Here is a simple example.  
