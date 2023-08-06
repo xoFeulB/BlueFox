@@ -1,5 +1,5 @@
-// © LobeliaSecurity™
-// https://github.com/LobeliaSecurity
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
 
 {
   (async () => {
@@ -240,7 +240,7 @@
             target.dispatchEvent(new Event("change"));
           });
         },
-        "textarea[in]": async (e) => {
+        "textarea[v0-in]": async (e) => {
           e.addEventListener("input", (event) => {
             let R = [];
             let lines = e.value
@@ -291,14 +291,83 @@
               return j;
             });
 
-            document.querySelector("textarea[out]").value = JSON.stringify({
-              meta: {
-                version: 0,
+            document.querySelector("textarea[v0-out]").value = JSON.stringify(
+              {
+                meta: {
+                  version: 0,
+                },
+                sleep: 0,
+                dispatchEvents: ["change"],
+                actions: J,
               },
-              sleep: 0,
-              dispatchEvents: ["change"],
-              actions: J,
+              null,
+              4
+            );
+          });
+        },
+        "textarea[v1-in]": async (e) => {
+          e.addEventListener("input", (event) => {
+            let R = [];
+            let lines = e.value
+              .split("\n")
+              .filter((_) => {
+                return _ != "";
+              })
+              .map((_) => {
+                return _.split("\t");
+              });
+            for (let line of lines.slice(1)) {
+              let r = {};
+              for (let i in lines[0]) {
+                r[lines[0][i]] = line[i].replaceAll("\\n", "\n");
+              }
+              if (r.type) {
+                R.push(r);
+              }
+            }
+
+            let J = R.map((_) => {
+              _.value =
+                {
+                  null: null,
+                  true: true,
+                  false: false,
+                }[_.value.toLowerCase()] ?? _.value;
+              let j = {
+                type: _.type,
+                target: _.target,
+              };
+
+              if (_.type == "event") {
+                j.dispatchEvent = _.value;
+              } else if (_.type == "sleep") {
+                j.target = Number(_.value);
+              } else if (_.type == "capture") {
+                j.fileName = _.value;
+              } else if (_.type == "save") {
+                j.fileName = _.value;
+              } else if (_.objectPath) {
+                let objectPath = _.objectPath.split(".");
+                j[objectPath[0]] = {};
+                j[objectPath[0]][
+                  objectPath[1].join ? objectPath[1].join(".") : objectPath[1]
+                ] = _.value;
+              }
+              return j;
             });
+
+            document.querySelector("textarea[v1-out]").value = JSON.stringify(
+              {
+                meta: {
+                  version: 0,
+                },
+                sleep: 0,
+                dispatchEvents: ["change"],
+                actions: J,
+              },
+              null,
+              4
+            );
           });
         },
         "button[RunScript]": async (e) => {
@@ -316,7 +385,7 @@
             });
           });
         },
-        '[OpenServerTab]': async (e) => {
+        "[OpenServerTab]": async (e) => {
           e.addEventListener("click", async (event) => {
             window.open("./server.html", "_blank");
           });
