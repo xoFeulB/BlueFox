@@ -16,24 +16,6 @@
     };
 
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    let getProperty = (_path, _dict) => {
-      let _key = _path.split(".")[0];
-      let _next_path = _path.split(".").slice(1).join(".");
-      if (_dict[_key] != undefined) {
-        let R = getProperty(_next_path, _dict[_key]);
-        if (R?.found) {
-          return { object: _dict, property: _key };
-        } else {
-          return R;
-        }
-      } else {
-        if (_path == _next_path) {
-          return { found: true };
-        } else {
-          return { found: false };
-        }
-      }
-    };
 
     /* Display */ {
       let TabInfo = {
@@ -609,9 +591,50 @@
             });
           });
         },
+        "[NieAgresywnyScan]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            await connector.post({
+              type: "BlueFox.Scan.NieAgresywny",
+              object: {},
+            });
+          });
+        },
       };
       let queryWalker = new QueryWalker(oDict, document);
       await queryWalker.do();
+
+      {
+        // log(chrome);
+        // Network
+        // chrome.webRequest.onBeforeRequest.addListener(
+        //   (details) => {
+        //     log("onBeforeRequest", details);
+        //   },
+        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
+        //   ["requestBody"]
+        // );
+        // chrome.webRequest.onResponseStarted.addListener(
+        //   (details) => {
+        //     log("onResponseStarted", details);
+        //   },
+        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
+        //   ["responseHeaders"]
+        // );
+        // chrome.webRequest.onCompleted.addListener(
+        //   (details) => {
+        //     log("onCompleted", details);
+        //   },
+        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
+        //   ["responseHeaders"]
+        // );
+        // chrome.webRequest.onResponseStarted.addListener(
+        //   (details) => {
+        //     log("onResponseStarted", details);
+        //   },
+        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
+        //   ["responseHeaders"]
+        // );
+      }
 
       {
         await sleep(1000);

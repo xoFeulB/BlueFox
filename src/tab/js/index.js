@@ -36,24 +36,6 @@
     };
 
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    let getProperty = (_path, _dict) => {
-      let _key = _path.split(".")[0];
-      let _next_path = _path.split(".").slice(1).join(".");
-      if (_dict[_key] != undefined) {
-        let R = getProperty(_next_path, _dict[_key]);
-        if (R?.found) {
-          return { object: _dict, property: _key };
-        } else {
-          return R;
-        }
-      } else {
-        if (_path == _next_path) {
-          return { found: true };
-        } else {
-          return { found: false };
-        }
-      }
-    };
 
     /* Display */ {
       let oDict = {
@@ -388,6 +370,39 @@
         "[OpenServerTab]": async (e) => {
           e.addEventListener("click", async (event) => {
             window.open("./server.html", "_blank");
+          });
+        },
+        "[TestConnection]": async (e) => {
+          e.addEventListener("click", async (event) => {
+            let server = document.querySelector("#BlueFoxServer").value;
+            if (server) {
+              try {
+                let r = await fetch(`https://${server}/TestConnection.post`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({}),
+                });
+
+                if ((r.status = 200)) {
+                  UIkit.notification({
+                    message: "Connection Success",
+                    status: "success",
+                  });
+                } else {
+                  UIkit.notification({
+                    message: "Connection Failed",
+                    status: "warning",
+                  });
+                }
+              } catch {
+                UIkit.notification({
+                  message: "Server not found",
+                  status: "danger",
+                });
+              }
+            }
           });
         },
       };

@@ -1,5 +1,5 @@
-// © LobeliaSecurity™
-// https://github.com/LobeliaSecurity
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
 
 {
   (async () => {
@@ -94,7 +94,7 @@
         return {};
       },
       "BlueFox.Scan.NieAgresywny": async (object) => {
-        await window.BlueFoxScanner.scanner();
+        return await window.BlueFoxScanner.scanner();
       },
       "BlueFox.CaptureWindow": async (object) => {
         let R = await sendMessage({

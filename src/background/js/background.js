@@ -1,5 +1,5 @@
-// © LobeliaSecurity™
-// https://github.com/LobeliaSecurity
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
 
 {
   (async () => {

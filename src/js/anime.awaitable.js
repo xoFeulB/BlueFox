@@ -1,5 +1,5 @@
-// © LobeliaSecurity™
-// https://github.com/LobeliaSecurity
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
 
 import anime from "/modules/anime/anime.es.js";
 

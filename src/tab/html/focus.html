@@ -128,6 +128,13 @@
                         <span>CapturEvents</span>
                     </span>
                 </div>
+                <div class="uk-padding-small">
+                    <img src="/media/tail.png" width="20" height="20">
+                    <span class="uk-button uk-button-text uk-text-default" value="NieAgresywnyScan"
+                        setValueOnClick="#menuControll">
+                        <span>NieAgresywnyScan</span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -164,6 +171,16 @@
                     </div>
                     <div class="uk-margin-top">
                         <ul RecentlyAttachedScenarios class="uk-list uk-link-text uk-text-small"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div Net class="uk-width-1-4 uk-visible@s">
+            <div class="uk-padding">
+                <div>
+                    <div class="uk-flex uk-flex-middle">
+                        <img src="/media/tail.png" width="20" height="20">
+                        <span class="uk-text-default uk-text-bold">Recently Attached</span>
                     </div>
                 </div>
             </div>
@@ -273,6 +290,27 @@
                         <div>
                             <div>[out] CapturEventsOut↓</div>
                             <div CapturEventsOut></div>
+                        </div>
+                        <div>
+                            <div class="divider-icon"></div>
+                            <div class="uk-margin">
+                                <div setTextContent="Copyright"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div showWhenSome="#menuControll" showWhenSome-values='["NieAgresywnyScan"]' hide>
+                        <div class="uk-margin">
+                            <span class="uk-badge">Experimental</span>
+                            <div>
+                                <button NieAgresywnyScan class="uk-button uk-button-default">
+                                    <span uk-icon="play"></span>
+                                    <span> NieAgresywnyScan</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <div>[out] NieAgresywnyScanOut↓</div>
+                            <div NieAgresywnyScanOut></div>
                         </div>
                         <div>
                             <div class="divider-icon"></div>

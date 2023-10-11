@@ -352,7 +352,7 @@
                                         <span class="uk-text-default">Server</span>
                                     </div>
                                     <div class="uk-width-2-3">
-                                        <input id="BluefoxServer" class="uk-input uk-width-3-4" type="text"
+                                        <input id="BlueFoxServer" class="uk-input uk-width-3-4" type="text"
                                             placeholder="Server" setValue="BluefoxOpenBetaServer" readonly>
                                     </div>
                                 </div>
@@ -382,8 +382,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="uk-margin">
+                                    <button TestConnection class="uk-button uk-button-default">
+                                        <span>Test Connection</span>
+                                    </button>
+                                </div>
                             </div>
-                            <div showWhenNotEvery="#BluefoxServer" showWhenNotEvery-values='["api.bluefox.tech"]' hide>
+                            <div showWhenNotEvery="#BlueFoxServer"
+                                showWhenNotEvery-values='["api.bluefox.tech","local.api.bluefox"]' hide>
                                 <div>
                                     <div class="divider-icon"></div>
                                     <h3 class="uk-heading-bullet">MySQL/MariaDB</h3>

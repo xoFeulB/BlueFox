@@ -1,3 +1,6 @@
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
+
 (async () => {
   window.BlueFoxScanner ? null : (window.BlueFoxScanner = {});
   let log = (...args) => {

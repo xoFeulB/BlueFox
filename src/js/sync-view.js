@@ -1,5 +1,6 @@
-// © LobeliaSecurity™
-// https://github.com/LobeliaSecurity
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
+
 {
   let log = (...args) => {
     console.log("sync-view.js", ...args);
