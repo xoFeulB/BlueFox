@@ -1,6 +1,8 @@
 // © LobeliaSecurity™
 // https://github.com/LobeliaSecurity
 
+import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
+
 {
   (async () => {
     let log = (...args) => {
@@ -32,12 +34,13 @@
       }
     };
     /* Display */ {
-      let oDict = {
-        "#menuControll": async (e) => {
+      BlueFoxJs.Walker.walkHorizontally({
+        _scope_: document,
+        "#menuControll": async ($) => {
           let active = document.querySelector("active");
           let animate = async () => {
             let move_to_elm = document.querySelector(
-              `[value="${e.value}"][setValueOnClick="#menuControll"]`
+              `[value="${$.element.value}"][setValueOnClick="#menuControll"]`
             );
             await anime({
               targets: active,
@@ -58,29 +61,29 @@
               easing: "easeInExpo",
             });
           };
-          e.addEventListener("change", (event) => {
+          $.element.addEventListener("change", (event) => {
             animate();
           });
           window.addEventListener("resize", (event) => {
             animate();
           });
         },
-        "[showWhenSome]": async (e) => {
+        "[showWhenSome]": async ($) => {
           let target = document.querySelector(
-            e.attributes["showWhenSome"].value
+            $.element.attributes["showWhenSome"].value
           );
 
           target.addEventListener("change", async (event) => {
             let values = JSON.parse(
-              e.attributes["showWhenSome-values"].value
+              $.element.attributes["showWhenSome-values"].value
             ).map((_) => {
               return `${_}`;
             });
             if (values.includes(`${target.value}`)) {
-              e.style.opacity = 0;
-              e.removeAttribute("hide");
+              $.element.style.opacity = 0;
+              $.element.removeAttribute("hide");
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 1,
                 duration: 250,
                 delay: 200,
@@ -88,32 +91,32 @@
               });
             } else {
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
               });
-              e.setAttribute("hide", "");
+              $.element.setAttribute("hide", "");
             }
           });
           target.dispatchEvent(new Event("change"));
         },
-        "[showWhenNotEvery]": async (e) => {
+        "[showWhenNotEvery]": async ($) => {
           let target = document.querySelector(
-            e.attributes["showWhenNotEvery"].value
+            $.element.attributes["showWhenNotEvery"].value
           );
 
           target.addEventListener("change", async (event) => {
             let values = JSON.parse(
-              e.attributes["showWhenNotEvery-values"].value
+              $.element.attributes["showWhenNotEvery-values"].value
             ).map((_) => {
               return `${_}`;
             });
             if (!values.includes(`${target.value}`)) {
-              e.style.opacity = 0;
-              e.removeAttribute("hide");
+              $.element.style.opacity = 0;
+              $.element.removeAttribute("hide");
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 1,
                 duration: 250,
                 delay: 200,
@@ -121,29 +124,29 @@
               });
             } else {
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
               });
-              e.setAttribute("hide", "");
+              $.element.setAttribute("hide", "");
             }
           });
           target.dispatchEvent(new Event("change"));
         },
-        "[setValueOnClick]": async (e) => {
+        "[setValueOnClick]": async ($) => {
           let target = document.querySelector(
-            e.attributes["setValueOnClick"].value
+            $.element.attributes["setValueOnClick"].value
           );
-          e.addEventListener("click", (event) => {
-            target.value = e.attributes.value.value;
-            target.attributes.value.value = e.attributes.value.value;
+          $.element.addEventListener("click", (event) => {
+            target.value = $.element.attributes.value.value;
+            target.attributes.value.value = $.element.attributes.value.value;
             target.dispatchEvent(new Event("change"));
           });
         },
-        "button[RunScript]": async (e) => {
+        "button[RunScript]": async ($) => {
           window.ServerScriptOut = document.querySelector("[ServerScriptOut]");
-          e.addEventListener("click", async (event) => {
+          $.element.addEventListener("click", async (event) => {
             await sendMessage({
               type: "Debugger.attach",
             });
@@ -156,33 +159,34 @@
             });
           });
         },
-        "[BlueFoxServerFileAttach]": async (e) => {
-          e.addEventListener("drop", async (event) => {
+        "[BlueFoxServerFileAttach]": async ($) => {
+          $.element.addEventListener("drop", async (event) => {
             event.preventDefault();
             event.dataTransfer.dropEffect = "copy";
             await dropHandler(event.dataTransfer.files);
           });
-          e.addEventListener("dragover", async (event) => {
+          $.element.addEventListener("dragover", async (event) => {
             event.preventDefault();
             event.dataTransfer.dropEffect = "copy";
           });
-          e.querySelector("input").addEventListener("input", async (event) => {
-            await dropHandler(event.target.files);
-            event.target.value = null;
-          });
+          $.element
+            .querySelector("input")
+            .addEventListener("input", async (event) => {
+              await dropHandler(event.target.files);
+              event.target.value = null;
+            });
         },
-        "[ServerScript]": async (e) => {
+        "[ServerScript]": async ($) => {
           require.config({ paths: { vs: "/modules/monaco-editor/min/vs" } });
           require(["vs/editor/editor.main"], function () {
-            window.MonacoEditor = monaco.editor.create(e, {
+            window.MonacoEditor = monaco.editor.create($.element, {
               value: "",
               language: "javascript",
             });
           });
         },
-      };
-      let queryWalker = new QueryWalker(oDict, document);
-      await queryWalker.do();
+      });
+      BlueFoxJs.Sync.view();
     }
   })();
 }

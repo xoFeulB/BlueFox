@@ -1,6 +1,8 @@
 // © BlueFoxEnterprise
 // https://github.com/xoFeulB
 
+import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
+
 {
   (async () => {
     let log = (...args) => {
@@ -14,40 +16,17 @@
       }
     };
 
-    let dropHandler = async (tabid, files) => {
-      try {
-        let r = [];
-        for (let f of files) {
-          r.push({
-            type: f.type,
-            text: await f.text(),
-          });
-        }
-        let connector = await chrome.tabs.connect(tabid);
-        await connector.postMessage({
-          type: "BlueFox.Dispatch",
-          object: {
-            files: r,
-          },
-        });
-      } catch (err) {
-        log(err);
-      }
-    };
-
-    let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-
     /* Display */ {
-      let oDict = {
-        "[Tabs]": async (e) => {
+      BlueFoxJs.Walker.walkHorizontally({
+        _scope_: document,
+        "[Tabs]": async ($) => {
           let reloading = false;
-          e.reload = async () => {
-            let value = `${e.value}`;
+          $.element.reload = async () => {
             if (reloading) {
               return;
             }
             reloading = true;
-            e.textContent = "";
+            $.element.textContent = "";
             let tabs = [
               {
                 tab: null,
@@ -101,24 +80,39 @@
                   window.open(`./focus.html#${tab.id}`, "_blank");
                 }
               );
-              e.appendChild(TabsTemplate);
+              TabsTemplate.querySelector("[FocusInFrame]").addEventListener(
+                "click",
+                (event) => {
+                  event.target
+                    .closest("[tabInfo]")
+                    .querySelector("[FocusFrame]").textContent = "";
+                  let iframe = Object.assign(document.createElement("iframe"), {
+                    src: `./focus.html#${tab.id}`,
+                  });
+                  event.target
+                    .closest("[tabInfo]")
+                    .querySelector("[FocusFrame]")
+                    .appendChild(iframe);
+                }
+              );
+              $.element.appendChild(TabsTemplate);
             }
             reloading = false;
           };
-          e.reload();
+          $.element.reload();
 
-          chrome.tabs.onCreated.addListener(e.reload);
-          chrome.tabs.onRemoved.addListener(e.reload);
-          chrome.tabs.onDetached.addListener(e.reload);
-          chrome.tabs.onAttached.addListener(e.reload);
-          chrome.tabs.onUpdated.addListener(e.reload);
-          chrome.tabs.onMoved.addListener(e.reload);
+          chrome.tabs.onCreated.addListener($.element.reload);
+          chrome.tabs.onRemoved.addListener($.element.reload);
+          chrome.tabs.onDetached.addListener($.element.reload);
+          chrome.tabs.onAttached.addListener($.element.reload);
+          chrome.tabs.onUpdated.addListener($.element.reload);
+          chrome.tabs.onMoved.addListener($.element.reload);
         },
-        "#menuControll": async (e) => {
+        "#menuControll": async ($) => {
           let active = document.querySelector("active");
           let animate = async () => {
             let move_to_elm = document.querySelector(
-              `[value="${e.value}"][setValueOnClick="#menuControll"]`
+              `[value="${$.element.value}"][setValueOnClick="#menuControll"]`
             );
             await anime({
               targets: active,
@@ -139,29 +133,29 @@
               easing: "easeInExpo",
             });
           };
-          e.addEventListener("change", (event) => {
+          $.element.addEventListener("change", (event) => {
             animate();
           });
           window.addEventListener("resize", (event) => {
             animate();
           });
         },
-        "[showWhenSome]": async (e) => {
+        "[showWhenSome]": async ($) => {
           let target = document.querySelector(
-            e.attributes["showWhenSome"].value
+            $.element.attributes["showWhenSome"].value
           );
 
           target.addEventListener("change", async (event) => {
             let values = JSON.parse(
-              e.attributes["showWhenSome-values"].value
+              $.element.attributes["showWhenSome-values"].value
             ).map((_) => {
               return `${_}`;
             });
             if (values.includes(`${target.value}`)) {
-              e.style.opacity = 0;
-              e.removeAttribute("hide");
+              $.element.style.opacity = 0;
+              $.element.removeAttribute("hide");
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 1,
                 duration: 250,
                 delay: 200,
@@ -169,32 +163,32 @@
               });
             } else {
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
               });
-              e.setAttribute("hide", "");
+              $.element.setAttribute("hide", "");
             }
           });
           target.dispatchEvent(new Event("change"));
         },
-        "[showWhenNotEvery]": async (e) => {
+        "[showWhenNotEvery]": async ($) => {
           let target = document.querySelector(
-            e.attributes["showWhenNotEvery"].value
+            $.element.attributes["showWhenNotEvery"].value
           );
 
           target.addEventListener("change", async (event) => {
             let values = JSON.parse(
-              e.attributes["showWhenNotEvery-values"].value
+              $.element.attributes["showWhenNotEvery-values"].value
             ).map((_) => {
               return `${_}`;
             });
             if (!values.includes(`${target.value}`)) {
-              e.style.opacity = 0;
-              e.removeAttribute("hide");
+              $.element.style.opacity = 0;
+              $.element.removeAttribute("hide");
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 1,
                 duration: 250,
                 delay: 200,
@@ -202,30 +196,30 @@
               });
             } else {
               await anime({
-                targets: e,
+                targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
               });
-              e.setAttribute("hide", "");
+              $.element.setAttribute("hide", "");
             }
           });
           target.dispatchEvent(new Event("change"));
         },
-        "[setValueOnClick]": async (e) => {
+        "[setValueOnClick]": async ($) => {
           let target = document.querySelector(
-            e.attributes["setValueOnClick"].value
+            $.element.attributes["setValueOnClick"].value
           );
-          e.addEventListener("click", (event) => {
-            target.value = e.attributes.value.value;
-            target.attributes.value.value = e.attributes.value.value;
+          $.element.addEventListener("click", (event) => {
+            target.value = $.element.attributes.value.value;
+            target.attributes.value.value = $.element.attributes.value.value;
             target.dispatchEvent(new Event("change"));
           });
         },
-        "textarea[v0-in]": async (e) => {
-          e.addEventListener("input", (event) => {
+        "textarea[v0-in]": async ($) => {
+          $.element.addEventListener("input", (event) => {
             let R = [];
-            let lines = e.value
+            let lines = $.element.value
               .split("\n")
               .filter((_) => {
                 return _ != "";
@@ -287,10 +281,10 @@
             );
           });
         },
-        "textarea[v1-in]": async (e) => {
-          e.addEventListener("input", (event) => {
+        "textarea[v1-in]": async ($) => {
+          $.element.addEventListener("input", (event) => {
             let R = [];
-            let lines = e.value
+            let lines = $.element.value
               .split("\n")
               .filter((_) => {
                 return _ != "";
@@ -352,9 +346,9 @@
             );
           });
         },
-        "button[RunScript]": async (e) => {
+        "button[RunScript]": async ($) => {
           let ServerScript = document.querySelector("[ServerScript]");
-          e.addEventListener("click", async (event) => {
+          $.element.addEventListener("click", async (event) => {
             await sendMessage({
               type: "Debugger.attach",
             });
@@ -367,13 +361,13 @@
             });
           });
         },
-        "[OpenServerTab]": async (e) => {
-          e.addEventListener("click", async (event) => {
+        "[OpenServerTab]": async ($) => {
+          $.element.addEventListener("click", async (event) => {
             window.open("./server.html", "_blank");
           });
         },
-        "[TestConnection]": async (e) => {
-          e.addEventListener("click", async (event) => {
+        "[TestConnection]": async ($) => {
+          $.element.addEventListener("click", async (event) => {
             let server = document.querySelector("#BlueFoxServer").value;
             if (server) {
               try {
@@ -405,9 +399,8 @@
             }
           });
         },
-      };
-      let queryWalker = new QueryWalker(oDict, document);
-      await queryWalker.do();
+      });
+      BlueFoxJs.Sync.view();
     }
   })();
 }

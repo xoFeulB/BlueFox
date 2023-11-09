@@ -128,3 +128,8 @@ div:has([showWhenSome="#menuControll"]) {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 500px;
 }
+
+[FocusFrame] iframe{
+  width: 100%;
+  height: 600px;
+}

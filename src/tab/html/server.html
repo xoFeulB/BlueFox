@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>^.,.^ BlueFox | Server</title>
+    <title>^.,.^ BlueFox / Server</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,12 +17,10 @@
     <!-- MonacoEditor -->
     <script src="/modules/monaco-editor/min/vs/loader.js"></script>
 
-    <script src="/js/sync-value.js" defer></script>
-    <script src="/js/query-walker.js" defer></script>
-    <script src="/js/sync-view.js" defer></script>
     <script src="/js/bluefox.lib.js" defer></script>
     <script src="/js/postMessage.awaitable.js" defer></script>
-    <script src="/tab/js/server.js" defer></script>
+    <script src="/js/sync-value.js" type="module" defer></script>
+    <script src="/tab/js/server.js" type="module" defer></script>
 
     <link rel="stylesheet" href="/tab/css/server.css" />
     <link rel="stylesheet" href="/tab/css/modern-ui.css" />
@@ -31,30 +29,6 @@
 </head>
 
 <body>
-    <div HeaderNav class="uk-flex uk-flex-middle uk-flex-center uk-padding-small bg-main">
-        <div class="uk-width-expand">
-            <div class="uk-flex uk-flex-left uk-flex-middle">
-                <div>
-                    <img src="/media/BlueFox_tp.png" width="40" height="40" />
-                </div>
-                <div>
-                    <div class="uk-text-default uk-margin-small-left">
-                        <span>BlueFox</span>
-                        <span setTextContent="Version"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="uk-width-expand">
-            <div class="uk-flex uk-flex-right uk-flex-middle">
-                <div class="uk-margin-small-left">
-                    <a href="https://github.com/xoFeulB/BlueFox" target="_blank" rel="noopener noreferrer"
-                        class="uk-icon-button" uk-icon="github"></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div MenuTabs class="bg-main">
         <div constHide>
             <input type="text" value="Server" id="menuControll">

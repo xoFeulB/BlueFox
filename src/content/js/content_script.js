@@ -3,7 +3,14 @@
 
 {
   (async () => {
-    window.BlueFox ? null : (window.BlueFox = {});
+    let BlueFoxJs = await new Promise((resolve) => {
+      let BlueFoxJsReady = async (event) => {
+        resolve(event.detail.BlueFoxJs);
+        window.removeEventListener("BlueFoxJs@Ready", BlueFoxJsReady);
+      };
+      window.addEventListener("BlueFoxJs@Ready", BlueFoxJsReady);
+    });
+    let BlueFox = new BlueFoxJs.Automation.BlueFox()
 
     let log = (...args) => {
       console.log("content_scripts.js", ...args);
@@ -18,7 +25,7 @@
       }
     };
 
-    window.BlueFox.captureDOM = async (
+    BlueFox.captureDOM = async (
       file_name,
       element,
       window_object,
@@ -46,7 +53,7 @@
         download: `${file_name}.${format}`,
       }).click();
     };
-    window.BlueFox.dispatchKeyEvent = async (o) => {
+    BlueFox.dispatchKeyEvent = async (o) => {
       let R = await sendMessage({
         type: "Input.dispatchKeyEvent",
         object: o,
@@ -61,8 +68,7 @@
         for (let f of object.files) {
           await {
             "application/json": async (_) => {
-              let bluefox = new window.BlueFox();
-              R = await bluefox.do(JSON.parse(await _.text));
+              R = await BlueFox.do(JSON.parse(await _.text));
             },
             "text/javascript": async (_) => {
               await sendMessage({
@@ -79,8 +85,7 @@
       },
       "BlueFox.Dispatch.Action": async (object) => {
         log("BlueFox.Dispatch.Action", object);
-        let bluefox = new window.BlueFox();
-        return await bluefox.do(JSON.parse(await object));
+        return await BlueFox.do(JSON.parse(await object));
       },
       "BlueFox.Dispatch.Script": async (object) => {
         log("BlueFox.Dispatch.Script", object);

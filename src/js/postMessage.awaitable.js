@@ -2,10 +2,6 @@
 // https://github.com/xoFeulB
 
 {
-  let log = (...args) => {
-    console.log("postMessage.awaitable.js", ...args);
-  };
-
   window.Connector = class {
     constructor(tabId) {
       this.tabId = tabId;
