@@ -269,9 +269,9 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         _scope_: document,
         "[HeaderNav]": async ($) => {
           if(window.parent != window){
-            $.element.querySelector(`[sync-from-property="TabInfo.favIconUrl"]`).setAttribute("hide","");
-            $.element.querySelector(`[sync-from-property="TabInfo.title"]`).setAttribute("hide","");
-            $.element.querySelector(`[sync-from-property="TabInfo.url"]`).setAttribute("hide","");
+            $.element.querySelector(`[sync-from-property="TabInfo.favIconUrl"]`)?.setAttribute("hide","");
+            $.element.querySelector(`[sync-from-property="TabInfo.title"]`)?.setAttribute("hide","");
+            $.element.querySelector(`[sync-from-property="TabInfo.url"]`)?.setAttribute("hide","");
           }
         },
         "[TabToWindow]": async ($) => {

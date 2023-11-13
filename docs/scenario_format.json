@@ -7,10 +7,6 @@
         {
             "sleep": 0,
             "tail": {},
-            "by": {
-                "path": "meta.title",
-                "value": "title"
-            },
             "when": {
                 "css selector": {
                     "ownerDocument.hash": "regex | null",
