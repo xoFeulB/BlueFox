@@ -19,6 +19,11 @@ BlueFoxは、プロフェッショナルのためのWeb自動化ツールです�
 ## demo
 <div>
 
+https://user-images.githubusercontent.com/31212444/226794728-41125a6a-62d4-403f-9afb-cafab7ed400f.mp4
+
+</div>
+<div>
+
 https://github.com/xoFeulB/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f04672dbb2c6
 
 </div>
