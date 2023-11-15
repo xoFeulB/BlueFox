@@ -16,9 +16,7 @@
 
 BlueFoxは、プロフェッショナルのためのWeb自動化ツールです。
 
-## BOT demo (Experimental stage)
-in this video, BlueFox-chan is not a bot account.  
-BlueFox can act like a normal human more easily, and communicate web via web.
+## demo
 <div>
 
 https://github.com/xoFeulB/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f04672dbb2c6
