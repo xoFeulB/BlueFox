@@ -1,7 +1,7 @@
 # ^.,.^ BlueFox
 
 <div align="center">
-<img src="https://user-images.githubusercontent.com/31212444/232337954-73feac2d-c27d-4a6c-b0b5-63ae5ccd9cab.png">
+<img src="https://repository-images.githubusercontent.com/589325811/52c33fdb-ccbb-4be9-8e20-62f642102f3b">
 </div>
 
 <div>
