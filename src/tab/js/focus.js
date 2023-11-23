@@ -67,7 +67,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 });
                 if (
                   [...Object.keys(tail.when[key])].every((_) => {
-                    let property = getProperty(_, message.object);
+                    let property = BlueFoxJs.Util.getProperty(_, message.object);
                     if (property.object) {
                       try {
                         let regex = new RegExp(tail.when[key][_], "g");
@@ -133,7 +133,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                   });
                 },
               }[f.type]();
-            } catch {}
+            } catch { }
           }
 
           for (let action of actions) {
@@ -268,10 +268,10 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
       await BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
         "[HeaderNav]": async ($) => {
-          if(window.parent != window){
-            $.element.querySelector(`[sync-from-property="TabInfo.favIconUrl"]`)?.setAttribute("hide","");
-            $.element.querySelector(`[sync-from-property="TabInfo.title"]`)?.setAttribute("hide","");
-            $.element.querySelector(`[sync-from-property="TabInfo.url"]`)?.setAttribute("hide","");
+          if (window.parent != window) {
+            $.element.querySelector(`[sync-from-property="TabInfo.favIconUrl"]`)?.setAttribute("hide", "");
+            $.element.querySelector(`[sync-from-property="TabInfo.title"]`)?.setAttribute("hide", "");
+            $.element.querySelector(`[sync-from-property="TabInfo.url"]`)?.setAttribute("hide", "");
           }
         },
         "[TabToWindow]": async ($) => {
@@ -438,6 +438,9 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         },
         "[GetSelectors]": async ($) => {
           $.element.addEventListener("click", async (event) => {
+            $.element.disabled = true;
+            document.querySelector("#QuerySelector").disabled = true;
+            document.querySelector("#QuerySelectorsProperty").disabled = true;
             let selector = document.querySelector("#QuerySelector").value;
             if (selector) {
               let SelectorsList = document.querySelector("[SelectorsList]");
@@ -456,19 +459,30 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               if (message.object) {
                 let SelectorsList = document.querySelector("[SelectorsList]");
                 SelectorsList.textContent = "";
-                let QuerySelectorsAttribute = document.querySelector(
-                  "#QuerySelectorsAttribute"
+                let QuerySelectorsProperty = document.querySelector(
+                  "#QuerySelectorsProperty"
                 );
-                message.object.forEach((_) => {
+                message.object.forEach(async (_) => {
                   let li = document.createElement("li");
 
                   let SelectorTemplate = document
                     .querySelector("#SelectorTemplate")
                     .content.cloneNode(true);
-                  SelectorTemplate.querySelector(`[placeholder="Key"]`).value =
-                    _.attributes[QuerySelectorsAttribute.value]
-                      ? _.attributes[QuerySelectorsAttribute.value]
-                      : null;
+
+                  let elementProperties = await connector.post({
+                    type: "BlueFox.GetElementProperties",
+                    object: {
+                      selector: _.selector,
+                    },
+                  });
+                  let property = BlueFoxJs.Util.getProperty(QuerySelectorsProperty.value, elementProperties.object);
+                  if (property.object) {
+                    try {
+                      SelectorTemplate.querySelector(`[placeholder="Key"]`).value = property.object[property.property]
+                        ? property.object[property.property]
+                        : null;
+                    } catch { }
+                  }
                   SelectorTemplate.querySelector(
                     `[placeholder="Selector"]`
                   ).value = _.selector;
@@ -479,6 +493,9 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 });
               }
             }
+            $.element.disabled = false;
+            document.querySelector("#QuerySelector").disabled = false;
+            document.querySelector("#QuerySelectorsProperty").disabled = false;
           });
         },
         "[SelectorDownloadJSON]": async ($) => {
@@ -498,9 +515,8 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                   type: "application/json",
                 })
               ),
-              download: `${
-                document.querySelector("#QuerySelector").value
-              }.json`,
+              download: `${document.querySelector("#QuerySelector").value
+                }.json`,
             }).click();
           });
         },
@@ -525,16 +541,32 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             }).click();
           });
         },
-        "#QuerySelectorsAttribute": async ($) => {
+        "#QuerySelectorsProperty": async ($) => {
           $.element.addEventListener("change", (event) => {
+            $.element.disabled = true;
+            document.querySelector("#QuerySelector").disabled = true;
+            document.querySelector("[GetSelectors]").disabled = true;
             $.element.blur();
             let SelectorsList = document.querySelector("[SelectorsList]");
-            [...SelectorsList.querySelectorAll("div")].forEach((_) => {
-              _.querySelector(`[placeholder="Key"]`).value = _.Selector
-                .attributes[$.element.value]
-                ? _.Selector.attributes[$.element.value]
-                : null;
+            [...SelectorsList.querySelectorAll("div")].forEach(async (_) => {
+              let message = await connector.post({
+                type: "BlueFox.GetElementProperties",
+                object: {
+                  selector: _.Selector.selector,
+                },
+              });
+              let property = BlueFoxJs.Util.getProperty(event.target.value, message.object);
+              if (property.object) {
+                try {
+                  _.querySelector(`[placeholder="Key"]`).value = property.object[property.property]
+                    ? property.object[property.property]
+                    : null;
+                } catch { }
+              }
             });
+            $.element.disabled = false;
+            document.querySelector("#QuerySelector").disabled = false;
+            document.querySelector("[GetSelectors]").disabled = false;
           });
         },
         "[SelectorsList]": async ($) => {
