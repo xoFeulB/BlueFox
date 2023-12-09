@@ -80,6 +80,12 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                   window.open(`./focus.html#${tab.id}`, "_blank");
                 }
               );
+              TabsTemplate.querySelector("[Intelligence]").addEventListener(
+                "click",
+                (event) => {
+                  window.open(`./intelligence.html#${tab.id}`, "_blank");
+                }
+              );
               TabsTemplate.querySelector("[FocusInFrame]").addEventListener(
                 "click",
                 (event) => {

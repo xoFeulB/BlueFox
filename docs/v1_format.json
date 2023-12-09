@@ -21,7 +21,8 @@
             "type": "set",
             "target": {
                 "selector": "css selector",
-                "property": "property | null"
+                "property": "property | null",
+                "all": "bool | true, false"
             },
             "option": {
                 "property": {
@@ -37,7 +38,8 @@
             "type": "push",
             "target": {
                 "selector": "css selector",
-                "property": "property | null"
+                "property": "property | null",
+                "all": "bool | true, false"
             },
             "option": {
                 "property": {
@@ -62,7 +64,8 @@
             "type": "event",
             "target": {
                 "selector": "css selector",
-                "property": "property | null"
+                "property": "property | null",
+                "all": "bool | true, false"
             },
             "option": {
                 "eventObject": "path",
@@ -116,6 +119,32 @@
             "type": "save",
             "option": {
                 "fileName": "fileName"
+            }
+        },
+        {
+            "comment": "Coming soon",
+            "type": "assert",
+            "target": {
+                "selector": "css selector",
+                "property": "property | null",
+                "all": "bool | true, false"
+            },
+            "option": {
+                "when": {
+                    "css selector | self": {
+                        "ownerDocument.hash": "regex | null",
+                        "ownerDocument.host": "regex | null",
+                        "ownerDocument.hostname": "regex | null",
+                        "ownerDocument.href": "regex | null",
+                        "ownerDocument.origin": "regex | null",
+                        "ownerDocument.pathname": "regex | null",
+                        "ownerDocument.port": "regex | null",
+                        "ownerDocument.protocol": "regex | null",
+                        "ownerDocument.search": "regex | null",
+                        "innerText": "regex | null",
+                        "...": "regex | null"
+                    }
+                }
             }
         }
     ]

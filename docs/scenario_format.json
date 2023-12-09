@@ -18,7 +18,8 @@
                     "ownerDocument.port": "regex | null",
                     "ownerDocument.protocol": "regex | null",
                     "ownerDocument.search": "regex | null",
-                    "innerText": "regex | null"
+                    "innerText": "regex | null",
+                    "...": "regex | null"
                 }
             }
         }

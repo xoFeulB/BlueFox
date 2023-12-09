@@ -150,9 +150,9 @@
                   return r;
                 })(),
               });
-            } catch {}
+            } catch { }
           });
-        } catch {}
+        } catch { }
         return R;
       },
       "BlueFox.GetElementProperties": async (object) => {
@@ -162,7 +162,15 @@
           for (let property in target) {
             R[property] = target[property];
           }
-        } catch {}
+          R.attributes = {};
+          [...target.attributes].forEach((attribute) => {
+            R.attributes[attribute.name] = {
+              name: attribute.name,
+              value: attribute.value
+            };
+          })
+
+        } catch { }
         return R;
       },
     };
