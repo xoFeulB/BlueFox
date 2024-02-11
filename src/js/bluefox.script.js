@@ -226,6 +226,18 @@ export class BlueFoxScript {
                                         );
                                         return this;
                                     }
+                                    file(object) {
+                                        this.tail.actions.push(
+                                            {
+                                                type: "file",
+                                                target: {
+                                                    selector: this.selector,
+                                                },
+                                                files: object
+                                            }
+                                        );
+                                        return this;
+                                    }
                                     async pushProperties(selector = this.selector) {
                                         await this.connector.load(_.id);
                                         let message = await this.connector.post({

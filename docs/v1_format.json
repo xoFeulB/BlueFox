@@ -105,6 +105,20 @@
             }
         },
         {
+            "comment": "",
+            "type": "file",
+            "target": {
+                "selector": "css selector"
+            },
+            "files": [
+                {
+                    "name": "fileName",
+                    "type": "mime",
+                    "blob": []
+                }
+            ]
+        },
+        {
             "comment": "need for human",
             "type": "capture",
             "target": {

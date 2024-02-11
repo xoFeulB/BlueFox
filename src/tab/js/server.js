@@ -3,6 +3,7 @@
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { BlueFoxScript } from "/js/bluefox.script.js";
+window.BlueFoxJs = BlueFoxJs;
 window.BlueFoxScript = BlueFoxScript;
 
 {
@@ -16,7 +17,8 @@ window.BlueFoxScript = BlueFoxScript;
         log(err);
       }
     };
-
+    log(BlueFoxJs);
+    log(BlueFoxScript);
     /* Display */ {
       BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
