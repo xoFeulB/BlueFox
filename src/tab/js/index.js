@@ -375,17 +375,17 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         "[TestConnection]": async ($) => {
           $.element.addEventListener("click", async (event) => {
             let server = document.querySelector("#BlueFoxServer").value;
+            let protocol = document.querySelector("#BluefoxServerProtocol").value;
             if (server) {
               try {
-                let r = await fetch(`https://${server}/TestConnection.post`, {
+                let r = await fetch(`${protocol}://${server}/TestConnection.post`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify({}),
                 });
-
-                if ((r.status = 200)) {
+                if ((r.status == 200)) {
                   UIkit.notification({
                     message: "Connection Success",
                     status: "success",

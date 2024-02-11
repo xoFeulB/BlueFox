@@ -2,12 +2,13 @@
 // https://github.com/LobeliaSecurity
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
+import { BlueFoxScript } from "/js/bluefox.script.js";
+window.BlueFoxScript = BlueFoxScript;
 
 {
   (async () => {
-    let log = (...args) => {
-      console.log("index.js", ...args);
-    };
+    let log = console.log;
+    let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
     let sendMessage = async (arg) => {
       try {
         return await chrome.runtime.sendMessage(arg);
@@ -15,59 +16,10 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         log(err);
       }
     };
-
-    let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    let dropHandler = async (files) => {
-      for (let f of files) {
-        try {
-          await sendMessage({
-            type: "Debugger.attach",
-          });
-          await sendMessage({
-            type: "Runtime.evaluate",
-            object: {
-              expression: await f.text(),
-              objectGroup: "BlueFox-js-lanch",
-            },
-          });
-        } catch {}
-      }
-    };
+    
     /* Display */ {
       BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
-        "#menuControll": async ($) => {
-          let active = document.querySelector("active");
-          let animate = async () => {
-            let move_to_elm = document.querySelector(
-              `[value="${$.element.value}"][setValueOnClick="#menuControll"]`
-            );
-            await anime({
-              targets: active,
-              scale: 0.3,
-              duration: 500,
-              easing: "easeInExpo",
-            });
-            await anime({
-              targets: active,
-              left: move_to_elm.getBoundingClientRect().left - 25,
-              duration: 500,
-              easing: "easeOutBounce",
-            });
-            await anime({
-              targets: active,
-              scale: 1,
-              duration: 300,
-              easing: "easeInExpo",
-            });
-          };
-          $.element.addEventListener("change", (event) => {
-            animate();
-          });
-          window.addEventListener("resize", (event) => {
-            animate();
-          });
-        },
         "[showWhenSome]": async ($) => {
           let target = document.querySelector(
             $.element.attributes["showWhenSome"].value
@@ -187,6 +139,11 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         },
       });
       BlueFoxJs.Sync.view();
+    }
+
+    {
+      let bluefoxscript = new BlueFoxScript();
+      await bluefoxscript.init();
     }
   })();
 }

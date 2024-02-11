@@ -10,6 +10,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
     };
 
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
+    let connector = new window.Connector();
 
     /* Display */ {
       let TabInfo = {
@@ -25,16 +26,13 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               return tabInfo[0];
             })()
           );
+          if (!connector.connector) {
+            await connector.load(TabInfo.id);
+          }
+
           TabInfo.DOM = document.querySelector("#TabInfo");
           TabInfo.DOM.TabInfo = TabInfo;
           TabInfo.DOM.dispatchEvent(new Event("sync"));
-          Object.keys(TabInfo).forEach((key) => {
-            [...document.querySelectorAll(`[TabInfo="${key}"]`)].forEach(
-              (_) => {
-                _.textContent = TabInfo[key];
-              }
-            );
-          });
           if (!TabInfo.favIconUrl) {
             document
               .querySelector(
@@ -45,13 +43,56 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               .querySelector(`img[sync-from-property="TabInfo.favIconUrl"]`)
               ?.remove();
           }
+          let DOMSnapshot = await connector.post({
+            type: "BlueFox.CaptureDOMSnapshot",
+            object: {
+              computedStyles: [],
+            },
+          });
+          try {
+            let url = new URL(TabInfo.url);
+            // await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreLocation.post`, {
+            //   method: "POST",
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //   },
+            //   body: JSON.stringify(
+            //     {
+            //       href: url.href,
+            //       origin: url.origin,
+            //       pathname: url.pathname,
+            //       hash: url.hash,
+            //       search: url.search,
+            //       host: url.host,
+            //       hostname: url.hostname,
+            //       port: url.port,
+            //     }
+            //   ),
+            // });
+            await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreStrings.post`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(
+                {
+                  href: url.href,
+                  origin: url.origin,
+                  pathname: url.pathname,
+                  hash: url.hash,
+                  search: url.search,
+                  host: url.host,
+                  hostname: url.hostname,
+                  port: url.port,
+                  strings: [...(new Set(DOMSnapshot.object.strings))]
+                }
+              ),
+            });
+          } catch { }
         },
       };
       await TabInfo.reload();
       chrome.tabs.onUpdated.addListener(TabInfo.reload);
-
-      let connector = new window.Connector();
-      await connector.load(TabInfo.id);
 
       let scenarioHandler = async (scenarios) => {
         for (let scenario of scenarios) {
@@ -141,50 +182,76 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               type: "BlueFox.Dispatch.Action",
               object: action.text,
             });
-            let _ = JSON.parse(action.text);
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            div.className = "uk-button uk-button-text";
-            div.textContent = action.name;
-            div.action = action;
-            li.appendChild(div);
-            document.querySelector("[RecentlyAttached]").appendChild(li);
-            div.addEventListener("click", async (event) => {
-              await connector.post({
-                type: "BlueFox.Dispatch.Action",
-                object: event.target.action.text,
+            try {
+              let url = new URL(TabInfo.url);
+              await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreTail.post`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(
+                  {
+                    "Location": {
+                      href: url.href,
+                      origin: url.origin,
+                      pathname: url.pathname,
+                      hash: url.hash,
+                      search: url.search,
+                      host: url.host,
+                      hostname: url.hostname,
+                      port: url.port,
+                    },
+                    "Tail": JSON.parse(action.text)
+                  }
+                ),
               });
-            });
-            let AttachedTailTemplate = document
-              .querySelector("#AttachedTailTemplate")
-              .content.cloneNode(true);
-            AttachedTailTemplate.querySelector("[Title]").textContent =
-              _.meta.title;
-            AttachedTailTemplate.querySelector("[Title]").action = action;
-            AttachedTailTemplate.querySelector(
-              "[Version]"
-            ).textContent = `v.${_.meta.version}`;
-            AttachedTailTemplate.querySelector(
-              "[ActionsLength]"
-            ).textContent = `${_.actions.length} Actions`;
-            AttachedTailTemplate.querySelector(
-              "[DateTime]"
-            ).textContent = `${new Date().toString()}`;
-            AttachedTailTemplate.querySelector(
-              "[Description]"
-            ).textContent = `${_.meta?.description}`;
-            document
-              .querySelector("[AttachedTails]")
-              .prepend(AttachedTailTemplate);
-            document
-              .querySelector("[AttachedTails]")
-              .children[0].querySelector("[Title]")
-              .addEventListener("click", async (event) => {
+            } catch { }
+            {
+              let _ = JSON.parse(action.text);
+              let li = document.createElement("li");
+              let div = document.createElement("div");
+              div.className = "uk-button uk-button-text";
+              div.textContent = action.name;
+              div.action = action;
+              li.appendChild(div);
+              document.querySelector("[RecentlyAttached]").appendChild(li);
+              div.addEventListener("click", async (event) => {
                 await connector.post({
                   type: "BlueFox.Dispatch.Action",
                   object: event.target.action.text,
                 });
               });
+              let AttachedTailTemplate = document
+                .querySelector("#AttachedTailTemplate")
+                .content.cloneNode(true);
+              AttachedTailTemplate.querySelector("[Title]").textContent =
+                _.meta.title;
+              AttachedTailTemplate.querySelector("[Title]").action = action;
+              AttachedTailTemplate.querySelector(
+                "[Version]"
+              ).textContent = `v.${_.meta.version}`;
+              AttachedTailTemplate.querySelector(
+                "[ActionsLength]"
+              ).textContent = `${_.actions.length} Actions`;
+              AttachedTailTemplate.querySelector(
+                "[DateTime]"
+              ).textContent = `${new Date().toString()}`;
+              AttachedTailTemplate.querySelector(
+                "[Description]"
+              ).textContent = `${(_.meta?.description).join("\n")}`;
+              document
+                .querySelector("[AttachedTails]")
+                .prepend(AttachedTailTemplate);
+              document
+                .querySelector("[AttachedTails]")
+                .children[0].querySelector("[Title]")
+                .addEventListener("click", async (event) => {
+                  await connector.post({
+                    type: "BlueFox.Dispatch.Action",
+                    object: event.target.action.text,
+                  });
+                });
+            }
           }
           for (let script of scripts) {
             await connector.post({
@@ -249,7 +316,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             ).textContent = `${new Date().toString()}`;
             AttachedTailTemplate.querySelector(
               "[Description]"
-            ).textContent = `${_.meta?.description}`;
+            ).textContent = `${(_.meta?.description).join("\n")}`;
             document
               .querySelector("[AttachedScenarios]")
               .prepend(AttachedTailTemplate);
@@ -700,6 +767,54 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                     } catch { }
                   }
                 }
+
+                await BlueFoxJs.Walker.walkHorizontally({
+                  _scope_: document,
+                  "#Actions": async ($$) => {
+                    let Selectors = {};
+                    $.element.SpreadsheetData.forEach((_) => {
+                      Selectors[_[1]] = _[2];
+                    });
+                    let Spreadsheet = $$.element.querySelector("[Spreadsheet]");
+                    $$.element.SpreadsheetData = [[]];
+                    Spreadsheet.textContent = "";
+                    Spreadsheet.style.minHeight = "500px";
+                    jspreadsheet(Spreadsheet, {
+                      data: $$.element.SpreadsheetData,
+                      columns: [
+                        {
+                          type: "dropdown", title: "Type", width: 300, align: "left",
+                          source: [
+                            "set",
+                            "push",
+                            "call",
+                            "event",
+                            "key",
+                            "open",
+                            "focus",
+                            "capture",
+                            "save",
+                            "assert",
+                          ]
+                        },
+                        {
+                          type: 'dropdown', title: 'Target', width: 300, align: "left",
+                          source: $.element.SpreadsheetData.map((_) => { return _[1]; })
+                        },
+                        {
+                          type: 'dropdown', title: 'ObjectPath', width: 300, align: "left",
+                          source: [
+                            "property.value",
+                            "property.click",
+                            "attribute.style",
+                            "attribute.class",
+                          ]
+                        },
+                        { type: 'text', title: 'Value', width: 300, align: "left" },
+                      ],
+                    });
+                  },
+                });
               }
             }
 

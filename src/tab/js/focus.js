@@ -187,10 +187,10 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               });
           }
           for (let script of scripts) {
-            await connector.post({
+            log(await connector.post({
               type: "BlueFox.Dispatch.Script",
               object: script.text,
-            });
+            }));
             let li = document.createElement("li");
             let div = document.createElement("div");
             div.className = "uk-button uk-button-text";

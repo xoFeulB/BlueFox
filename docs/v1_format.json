@@ -2,7 +2,9 @@
     "meta": {
         "version": 1,
         "title": "v1 format",
-        "description": "description"
+        "description": [
+            "description"
+        ]
     },
     "sleep": 0,
     "dispatchEvents": [
@@ -39,7 +41,8 @@
             "target": {
                 "selector": "css selector",
                 "property": "property | null",
-                "all": "bool | true, false"
+                "all": "bool | true, false",
+                "as": "name"
             },
             "option": {
                 "property": {
@@ -122,7 +125,7 @@
             }
         },
         {
-            "comment": "Coming soon",
+            "comment": "",
             "type": "assert",
             "target": {
                 "selector": "css selector",

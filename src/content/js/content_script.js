@@ -5,8 +5,8 @@
   (async () => {
     let BlueFoxJs = await new Promise((resolve) => {
       let BlueFoxJsReady = async (event) => {
-        resolve(event.detail.BlueFoxJs);
         window.removeEventListener("BlueFoxJs@Ready", BlueFoxJsReady);
+        resolve(event.detail.BlueFoxJs);
       };
       window.addEventListener("BlueFoxJs@Ready", BlueFoxJsReady);
     });
@@ -84,19 +84,19 @@
         return R;
       },
       "BlueFox.Dispatch.Action": async (object) => {
-        log("BlueFox.Dispatch.Action", object);
+        // log("BlueFox.Dispatch.Action", object);
         return await BlueFox.do(JSON.parse(await object));
       },
       "BlueFox.Dispatch.Script": async (object) => {
         log("BlueFox.Dispatch.Script", object);
-        await sendMessage({
+        let R = await sendMessage({
           type: "Runtime.evaluate",
           object: {
             expression: await object,
             objectGroup: "BlueFox-js-lanch",
           },
         });
-        return {};
+        return R;
       },
       "BlueFox.Scan.NieAgresywny": async (object) => {
         return await window.BlueFoxScanner.scanner();
@@ -173,6 +173,13 @@
         } catch { }
         return R;
       },
+      "BlueFox.CaptureDOMSnapshot": async (object) => {
+        let R = await sendMessage({
+          type: "DOMSnapshot.captureSnapshot",
+          object: object,
+        });
+        return R;
+      },
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {
@@ -188,7 +195,7 @@
             object: R,
           });
         } catch (err) {
-          log(err);
+          log(message, err);
         }
       });
     });

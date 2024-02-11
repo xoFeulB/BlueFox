@@ -15,10 +15,9 @@
     <script src="/js/anime.awaitable.js" type="module" defer></script>
 
     <!-- MonacoEditor -->
-    <script src="/modules/monaco-editor/min/vs/loader.js"></script>
+    <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
 
     <script src="/js/bluefox.lib.js" defer></script>
-    <script src="/js/postMessage.awaitable.js" defer></script>
     <script src="/js/sync-value.js" type="module" defer></script>
     <script src="/tab/js/server.js" type="module" defer></script>
 
@@ -226,7 +225,7 @@
                                     </div>
                                     <div class="uk-width-2-3">
                                         <input id="BluefoxServer" class="uk-input uk-width-3-4" type="text"
-                                            placeholder="Server" setValue="BluefoxOpenBetaServer" readonly>
+                                            placeholder="Server" setValue="BluefoxServer" readonly>
                                     </div>
                                 </div>
                                 <div class="uk-flex uk-flex-middle">
@@ -241,7 +240,7 @@
                                                     sync-from-property="value" sync-event='["change"]'>
                                             </div>
                                             <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
-                                                placeholder="Token" setValue="BluefoxOpenBetaToken" readonly>
+                                                placeholder="Token" setValue="BluefoxToken" readonly>
                                             <span>
                                                 <button class="uk-icon-button" uk-icon="eye"
                                                     setValueOnClick="#BluefoxTokenInputState" value="text"
