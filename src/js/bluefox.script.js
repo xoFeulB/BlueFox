@@ -72,6 +72,15 @@ export class BlueFoxScript {
                                                             bubbles: true
                                                         }
                                                     }
+                                                },
+                                                {
+                                                    option: {
+                                                        eventObject: "Event",
+                                                        eventType: "input",
+                                                        eventArgs: {
+                                                            bubbles: true
+                                                        }
+                                                    }
                                                 }
                                             ],
                                             actions: []
@@ -228,6 +237,17 @@ export class BlueFoxScript {
                                         this.stack.push(message.object);
                                         return this;
                                     }
+                                    async pushAllSelected(selector = this.selector) {
+                                        await this.connector.load(_.id);
+                                        let message = await this.connector.post({
+                                            type: "BlueFox.GetElementProperties",
+                                            object: {
+                                                selector: selector,
+                                            },
+                                        });
+                                        this.stack.push(message.object);
+                                        return this;
+                                    }
                                     async run(object) {
                                         await _.dispatch.action(
                                             Object.assign(this.tail, object)
@@ -249,39 +269,23 @@ export class BlueFoxScript {
                     return regexp_object.test(_.url.href);
                 });
             },
+            create: async (url, option = {
+                focused: false,
+                top: 0,
+                left: 0,
+            }) => {
+                await chrome.windows.create(
+                    Object.assign(
+                        {
+                            url: url,
+                        }, option
+                    )
+                );
+            },
         };
         await this.tabs.reload();
         chrome.tabs.onUpdated.addListener(this.tabs.reload);
         chrome.tabs.onRemoved.addListener(this.tabs.reload);
-        log(BlueFoxJs);
-        log(
-            await this.tabs.get("lobeliasecurity\.com")[0].dispatch
-                .tails()
-                .target("#B01")
-                .call("click", null)
-                .target("#B02")
-                .call("click", null)
-                .target("#B03")
-                .call("click", null)
-                .target("#B04")
-                .call("click", null)
-                .target("#B05")
-                .call("click", null)
-                .target("#B06")
-                .call("click", null)
-                .target("#B07")
-                .call("click", null)
-                .target("#B08")
-                .call("click", null)
-                .run({ sleep: 10 })
-                .pushProperties("[out]")
-                .run({ sleep: 10 })
-                .pushProperties("[out]")
-                .run({ sleep: 10 })
-                .pushProperties("[out]")
-                // .capture("[container]")
-                // .run({ sleep: 10 })
-        );
     }
 
 

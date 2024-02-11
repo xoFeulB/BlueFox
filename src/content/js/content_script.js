@@ -84,7 +84,7 @@
         return R;
       },
       "BlueFox.Dispatch.Action": async (object) => {
-        // log("BlueFox.Dispatch.Action", object);
+        log("BlueFox.Dispatch.Action", object);
         return await BlueFox.do(JSON.parse(await object));
       },
       "BlueFox.Dispatch.Script": async (object) => {

@@ -16,7 +16,7 @@ window.BlueFoxScript = BlueFoxScript;
         log(err);
       }
     };
-    
+
     /* Display */ {
       BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
@@ -132,18 +132,33 @@ window.BlueFoxScript = BlueFoxScript;
           require.config({ paths: { vs: "/modules/monaco-editor/min/vs" } });
           require(["vs/editor/editor.main"], function () {
             window.MonacoEditor = monaco.editor.create($.element, {
-              value: "",
+              value: [
+                `(async () => {`,
+                `  let blueFoxScript = new BlueFoxScript();`,
+                `  await blueFoxScript.init();`,
+                ``,
+                `  if (!(await blueFoxScript.tabs.get("https://www.google.com").length)) {`,
+                `    await blueFoxScript.tabs.create("https://www.google.com");`,
+                `    await sleep(1000);`,
+                `  }`,
+                ``,
+                `  let tab = await blueFoxScript.tabs.get("https://www\.google\.com")[0];`,
+                `  await tab.dispatch`,
+                `    .tails()`,
+                `    .target("textarea")`,
+                `    .setProperty({ value: "^.,.^ BlueFox" })`,
+                `    .target("[name='btnK'][tabindex='0']")`,
+                `    .call("click", null)`,
+                `    .run({ sleep: 50 });`,
+                `})();`
+              ].join("\n"),
               language: "javascript",
+              tabSize: 2,
             });
           });
         },
       });
       BlueFoxJs.Sync.view();
-    }
-
-    {
-      let bluefoxscript = new BlueFoxScript();
-      await bluefoxscript.init();
     }
   })();
 }
