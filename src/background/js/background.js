@@ -174,7 +174,7 @@
     });
 
     chrome.tabs.onRemoved.addListener((tabId) => {
-      log(R);
+      // log(R);
       delete R.event_observer[tabId];
       delete R.pageInfo[tabId];
       delete R.debugger[tabId];
@@ -182,7 +182,7 @@
 
     chrome.tabs.onUpdated.addListener(async (tabId) => {
       try{
-        log(R);
+        // log(R);
         R.event_observer[tabId] = [];
         let dom_snapshot = await chrome.debugger.sendCommand(
           { tabId: tabId },

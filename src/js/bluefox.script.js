@@ -26,10 +26,10 @@ export class BlueFoxScript {
                         _.dispatch = {
                             script: async (callable) => {
                                 await this.connector.load(_.id);
-                                return await this.connector.post({
+                                return (await this.connector.post({
                                     type: "BlueFox.Dispatch.Script",
                                     object: `(${callable.toString()})();`,
-                                });
+                                })).object;
                             },
                             action: async (object) => {
                                 await this.connector.load(_.id);
