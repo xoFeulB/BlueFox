@@ -153,6 +153,7 @@ window.BlueFoxScript = BlueFoxScript;
                 `    .call("click", null)`,
                 `    .run({ sleep: 50 });`,
                 `  await sleep(1000);`,
+                ``,
                 `  let search_result = await tab.dispatch.script(`,
                 `    () => {`,
                 `      return JSON.stringify([...document.querySelectorAll("#search a[data-jsarwt='1']")]`,
