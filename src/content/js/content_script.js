@@ -211,7 +211,20 @@
 
     /* BlueFoxServer */ {
       if (window.location.host == "127.0.0.1:7777") {
-
+        let R = await sendMessage({
+          type: "Tab.getCurrent",
+          object: null
+        });
+        await sendMessage({
+          type: "Tab.createWindow",
+          object: {
+            url: `extension://${chrome.runtime.id}/tab/html/server.html`,
+          }
+        });
+        await sendMessage({
+          type: "Tab.removeWindow",
+          object: R.windowId
+        });
       }
     }
   })();

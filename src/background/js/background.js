@@ -164,6 +164,30 @@
           log(err);
         }
       },
+      "Tab.getCurrent": async (o, sender) => {
+        try {
+          let result = sender.tab;
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
+      "Tab.createWindow": async (o, sender) => {
+        try {
+          let result = await chrome.windows.create(o);
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
+      "Tab.removeWindow": async (o, sender) => {
+        try {
+          let result = await chrome.windows.remove(o);
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
     };
 
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
