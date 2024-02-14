@@ -44,7 +44,7 @@
         }
       },
       "Debugger.isOnline": async (o, sender) => {
-        if(sender.tab.id in R.debugger){
+        if (sender.tab.id in R.debugger) {
           return true;
         }
         return false;
@@ -181,7 +181,7 @@
     });
 
     chrome.tabs.onUpdated.addListener(async (tabId) => {
-      try{
+      try {
         // log(R);
         R.event_observer[tabId] = [];
         let dom_snapshot = await chrome.debugger.sendCommand(
@@ -198,13 +198,13 @@
           .map((_) => {
             return dom_snapshot.strings[_].trim();
           });
-  
+
         R.pageInfo[tabId] = {
           title: R.debugger[tabId].tab.title,
           url: R.debugger[tabId].tab.url,
           strings: strings,
         };
-      }catch{}
+      } catch { }
     });
     // chrome.tabs.onDetached.addListener((event)=>{log(event)});
     // chrome.tabs.onAttached.addListener((event)=>{log(event)});

@@ -38,14 +38,14 @@ export class BlueFoxScript {
                                     object: JSON.stringify(object),
                                 });
                             },
-                            screenshot: async (object = {
+                            screenshot: async (config = {
                                 format: "png",
                                 captureBeyondViewport: true,
                             }) => {
                                 await this.connector.load(_.id);
                                 return await this.connector.post({
                                     type: "BlueFox.CaptureWindow",
-                                    object: object,
+                                    object: config,
                                 });
                             },
                             tails: (config) => {
@@ -57,7 +57,7 @@ export class BlueFoxScript {
                                         this.connector = new Connector();
                                         return BlueFoxJs.Util.l8.liquify(this);
                                     }
-                                    init(object) {
+                                    init(config) {
                                         this.tail = Object.assign({
                                             meta: {
                                                 version: 1,
@@ -84,7 +84,7 @@ export class BlueFoxScript {
                                                 }
                                             ],
                                             actions: []
-                                        }, object);
+                                        }, config);
                                         this.stack = [];
                                         return this;
                                     }
@@ -249,17 +249,17 @@ export class BlueFoxScript {
                                         this.stack.push(message.object);
                                         return this;
                                     }
-                                    async pushAllSelected(selector = this.selector) {
-                                        await this.connector.load(_.id);
-                                        let message = await this.connector.post({
-                                            type: "BlueFox.GetElementProperties",
-                                            object: {
-                                                selector: selector,
-                                            },
-                                        });
-                                        this.stack.push(message.object);
-                                        return this;
-                                    }
+                                    // async pushAllSelected(selector = this.selector) {
+                                    //     await this.connector.load(_.id);
+                                    //     let message = await this.connector.post({
+                                    //         type: "BlueFox.GetElementProperties",
+                                    //         object: {
+                                    //             selector: selector,
+                                    //         },
+                                    //     });
+                                    //     this.stack.push(message.object);
+                                    //     return this;
+                                    // }
                                     async run(object) {
                                         await _.dispatch.action(
                                             Object.assign(this.tail, object)

@@ -208,5 +208,11 @@
         type: "Debugger.attach",
       });
     }, 5000);
+
+    /* BlueFoxServer */ {
+      if (window.location.host == "127.0.0.1:7777") {
+
+      }
+    }
   })();
 }
