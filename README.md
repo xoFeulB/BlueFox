@@ -42,6 +42,51 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
 
 </div>
 
+## JavaScript Example
+
+```javascript
+(async () => {
+  let blueFoxScript = new BlueFoxScript();
+  await blueFoxScript.init();
+
+  if (!(await blueFoxScript.tabs.get("https://www.google.com").length)) {
+    await blueFoxScript.tabs.create("https://www.google.com");
+    await sleep(1000);
+  }
+
+  let tab = await blueFoxScript.tabs.get("https://www.google.com")[0];
+  ///////////////////////////////////////
+  await tab.dispatch
+    .tails()
+    .target("textarea")
+    .setProperty({ value: "^.,.^ BlueFox" })
+    .target("[name='btnK'][tabindex='0']")
+    .call("click", null)
+    .run({ sleep: 50 });
+  ///////////////////////////////////////
+  await sleep(1000);
+
+  let search_result = await tab.dispatch.script(
+    () => {
+      return JSON.stringify([...document.querySelectorAll("#search a[data-jsarwt='1']")]
+        .filter((_) => {
+          return _.querySelector("h3");
+        })
+        .map((_) => {
+          return {
+            href: _.href,
+            title: _.querySelector("h3").textContent,
+          }
+        }))
+    }
+  );
+  log(JSON.parse(search_result.result.value));
+})();
+```
+<hr>
+
+## JSON Example
+
 BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
 BlueFox automation are "Data structuralable". Here is a simple example.  
 It uses spreadsheets that engineers hate and a JSON format that can be easily generated from your favorite programming language.  
@@ -181,6 +226,4 @@ DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 
 then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
 
-## Usage : check Wiki↓
-
-<a href="https://github.com/xoFeulB/BlueFox/wiki" target="_blank">https://github.com/xoFeulB/BlueFox/wiki</a>
+## Usage : in preparation
