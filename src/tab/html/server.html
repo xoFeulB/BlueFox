@@ -75,6 +75,11 @@
                         <div class="uk-container uk-container-default">
                             <div>
                                 <div class="uk-margin">
+                                    <ul id="FileList" class="uk-list uk-list-striped"></ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-margin">
                                     <span class="uk-badge">Experimental</span>
 
                                     <div>
@@ -379,6 +384,18 @@
                 </div>
                 <hr>
             </div>
+        </template>
+        <template id="FileListTemplate">
+            <li>
+                <div class="uk-flex">
+                    <div class="uk-width-1-2 uk-flex">
+                        <span Path></span>
+                    </div>
+                    <div class="uk-width-1-2 uk-flex uk-flex-right">
+                        <button Play class="uk-icon-button" uk-icon="play"></button>
+                    </div>
+                </div>
+            </li>
         </template>
     </div>
 </body>

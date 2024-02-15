@@ -3,6 +3,7 @@
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { BlueFoxScript } from "/js/bluefox.script.js";
+import { AwaitbleWebSocket } from "/js/websocket.awaitable.js";
 window.BlueFoxJs = BlueFoxJs;
 window.BlueFoxScript = BlueFoxScript;
 
@@ -17,8 +18,6 @@ window.BlueFoxScript = BlueFoxScript;
         log(err);
       }
     };
-    log(BlueFoxJs);
-    log(BlueFoxScript);
     /* Display */ {
       BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
@@ -181,68 +180,63 @@ window.BlueFoxScript = BlueFoxScript;
     }
 
     {
-      // class AwaitbleWebSocket {
-      //     constructor(url) {
-      //         this.socket = new WebSocket(url);
-      //         this.socket.addEventListener("open", this.onOpen);
-      //         this.socket.addEventListener("message", this.onMessage);
-      //         this.socket.addEventListener("close", this.onClose);
-      //         this.socket.addEventListener("error", this.onError);
-      //         this.socket.messagePool = {};
-      //     }
+      let webSocket = new AwaitbleWebSocket("ws://127.0.0.1:8888");
+      await webSocket.waitOpen();
 
-      //     async waitOpen() {
-      //         let _this = this;
-      //         let R = new Promise((resolve, reject) => {
-      //             setInterval(() => {
-      //                 if (_this.socket.isOpen) {
-      //                     resolve();
-      //                 }
-      //             }, 10);
-      //         });
-      //         return R;
-      //     }
+      let webSocketMessageHandler = {
+        "getFileTree": async (data) => {
+          let fileTree = await (await fetch("http://127.0.0.1:7777/getFileTree.get")).json();
+          let filelist = document.querySelector("#FileList");
+          filelist.textContent = "";
 
-      //     async send(message) {
-      //         let uuid = crypto.randomUUID();
-      //         this.socket.send(
-      //             JSON.stringify(Object.assign({ "message": message }, { uuid: uuid }))
-      //         );
-      //         let R = new Promise((resolve, reject) => {
-      //             this.socket.messagePool[uuid] = (_) => {
-      //                 resolve(JSON.parse(_.data));
-      //             };
-      //         });
-      //         return R;
-      //     }
+          fileTree.forEach((workspace) => {
+            workspace.files.forEach(object => {
+              let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
+              li.querySelector("[Path]").textContent = object.path;
+              li.querySelector("[Play]").addEventListener("click", (event) => {
+                webSocketMessageHandler["dispatch"](
+                  { workspace: workspace.workspace, path: object.path }
+                );
+              });
+              filelist.appendChild(li);
+            });
+          })
+        },
+        "dispatch": async (data) => {
+          let file = await (await fetch(`http://127.0.0.1:7777/getFile.get?${JSON.stringify(data)}`)).text();
+          await sendMessage({
+            type: "Debugger.attach",
+          });
+          await sendMessage({
+            type: "Runtime.evaluate",
+            object: {
+              expression: file,
+              objectGroup: "BlueFox-js-lanch",
+            },
+          });
+        },
+        "RunScript": async (data) => {
+          await sendMessage({
+            type: "Debugger.attach",
+          });
+          await sendMessage({
+            type: "Runtime.evaluate",
+            object: {
+              expression: data.content,
+              objectGroup: "BlueFox-js-lanch",
+            },
+          });
+        },
+      };
 
-      //     onOpen(event) {
-      //         // this -> this.socket
-      //         this.isOpen = true;
-      //     }
-      //     onMessage(event) {
-      //         // this -> this.socket
-      //         let data = JSON.parse(event.data);
-      //         if (Object.keys(this.messagePool).includes(data.uuid)) {
-      //             this.messagePool[data.uuid](event);
-      //             delete this.messagePool[data.uuid];
+      webSocket.socket.addEventListener("message", async (event) => {
+        let data = JSON.parse(event.data);
+        if (Object.keys(webSocketMessageHandler).includes(data.type)) {
+          await webSocketMessageHandler[data.type](data);
+        }
+      });
 
-      //         }
-      //     }
-      //     onClose(event) {
-      //         log(event);
-      //         this.isOpen = false;
-      //     }
-      //     onError(event) {
-      //         log(event);
-      //     }
-
-      // }
-
-      // let webSocket = new AwaitbleWebSocket("ws://127.0.0.1:8888");
-      // await webSocket.waitOpen();
-      // log(await webSocket.send("hello"));
-
+      await webSocketMessageHandler["getFileTree"](null);
     }
   })();
 }
