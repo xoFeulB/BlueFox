@@ -218,7 +218,7 @@
         await sendMessage({
           type: "Tab.createWindow",
           object: {
-            url: `extension://${chrome.runtime.id}/tab/html/server.html`,
+            url: `chrome-extension://${chrome.runtime.id}/tab/html/server.html`,
           }
         });
         await sendMessage({
