@@ -186,8 +186,7 @@ window.BlueFoxScript = BlueFoxScript;
 
 
     let start_ws = async () => {
-      let webSocket = new AwaitbleWebSocket("ws://127.0.0.1:8888");
-      await webSocket.waitOpen();
+      let webSocket = await (new AwaitbleWebSocket("ws://127.0.0.1:8888"));
 
       let webSocketMessageHandler = {
         "getFileTree": async (data) => {

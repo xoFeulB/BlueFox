@@ -11,18 +11,15 @@ export class AwaitbleWebSocket {
         this.socket.addEventListener("close", this.onClose);
         this.socket.addEventListener("error", this.onError);
         this.socket.messagePool = {};
-    }
 
-    async waitOpen() {
-        let _this = this;
-        let R = new Promise((resolve, reject) => {
-            setInterval(() => {
-                if (_this.socket.isOpen) {
-                    resolve();
+        return new Promise((resolve, reject) => {
+            let interval_id = setInterval(() => {
+                if (this.socket.isOpen) {
+                    resolve(this);
+                    clearInterval(interval_id);
                 }
             }, 10);
         });
-        return R;
     }
 
     async send(message) {
@@ -51,11 +48,12 @@ export class AwaitbleWebSocket {
         }
     }
     onClose(event) {
-        log(event);
+        // this -> this.socket
         this.isOpen = false;
     }
     onError(event) {
-        log(event);
+        // this -> this.socket
+        this.isOpen = false;
     }
 
 }
