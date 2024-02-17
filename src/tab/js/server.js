@@ -175,35 +175,51 @@ window.BlueFoxScript = BlueFoxScript;
             });
           });
         },
+        "[ReLoad]": async ($) => {
+          $.element.addEventListener("click", (event) => {
+            window.dispatchEvent(new CustomEvent("reload_ws"));
+          });
+        },
       });
       BlueFoxJs.Sync.view();
     }
 
-    {
+
+    let start_ws = async () => {
       let webSocket = new AwaitbleWebSocket("ws://127.0.0.1:8888");
       await webSocket.waitOpen();
 
       let webSocketMessageHandler = {
         "getFileTree": async (data) => {
-          let fileTree = await (await fetch("http://127.0.0.1:7777/getFileTree.get")).json();
+          let workspaces = await (await fetch("http://127.0.0.1:7777/GetWorkspace.get")).json();
           let filelist = document.querySelector("#FileList");
           filelist.textContent = "";
 
-          fileTree.forEach((workspace) => {
-            workspace.files.forEach(object => {
-              let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
-              li.querySelector("[Path]").textContent = object.path;
-              li.querySelector("[Play]").addEventListener("click", (event) => {
-                webSocketMessageHandler["dispatch"](
-                  { workspace: workspace.workspace, path: object.path }
-                );
-              });
-              filelist.appendChild(li);
+          workspaces.forEach((workspace) => {
+            workspace.workspace.forEach((folder) => {
+              folder.objects
+                .filter((object) => {
+                  return object.isFile;
+                })
+                .forEach((object) => {
+                  let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
+                  li.querySelector("[Path]").textContent = object.path;
+                  li.querySelector("[Play]").addEventListener("click", (event) => {
+                    webSocketMessageHandler["dispatch"](
+                      {
+                        id: workspace.id,
+                        workspace: folder.name,
+                        path: object.path
+                      }
+                    );
+                  });
+                  filelist.appendChild(li);
+                });
             });
-          })
+          });
         },
         "dispatch": async (data) => {
-          let file = await (await fetch(`http://127.0.0.1:7777/getFile.get?${JSON.stringify(data)}`)).text();
+          let file = await (await fetch(`http://127.0.0.1:7777/GetFile.get?${JSON.stringify(data)}`)).text();
           await sendMessage({
             type: "Debugger.attach",
           });
@@ -235,8 +251,20 @@ window.BlueFoxScript = BlueFoxScript;
           await webSocketMessageHandler[data.type](data);
         }
       });
+      webSocket.socket.addEventListener("close", async (event) => {
+        await sleep(1000);
+        window.dispatchEvent(new CustomEvent("reload_ws"));
+      });
+      webSocket.socket.addEventListener("error", async (event) => {
+        await sleep(1000);
+        window.dispatchEvent(new CustomEvent("reload_ws"));
+      });
 
       await webSocketMessageHandler["getFileTree"](null);
     }
+    window.addEventListener("reload_ws", () => {
+      start_ws();
+    });
+    window.dispatchEvent(new CustomEvent("reload_ws"));
   })();
 }
