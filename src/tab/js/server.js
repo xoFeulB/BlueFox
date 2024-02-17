@@ -198,7 +198,10 @@ window.BlueFoxScript = BlueFoxScript;
             workspace.workspace.forEach((folder) => {
               folder.objects
                 .filter((object) => {
-                  return object.isFile;
+                  return [
+                    object.isFile,
+                    "js" == object.path.split(".").slice(-1),
+                  ].every((_) => { return _; });
                 })
                 .forEach((object) => {
                   let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
