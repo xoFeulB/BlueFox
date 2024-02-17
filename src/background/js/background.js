@@ -73,11 +73,47 @@
           log(err);
         }
       },
+      "Runtime.enable": async (o, sender) => {
+        try {
+          let result = await chrome.debugger.sendCommand(
+            { tabId: sender.tab.id },
+            "Runtime.compileScript",
+            o
+          );
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
+      "Runtime.compileScript": async (o, sender) => {
+        try {
+          let result = await chrome.debugger.sendCommand(
+            { tabId: sender.tab.id },
+            "Runtime.compileScript",
+            o
+          );
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
       "Runtime.evaluate": async (o, sender) => {
         try {
           let result = await chrome.debugger.sendCommand(
             { tabId: sender.tab.id },
             "Runtime.evaluate",
+            o
+          );
+          return result;
+        } catch (err) {
+          log(err);
+        }
+      },
+      "Runtime.runScript ": async (o, sender) => {
+        try {
+          let result = await chrome.debugger.sendCommand(
+            { tabId: sender.tab.id },
+            "Runtime.runScript",
             o
           );
           return result;

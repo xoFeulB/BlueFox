@@ -14,6 +14,8 @@ export class BlueFoxScript {
         this.connector = new Connector();
     }
 
+    async runRemoteScript() { }
+
     async init() {
         this.tabs = {
             info: {},
@@ -303,6 +305,4 @@ export class BlueFoxScript {
         chrome.tabs.onUpdated.addListener(this.tabs.reload);
         chrome.tabs.onRemoved.addListener(this.tabs.reload);
     }
-
-
 };

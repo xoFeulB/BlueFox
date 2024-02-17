@@ -5,7 +5,13 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { BlueFoxScript } from "/js/bluefox.script.js";
 import { AwaitbleWebSocket } from "/js/websocket.awaitable.js";
 window.BlueFoxJs = BlueFoxJs;
-window.BlueFoxScript = BlueFoxScript;
+window.BlueFoxScript = class extends BlueFoxScript {
+  async runRemoteScript(path) {
+    await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
+      return _.path == path;
+    })[0]).play();
+  }
+}
 
 {
   (async () => {
@@ -108,6 +114,7 @@ window.BlueFoxScript = BlueFoxScript;
               object: {
                 expression: window.MonacoEditor.getValue(),
                 objectGroup: "BlueFox-js-lanch",
+                awaitPromise: true,
               },
             });
           });
@@ -193,6 +200,7 @@ window.BlueFoxScript = BlueFoxScript;
           let workspaces = await (await fetch("http://127.0.0.1:7777/GetWorkspace.get")).json();
           let filelist = document.querySelector("#FileList");
           filelist.textContent = "";
+          filelist.workspaces = workspaces;
 
           workspaces.forEach((workspace) => {
             workspace.workspace.forEach((folder) => {
@@ -206,15 +214,17 @@ window.BlueFoxScript = BlueFoxScript;
                 .forEach((object) => {
                   let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
                   li.querySelector("[Path]").textContent = object.path;
-                  li.querySelector("[Play]").addEventListener("click", (event) => {
-                    webSocketMessageHandler["dispatch"](
+                  li.querySelector("[Path]").path = object.path;
+                  li.querySelector("[Path]").play = async (event) => {
+                    await webSocketMessageHandler["dispatch"](
                       {
                         id: workspace.id,
                         workspace: folder.name,
                         path: object.path
                       }
                     );
-                  });
+                  };
+                  li.querySelector("[Play]").addEventListener("click", li.querySelector("[Path]").play);
                   filelist.appendChild(li);
                 });
             });
@@ -230,6 +240,7 @@ window.BlueFoxScript = BlueFoxScript;
             object: {
               expression: file,
               objectGroup: "BlueFox-js-lanch",
+              awaitPromise: true,
             },
           });
         },
@@ -242,6 +253,7 @@ window.BlueFoxScript = BlueFoxScript;
             object: {
               expression: data.content,
               objectGroup: "BlueFox-js-lanch",
+              awaitPromise: true,
             },
           });
         },
