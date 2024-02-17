@@ -249,7 +249,7 @@ window.BlueFoxScript = BlueFoxScript;
 
       webSocket.socket.addEventListener("message", async (event) => {
         let data = JSON.parse(event.data);
-        if (Object.keys(webSocketMessageHandler).includes(data.type)) {
+        if (data.type in webSocketMessageHandler) {
           await webSocketMessageHandler[data.type](data);
         }
       });
