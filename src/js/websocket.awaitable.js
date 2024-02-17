@@ -2,7 +2,6 @@
 // https://github.com/xoFeulB
 
 ("use strict");
-
 export class AwaitbleWebSocket {
     constructor(url) {
         this.socket = new WebSocket(url);
@@ -39,7 +38,16 @@ export class AwaitbleWebSocket {
     async send(message) {
         let uuid = crypto.randomUUID();
         this.socket.send(
-            JSON.stringify(Object.assign({ "message": message }, { uuid: uuid }))
+            JSON.stringify(
+                Object.assign(
+                    {
+                        message: message,
+                    },
+                    {
+                        uuid: uuid,
+                    }
+                )
+            )
         );
         let R = new Promise((resolve, reject) => {
             this.messagePool[uuid] = (_) => {
