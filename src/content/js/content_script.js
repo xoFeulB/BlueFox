@@ -94,6 +94,7 @@
           object: {
             expression: await object,
             objectGroup: "BlueFox-js-lanch",
+            awaitPromise: true,
           },
         });
         return R;
