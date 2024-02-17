@@ -92,7 +92,7 @@
         let R = await sendMessage({
           type: "Runtime.evaluate",
           object: {
-            expression: await object,
+            expression: object,
             objectGroup: "BlueFox-js-lanch",
             awaitPromise: true,
           },
