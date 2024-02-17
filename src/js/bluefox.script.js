@@ -95,7 +95,7 @@ export class BlueFoxScript {
                                         return this;
                                     }
                                     defined(selector) {
-                                        this.selector = `:is([bluefox-label="${selector}"],[aria-description="${selector}"])`;
+                                        this.selector = `:is([bluefox-label="${selector}"],[aria-description="${selector}"],[aria-label="${selector}"])`;
                                         return this;
                                     }
                                     set(object) {

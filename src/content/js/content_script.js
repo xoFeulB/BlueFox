@@ -211,7 +211,7 @@
     }, 5000);
 
     /* BlueFoxServer */ {
-      if (window.location.host == "127.0.0.1:7777") {
+      if (window.location.host == "localhost.bluefox.ooo:7777") {
         let R = await sendMessage({
           type: "Tab.getCurrent",
           object: null

@@ -193,11 +193,11 @@ window.BlueFoxScript = class extends BlueFoxScript {
 
 
     let start_ws = async () => {
-      let webSocket = await (new AwaitbleWebSocket("ws://127.0.0.1:8888"));
+      let webSocket = await (new AwaitbleWebSocket("ws://localhost.bluefox.ooo:8888"));
 
       let webSocketMessageHandler = {
         "getFileTree": async (data) => {
-          let workspaces = await (await fetch("http://127.0.0.1:7777/GetWorkspace.get")).json();
+          let workspaces = await (await fetch("http://localhost.bluefox.ooo:7777/GetWorkspace.get")).json();
           let filelist = document.querySelector("#FileList");
           filelist.textContent = "";
           filelist.workspaces = workspaces;
@@ -231,7 +231,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
           });
         },
         "dispatch": async (data) => {
-          let file = await (await fetch(`http://127.0.0.1:7777/GetFile.get?${JSON.stringify(data)}`)).text();
+          let file = await (await fetch(`http://localhost.bluefox.ooo:7777/GetFile.get?${JSON.stringify(data)}`)).text();
           await sendMessage({
             type: "Debugger.attach",
           });
