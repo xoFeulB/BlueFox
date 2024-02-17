@@ -7,9 +7,11 @@ export class AwaitbleWebSocket {
         this.socket = new WebSocket(url);
         this.messagePool = {};
         this.isOpen = false;
+        let _resolve_ = () => { };
 
         this.socket.addEventListener("open", (event) => {
             this.isOpen = true;
+            _resolve_(this);
         });
         this.socket.addEventListener("message", (event) => {
             let data = JSON.parse(event.data);
@@ -26,12 +28,7 @@ export class AwaitbleWebSocket {
         });
 
         return new Promise((resolve, reject) => {
-            let interval_id = setInterval(() => {
-                if (this.isOpen) {
-                    resolve(this);
-                    clearInterval(interval_id);
-                }
-            }, 10);
+            this.isOpen ? resolve(this) : _resolve_ = resolve;
         });
     }
 
