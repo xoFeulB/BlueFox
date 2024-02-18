@@ -272,6 +272,22 @@ export class BlueFoxScript {
                                         );
                                         return this;
                                     }
+                                    saveTail(title, description, object) {
+                                        let R = JSON.parse(JSON.stringify(this.tail));
+
+                                        R.meta.title = title;
+                                        R.meta.description = description;
+
+                                        Object.assign(document.createElement("a"), {
+                                            href: window.URL.createObjectURL(
+                                                new Blob([JSON.stringify(Object.assign(R, object), null, 4)], {
+                                                    type: "application/json",
+                                                })
+                                            ),
+                                            download: `${title}.json`,
+                                        }).click();
+                                        return this;
+                                    }
                                 })();
                                 return R;
                             }
