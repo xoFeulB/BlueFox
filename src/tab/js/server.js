@@ -179,6 +179,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
               ].join("\n"),
               language: "javascript",
               tabSize: 2,
+              automaticLayout: true,
             });
           });
         },
