@@ -363,6 +363,8 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               object: {
                 expression: ServerScript.value,
                 objectGroup: "BlueFox-js-lanch",
+                awaitPromise: true,
+                returnByValue: true,
               },
             });
           });

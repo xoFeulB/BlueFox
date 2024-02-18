@@ -76,6 +76,8 @@
                 object: {
                   expression: await _.text,
                   objectGroup: "BlueFox-js-lanch",
+                  awaitPromise: true,
+                  returnByValue: true,
                 },
               });
             },
@@ -95,6 +97,7 @@
             expression: object,
             objectGroup: "BlueFox-js-lanch",
             awaitPromise: true,
+            returnByValue: true,
           },
         });
         return R;

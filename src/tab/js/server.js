@@ -115,6 +115,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 expression: window.MonacoEditor.getValue(),
                 objectGroup: "BlueFox-js-lanch",
                 awaitPromise: true,
+                returnByValue: true,
               },
             });
           });
@@ -162,7 +163,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 ``,
                 `  let search_result = await tab.dispatch.script(`,
                 `    () => {`,
-                `      return JSON.stringify([...document.querySelectorAll("#search a[data-jsarwt='1']")]`,
+                `      return [...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])")]`,
                 `        .filter((_) => {`,
                 `          return _.querySelector("h3");`,
                 `        })`,
@@ -171,10 +172,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 `            href: _.href,`,
                 `            title: _.querySelector("h3").textContent,`,
                 `          }`,
-                `        }))`,
+                `        });`,
                 `    }`,
                 `  );`,
-                `  log(JSON.parse(search_result.result.value));`,
+                `  log(search_result.result.value);`,
                 `})();`,
               ].join("\n"),
               language: "javascript",
@@ -242,6 +243,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
               expression: file,
               objectGroup: "BlueFox-js-lanch",
               awaitPromise: true,
+              returnByValue: true,
             },
           });
         },
@@ -255,6 +257,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
               expression: data.content,
               objectGroup: "BlueFox-js-lanch",
               awaitPromise: true,
+              returnByValue: true,
             },
           });
         },
