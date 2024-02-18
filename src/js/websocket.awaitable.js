@@ -25,6 +25,7 @@ export class AwaitbleWebSocket {
         });
         this.socket.addEventListener("error", (event) => {
             this.isOpen = false;
+            _resolve_(this);
         });
 
         return new Promise((resolve, reject) => {
@@ -52,5 +53,9 @@ export class AwaitbleWebSocket {
             };
         });
         return R;
+    }
+
+    close(){
+        this.socket.close();
     }
 }

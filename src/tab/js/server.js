@@ -24,6 +24,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
         log(err);
       }
     };
+    let webSocket;
     /* Display */ {
       BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
@@ -193,92 +194,98 @@ window.BlueFoxScript = class extends BlueFoxScript {
       BlueFoxJs.Sync.view();
     }
 
-
     let start_ws = async () => {
-      let webSocket = await (new AwaitbleWebSocket("ws://localhost.bluefox.ooo:8888"));
-
-      let webSocketMessageHandler = {
-        "getFileTree": async (data) => {
-          let workspaces = await (await fetch("http://localhost.bluefox.ooo:7777/GetWorkspace.get")).json();
-          let filelist = document.querySelector("#FileList");
-          filelist.textContent = "";
-          filelist.workspaces = workspaces;
-
-          workspaces.forEach((workspace) => {
-            workspace.workspace.forEach((folder) => {
-              folder.objects
-                .filter((object) => {
-                  return [
-                    object.isFile,
-                    "js" == object.path.split(".").slice(-1),
-                  ].every((_) => { return _; });
-                })
-                .forEach((object) => {
-                  let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
-                  li.querySelector("[Path]").textContent = object.path;
-                  li.querySelector("[Path]").path = object.path;
-                  li.querySelector("[Path]").play = async (event) => {
-                    await webSocketMessageHandler["dispatch"](
-                      {
-                        id: workspace.id,
-                        workspace: folder.name,
-                        path: object.path
-                      }
-                    );
-                  };
-                  li.querySelector("[Play]").addEventListener("click", li.querySelector("[Path]").play);
-                  filelist.appendChild(li);
-                });
-            });
-          });
-        },
-        "dispatch": async (data) => {
-          let file = await (await fetch(`http://localhost.bluefox.ooo:7777/GetFile.get?${JSON.stringify(data)}`)).text();
-          await sendMessage({
-            type: "Debugger.attach",
-          });
-          await sendMessage({
-            type: "Runtime.evaluate",
-            object: {
-              expression: file,
-              objectGroup: "BlueFox-js-lanch",
-              awaitPromise: true,
-              returnByValue: true,
-            },
-          });
-        },
-        "RunScript": async (data) => {
-          await sendMessage({
-            type: "Debugger.attach",
-          });
-          await sendMessage({
-            type: "Runtime.evaluate",
-            object: {
-              expression: data.content,
-              objectGroup: "BlueFox-js-lanch",
-              awaitPromise: true,
-              returnByValue: true,
-            },
-          });
-        },
-      };
-
-      webSocket.socket.addEventListener("message", async (event) => {
-        let data = JSON.parse(event.data);
-        if (data.type in webSocketMessageHandler) {
-          await webSocketMessageHandler[data.type](data);
+      try {
+        webSocket?.close();
+        webSocket = await (new AwaitbleWebSocket("ws://localhost.bluefox.ooo:8888"));
+        if (!webSocket.isOpen) {
+          throw new Error();
         }
-      });
-      webSocket.socket.addEventListener("close", async (event) => {
-        await sleep(1000);
-        window.dispatchEvent(new CustomEvent("reload_ws"));
-      });
-      webSocket.socket.addEventListener("error", async (event) => {
-        await sleep(1000);
-        window.dispatchEvent(new CustomEvent("reload_ws"));
-      });
+        let webSocketMessageHandler = {
+          "getFileTree": async (data) => {
+            let workspaces = await (await fetch("http://localhost.bluefox.ooo:7777/GetWorkspace.get")).json();
+            let filelist = document.querySelector("#FileList");
+            filelist.textContent = "";
+            filelist.workspaces = workspaces;
 
-      await webSocketMessageHandler["getFileTree"](null);
+            workspaces.forEach((workspace) => {
+              workspace.workspace.forEach((folder) => {
+                folder.objects
+                  .filter((object) => {
+                    return [
+                      object.isFile,
+                      "js" == object.path.split(".").slice(-1),
+                    ].every((_) => { return _; });
+                  })
+                  .forEach((object) => {
+                    let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
+                    li.querySelector("[Path]").textContent = object.path;
+                    li.querySelector("[Path]").path = object.path;
+                    li.querySelector("[Path]").play = async (event) => {
+                      await webSocketMessageHandler["dispatch"](
+                        {
+                          id: workspace.id,
+                          workspace: folder.name,
+                          path: object.path
+                        }
+                      );
+                    };
+                    li.querySelector("[Play]").addEventListener("click", li.querySelector("[Path]").play);
+                    filelist.appendChild(li);
+                  });
+              });
+            });
+          },
+          "dispatch": async (data) => {
+            let file = await (await fetch(`http://localhost.bluefox.ooo:7777/GetFile.get?${JSON.stringify(data)}`)).text();
+            await sendMessage({
+              type: "Debugger.attach",
+            });
+            await sendMessage({
+              type: "Runtime.evaluate",
+              object: {
+                expression: file,
+                objectGroup: "BlueFox-js-lanch",
+                awaitPromise: true,
+                returnByValue: true,
+              },
+            });
+          },
+          "RunScript": async (data) => {
+            await sendMessage({
+              type: "Debugger.attach",
+            });
+            await sendMessage({
+              type: "Runtime.evaluate",
+              object: {
+                expression: data.content,
+                objectGroup: "BlueFox-js-lanch",
+                awaitPromise: true,
+                returnByValue: true,
+              },
+            });
+          },
+          "ReLoad": async (data) => {
+            window.dispatchEvent(new CustomEvent("reload_ws"));
+          },
+        };
+
+        webSocket.socket.addEventListener("message", async (event) => {
+          let data = JSON.parse(event.data);
+          if (data.type in webSocketMessageHandler) {
+            await webSocketMessageHandler[data.type](data);
+          }
+        });
+        webSocket.socket.addEventListener("error", async (event) => {
+          await sleep(3000);
+          window.dispatchEvent(new CustomEvent("reload_ws"));
+        });
+
+        await webSocketMessageHandler["getFileTree"](null);
+      } catch (e) {
+        await sleep(3000);
+        window.dispatchEvent(new CustomEvent("reload_ws"));
+      }
     }
     window.addEventListener("reload_ws", () => {
       start_ws();
