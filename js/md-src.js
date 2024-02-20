@@ -78,9 +78,7 @@ customElements.define("mark-down", class extends HTMLElement {
             $.element.parentElement.prepend(menu);
           }
         });
-      } catch (e) {
-
-      }
+      } catch (e) { }
       this.appendChild(div);
     })();
   }
