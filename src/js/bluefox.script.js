@@ -255,17 +255,16 @@ export class BlueFoxScript {
                                         this.stack.push(message.object);
                                         return this;
                                     }
-                                    // async pushAllSelected(selector = this.selector) {
-                                    //     await this.connector.load(_.id);
-                                    //     let message = await this.connector.post({
-                                    //         type: "BlueFox.GetElementProperties",
-                                    //         object: {
-                                    //             selector: selector,
-                                    //         },
-                                    //     });
-                                    //     this.stack.push(message.object);
-                                    //     return this;
-                                    // }
+                                    async getProperties(selector = this.selector) {
+                                        await this.connector.load(_.id);
+                                        let message = await this.connector.post({
+                                            type: "BlueFox.GetElementProperties",
+                                            object: {
+                                                selector: selector,
+                                            },
+                                        });
+                                        return message.object;
+                                    }
                                     async run(object) {
                                         await _.dispatch.action(
                                             Object.assign(this.tail, object)
@@ -288,6 +287,17 @@ export class BlueFoxScript {
                                         }).click();
                                         return this;
                                     }
+                                    saveJSON(file_name, object) {
+                                        Object.assign(document.createElement("a"), {
+                                            href: window.URL.createObjectURL(
+                                                new Blob([JSON.stringify(object, null, 4)], {
+                                                    type: "application/json",
+                                                })
+                                            ),
+                                            download: `${file_name}.json`,
+                                        }).click();
+                                        return this;
+                                    }
                                 })();
                                 return R;
                             }
@@ -298,6 +308,12 @@ export class BlueFoxScript {
                 })();
             },
             get: (regexp) => {
+                let regexp_object = new RegExp(regexp, "g");
+                return this.tabs.info.filter((_) => {
+                    return regexp_object.test(_.url.href);
+                });
+            },
+            getFocused: () => {
                 let regexp_object = new RegExp(regexp, "g");
                 return this.tabs.info.filter((_) => {
                     return regexp_object.test(_.url.href);

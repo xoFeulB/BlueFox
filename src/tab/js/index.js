@@ -2,6 +2,7 @@
 // https://github.com/xoFeulB
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
+import { default as anime } from "/modules/anime/anime.es.js";
 
 {
   (async () => {
@@ -125,19 +126,19 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               scale: 0.3,
               duration: 500,
               easing: "easeInExpo",
-            });
+            }).finished;
             await anime({
               targets: active,
               left: move_to_elm.getBoundingClientRect().left - 25,
               duration: 500,
               easing: "easeOutBounce",
-            });
+            }).finished;
             await anime({
               targets: active,
               scale: 1,
               duration: 300,
               easing: "easeInExpo",
-            });
+            }).finished;
           };
           $.element.addEventListener("change", (event) => {
             animate();
@@ -166,14 +167,14 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 duration: 250,
                 delay: 200,
                 easing: "linear",
-              });
+              }).finished;
             } else {
               await anime({
                 targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
-              });
+              }).finished;
               $.element.setAttribute("hide", "");
             }
           });
@@ -199,14 +200,14 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 duration: 250,
                 delay: 200,
                 easing: "linear",
-              });
+              }).finished;
             } else {
               await anime({
                 targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
-              });
+              }).finished;
               $.element.setAttribute("hide", "");
             }
           });

@@ -114,7 +114,8 @@
                 {
                     "name": "fileName",
                     "type": "mime",
-                    "blob": []
+                    "blob": [],
+                    "object": "String|Uint8Array"
                 }
             ]
         },

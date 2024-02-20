@@ -133,3 +133,16 @@ div:has([showWhenSome="#menuControll"]) {
   width: 100%;
   height: 600px;
 }
+
+.radius-top-left {
+  border-top-left-radius: 15px;
+}
+.radius-top-right {
+  border-top-right-radius: 15px;
+}
+.radius-bottom-left {
+  border-bottom-left-radius: 15px;
+}
+.radius-bottom-right {
+  border-bottom-right-radius: 15px;
+}

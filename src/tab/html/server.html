@@ -11,9 +11,6 @@
     <script src="/modules/uikit/js/uikit.min.js" defer></script>
     <script src="/modules/uikit/js/uikit-icons.min.js" defer></script>
 
-    <!-- Anime -->
-    <script src="/js/anime.awaitable.js" type="module" defer></script>
-
     <!-- MonacoEditor -->
     <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
 
@@ -83,8 +80,6 @@
                             </div>
                             <div>
                                 <div class="uk-margin">
-                                    <span class="uk-badge">Experimental</span>
-
                                     <div>
                                         <button RunScript class="uk-button uk-button-default">
                                             <span uk-icon="play"></span>
@@ -93,23 +88,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div>[ServerScript] (in)↓</div>
                                     <div ServerScript></div>
-                                </div>
-                                <div>
-                                    <div>[ServerScriptRead] (in)↓</div>
-                                    <textarea ServerScriptRead class="uk-textarea" rows="10"></textarea>
-                                </div>
-                            </div>
-                            <div class="uk-margin">
-                                <div BlueFoxServerFileAttach
-                                    class="uk-placeholder uk-text-center uk-text-default bg-white">
-                                    <span uk-icon="icon: bolt; ratio: 2"></span>
-                                    <span>Attach JSON by dropping them here or</span>
-                                    <div uk-form-custom>
-                                        <input type="file" multiple>
-                                        <span class="uk-link">selecting one</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>

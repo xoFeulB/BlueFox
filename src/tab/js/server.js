@@ -4,12 +4,32 @@
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { BlueFoxScript } from "/js/bluefox.script.js";
 import { AwaitbleWebSocket } from "/js/websocket.awaitable.js";
+import { default as anime } from "/modules/anime/anime.es.js";
+
 window.BlueFoxJs = BlueFoxJs;
 window.BlueFoxScript = class extends BlueFoxScript {
   async runRemoteScript(path) {
     await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
       return _.path == path;
     })[0]).play();
+  }
+
+  async getRemoteFile(path) {
+    let workspaceObject = ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
+      return _.path == path;
+    })[0]).workspaceObject;
+
+    let fetch_result = await fetch(
+      `http://localhost.bluefox.ooo:7777/R?/${workspaceObject.id}/${workspaceObject.workspace}${workspaceObject.path}`
+    );
+    let B = await fetch_result.blob();
+
+    return {
+      name: workspaceObject.path.split("/").slice(-1)[0],
+      type: fetch_result.headers.get("Content-Type"),
+      blob: [...new Uint8Array(await B.arrayBuffer())],
+      object: "Uint8Array",
+    };
   }
 }
 
@@ -48,14 +68,14 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 duration: 250,
                 delay: 200,
                 easing: "linear",
-              });
+              }).finished;
             } else {
               await anime({
                 targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
-              });
+              }).finished;
               $.element.setAttribute("hide", "");
             }
           });
@@ -81,14 +101,14 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 duration: 250,
                 delay: 200,
                 easing: "linear",
-              });
+              }).finished;
             } else {
               await anime({
                 targets: $.element,
                 opacity: 0,
                 duration: 200,
                 easing: "linear",
-              });
+              }).finished;
               $.element.setAttribute("hide", "");
             }
           });
@@ -214,13 +234,17 @@ window.BlueFoxScript = class extends BlueFoxScript {
                   .filter((object) => {
                     return [
                       object.isFile,
-                      "js" == object.path.split(".").slice(-1),
                     ].every((_) => { return _; });
                   })
                   .forEach((object) => {
                     let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
                     li.querySelector("[Path]").textContent = object.path;
                     li.querySelector("[Path]").path = object.path;
+                    li.querySelector("[Path]").workspaceObject = {
+                      id: workspace.id,
+                      workspace: folder.name,
+                      path: object.path
+                    };
                     li.querySelector("[Path]").play = async (event) => {
                       await webSocketMessageHandler["dispatch"](
                         {
@@ -230,7 +254,11 @@ window.BlueFoxScript = class extends BlueFoxScript {
                         }
                       );
                     };
-                    li.querySelector("[Play]").addEventListener("click", li.querySelector("[Path]").play);
+                    if (["js"].includes(object.path.split(".").slice(-1)[0])) {
+                      li.querySelector("[Play]").addEventListener("click", li.querySelector("[Path]").play);
+                    } else {
+                      li.querySelector("[Play]").setAttribute("hidden", "");
+                    }
                     filelist.appendChild(li);
                   });
               });

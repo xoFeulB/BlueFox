@@ -9,60 +9,6 @@
     log("loaded");
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
 
-    let load_start = (id) => {
-      let box = document.createElement("div");
-      box.id = id;
-
-      let message = document.createElement("div");
-      message.textContent = "BlueFox waiting for page to finish loading";
-      message.style.position = "fixed";
-      message.style.zIndex = "999";
-      message.style.top = "50vh";
-      message.style.left = "50vw";
-      message.style.paddingLeft = "1em";
-      message.style.color = "white";
-
-      box.appendChild(message);
-
-      let fil = document.createElement("div");
-      fil.style.position = "fixed";
-      fil.style.width = "100vw";
-      fil.style.height = "100vh";
-      fil.style.zIndex = "998";
-      fil.style.top = "0";
-      fil.style.left = "0";
-      fil.style.backgroundColor = "rgba(0,0,0,0.5)";
-
-      box.appendChild(fil);
-
-      let c = document.createElement("div");
-      c.style.position = "fixed";
-      c.style.zIndex = "999";
-      c.style.top = "50vh";
-      c.style.left = "50vw";
-
-      c.style.width = "2px";
-      c.style.height = "15px";
-      // c.style.borderRadius = "50%";
-      c.style.backgroundColor = "white";
-      c.style.transformOrigin = "0px 30px";
-
-      for (let i = 0; i < 5; i++) {
-        let cloned = c.cloneNode(false);
-        anime({
-          targets: cloned,
-          rotate: "1turn",
-          duration: 3000,
-          delay: i * 100,
-          loop: true,
-          easing: "easeOutExpo",
-        });
-
-        box.appendChild(cloned);
-        document.body.appendChild(box);
-      }
-    };
-
     let getCssSelector = (e) => {
       return CssSelectorGenerator.getCssSelector(e);
       if (e.id) {
@@ -244,31 +190,7 @@
 
           box.appendChild(fil);
 
-          let c = document.createElement("div");
-          c.style.position = "fixed";
-          c.style.zIndex = "999";
-          c.style.top = "50vh";
-          c.style.left = "50vw";
-
-          c.style.width = "2px";
-          c.style.height = "15px";
-          c.style.backgroundColor = "white";
-          c.style.transformOrigin = "0px 30px";
-
-          for (let i = 0; i < 5; i++) {
-            let cloned = c.cloneNode(false);
-            anime({
-              targets: cloned,
-              rotate: "1turn",
-              duration: 3000,
-              delay: i * 100,
-              loop: true,
-              easing: "easeOutExpo",
-            });
-
-            box.appendChild(cloned);
-            document.body.appendChild(box);
-          }
+          document.body.appendChild(box);
         }
 
         let eventListner = (event) => {
@@ -325,7 +247,7 @@
               [...document.querySelectorAll(_.description)].forEach((e) => {
                 e.addEventListener(_.eventType, eventListner);
               });
-            } catch {}
+            } catch { }
           });
 
         {
@@ -348,7 +270,7 @@
               })
             ),
           });
-        } catch {}
+        } catch { }
       });
     });
   })();
