@@ -137,30 +137,34 @@ div:has(> [setValueOnClick="#menuControll"]) {
   height: 600px;
 }
 
+.radius {
+  border-radius: 11px;
+}
+
 .radius-top {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
 }
 
 .radius-bottom {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
 }
 
 .radius-top-left {
-  border-top-left-radius: 15px;
+  border-top-left-radius: 11px;
 }
 
 .radius-top-right {
-  border-top-right-radius: 15px;
+  border-top-right-radius: 11px;
 }
 
 .radius-bottom-left {
-  border-bottom-left-radius: 15px;
+  border-bottom-left-radius: 11px;
 }
 
 .radius-bottom-right {
-  border-bottom-right-radius: 15px;
+  border-bottom-right-radius: 11px;
 }
 
 .uk-button-text:hover {

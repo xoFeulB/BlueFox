@@ -42,7 +42,11 @@ customElements.define("mark-down", class extends HTMLElement {
           "h1,h2,h3,h4,h5": async ($) => {
             $.element.classList.add("uk-heading-divider");
           },
+          "img": async ($) => {
+            $.element.classList.add("radius");
+          },
           "code": async ($) => {
+            $.element.closest("pre").classList.add("radius");
             $.element.innerHTML = highlight.highlight(
               $.element.textContent,
               {
