@@ -50,6 +50,7 @@ window.customElements.define("mark-down", class extends HTMLElement {
           },
           "img": async ($) => {
             $.element.classList.add("radius");
+            $.element.classList.add("uk-margin-bottom");
           },
           "a": async ($) => {
             $.element.setAttribute("target", "_blank");

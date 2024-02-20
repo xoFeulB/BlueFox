@@ -180,3 +180,7 @@ div:has(> [setValueOnClick="#menuControll"]) {
   top: 0;
   right: 0;
 }
+
+img {
+  user-select: none;
+}

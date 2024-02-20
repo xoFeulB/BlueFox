@@ -5,6 +5,14 @@
 </div>
 
 <div>
+<img src="https://img.shields.io/badge/-Javascript-333.svg?logo=javascript&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Html5-333.svg?logo=html5&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Css3-333.svg?logo=css3&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Microsoftedge-333.svg?logo=microsoftedge&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Google%20chrome-333.svg?logo=google-chrome&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Visual%20Scudio%20Code-333.svg?logo=microsoft&style=for-the-badge">
+<div>
+<div>
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/xoFeulB/BlueFox?style=social">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/xoFeulB/BlueFox?style=social">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/xoFeulB/BlueFox?style=social">
@@ -12,11 +20,17 @@
 <img alt="GitHub milestones" src="https://img.shields.io/github/milestones/open/xoFeulB/BlueFox?style=social">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/xoFeulB/BlueFox?style=social">
 </div>
+<div>
+
+[![CodeQL](https://github.com/xoFeulB/BlueFox/workflows/CodeQL/badge.svg)](https://github.com/xoFeulB/BlueFox/actions/workflows/github-code-scanning/codeql)
+
+</div>
 <hr>
 
-BlueFoxは、プロフェッショナルのためのWeb自動化ツールです。
+BlueFox は、プロフェッショナルのための Web 自動化ツールです。
 
 ## demo
+
 <div>
 
 https://user-images.githubusercontent.com/31212444/226794728-41125a6a-62d4-403f-9afb-cafab7ed400f.mp4
@@ -28,17 +42,15 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f0467
 
 </div>
 <div>
-    
+
 
 https://github.com/xoFeulB/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de870ceef85
 
-
 </div>
 <div>
-    
+
 
 https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-8383247d7ecc
-
 
 </div>
 
@@ -66,9 +78,9 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
   ///////////////////////////////////////
   await sleep(1000);
 
-  let search_result = await tab.dispatch.script(
-    () => {
-      return JSON.stringify([...document.querySelectorAll("#search a[data-jsarwt='1']")]
+  let search_result = await tab.dispatch.script(() => {
+    return JSON.stringify(
+      [...document.querySelectorAll("#search a[data-jsarwt='1']")]
         .filter((_) => {
           return _.querySelector("h3");
         })
@@ -76,13 +88,14 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
           return {
             href: _.href,
             title: _.querySelector("h3").textContent,
-          }
-        }))
-    }
-  );
+          };
+        })
+    );
+  });
   log(JSON.parse(search_result.result.value));
 })();
 ```
+
 <hr>
 
 ## JSON Example
