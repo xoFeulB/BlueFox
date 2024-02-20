@@ -4,10 +4,12 @@ import { default as highlight } from "/modules/highlight/es/highlight.min.js";
 
 import bash from "/modules/highlight/es/languages/bash.min.js";
 highlight.registerLanguage("language-bash", bash);
+highlight.registerLanguage("language-sh", bash);
 import css from "/modules/highlight/es/languages/css.min.js";
 highlight.registerLanguage("language-css", css);
 import javascript from "/modules/highlight/es/languages/javascript.min.js";
 highlight.registerLanguage("language-javascript", javascript);
+highlight.registerLanguage("language-js", javascript);
 import json from "/modules/highlight/es/languages/json.min.js";
 highlight.registerLanguage("language-json", json);
 import markdown from "/modules/highlight/es/languages/markdown.min.js";
@@ -36,6 +38,7 @@ window.customElements.define("mark-down", class extends HTMLElement {
         let text = await r.text();
         if (r.ok) {
           div.innerHTML = marked.parse(text);
+
         }
         await BlueFoxJs.Walker.walkHorizontally({
           _scope_: div,
@@ -46,17 +49,17 @@ window.customElements.define("mark-down", class extends HTMLElement {
             $.element.classList.add("radius");
           },
           "code": async ($) => {
-            $.element.closest("pre").classList.add("radius");
+            $.element.closest("pre")?.classList?.add("radius");
             $.element.innerHTML = highlight.highlight(
               $.element.textContent,
               {
-                language: $.element.className
+                language: $.element.className ? $.element.className : "language-sh",
               }
             ).value;
             let button = Object.assign(
               document.createElement("button"),
               {
-                className: "uk-icon-link copy-code"
+                className: $.element.className ? "uk-icon-link copy-code" : "uk-icon-link",
               }
             );
             button.setAttribute("uk-icon", "copy");
@@ -69,13 +72,13 @@ window.customElements.define("mark-down", class extends HTMLElement {
               button.classList.remove("uk-spinner");
             });
             let menu = Object.assign(
-              document.createElement("div"),
+              document.createElement($.element.className ? "div" : "span"),
               {
                 className: "code-menu"
               }
             );
             menu.append(button);
-            $.element.parentElement.prepend(menu);
+            $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
           }
         });
       } catch (e) { }
