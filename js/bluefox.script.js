@@ -57,7 +57,7 @@ export class BlueFoxScript {
                     this.tail = {};
                     this.init(config);
                     this.connector = new Connector();
-                    return BlueFoxJs.Util.l8.liquify(this);
+                    return this;
                   }
                   init(config) {
                     this.tail = Object.assign({
@@ -242,17 +242,6 @@ export class BlueFoxScript {
                         files: object
                       }
                     );
-                    return this;
-                  }
-                  async pushProperties(selector = this.selector) {
-                    await this.connector.load(_.id);
-                    let message = await this.connector.post({
-                      type: "BlueFox.GetElementProperties",
-                      object: {
-                        selector: selector,
-                      },
-                    });
-                    this.stack.push(message.object);
                     return this;
                   }
                   async getProperties(selector = this.selector) {
