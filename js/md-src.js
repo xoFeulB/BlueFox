@@ -19,7 +19,7 @@ highlight.registerLanguage("language-sql", sql);
 import xml from "/modules/highlight/es/languages/xml.min.js";
 highlight.registerLanguage("language-xml", xml);
 
-customElements.define("mark-down", class extends HTMLElement {
+window.customElements.define("mark-down", class extends HTMLElement {
   constructor() {
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
 
