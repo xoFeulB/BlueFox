@@ -1,3 +1,6 @@
+// © BlueFoxEnterprise
+// https://github.com/xoFeulB
+
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { marked } from "/modules/marked/marked.esm.js";
 import { default as highlight } from "/modules/highlight/es/highlight.min.js";
