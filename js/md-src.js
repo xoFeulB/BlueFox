@@ -63,9 +63,9 @@ customElements.define("mark-down", class extends HTMLElement {
             button.setAttribute("title", "copy");
             button.setAttribute("uk-tooltip", "");
             button.addEventListener("click", async (event) => {
-              await navigator.clipboard.writeText($.element.textContent);
+              navigator.clipboard.writeText($.element.textContent);
               button.classList.add("uk-spinner");
-              await sleep(925);
+              await sleep(930);
               button.classList.remove("uk-spinner");
             });
             let menu = Object.assign(
