@@ -48,6 +48,10 @@ window.customElements.define("mark-down", class extends HTMLElement {
           "img": async ($) => {
             $.element.classList.add("radius");
           },
+          "a": async ($) => {
+            $.element.setAttribute("target", "_blank");
+            $.element.setAttribute("rel", "noopener noreferrer");
+          },
           "code": async ($) => {
             $.element.closest("pre")?.classList?.add("radius");
             $.element.innerHTML = highlight.highlight(
