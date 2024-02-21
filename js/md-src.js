@@ -41,7 +41,6 @@ window.customElements.define("mark-down", class extends HTMLElement {
         let text = await r.text();
         if (r.ok) {
           div.innerHTML = marked.parse(text);
-
         }
         await BlueFoxJs.Walker.walkHorizontally({
           _scope_: div,

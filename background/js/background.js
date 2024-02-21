@@ -29,7 +29,7 @@
           R.debugger[sender.tab.id] = sender;
           return sender.tab.id;
         } catch (err) {
-          // log(err);
+          log(err);
           return false;
         }
       },

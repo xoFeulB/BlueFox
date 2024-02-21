@@ -5,14 +5,6 @@
 </div>
 
 <div>
-<img src="https://img.shields.io/badge/-Javascript-333.svg?logo=javascript&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Html5-333.svg?logo=html5&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Css3-333.svg?logo=css3&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Microsoftedge-333.svg?logo=microsoftedge&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Google%20chrome-333.svg?logo=google-chrome&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Visual%20Scudio%20Code-333.svg?logo=microsoft&style=for-the-badge">
-<div>
-<div>
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/xoFeulB/BlueFox?style=social">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/xoFeulB/BlueFox?style=social">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/xoFeulB/BlueFox?style=social">
@@ -21,13 +13,32 @@
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/xoFeulB/BlueFox?style=social">
 </div>
 <div>
+<img src="https://img.shields.io/badge/-Javascript-333.svg?logo=javascript&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Html5-333.svg?logo=html5&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Css3-333.svg?logo=css3&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Microsoftedge-333.svg?logo=microsoftedge&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Google%20chrome-333.svg?logo=google-chrome&style=for-the-badge">
+<img src="https://img.shields.io/badge/-Visual%20Studio%20Code-333.svg?logo=microsoft&style=for-the-badge">
+<div>
+<div>
 
 [![CodeQL](https://github.com/xoFeulB/BlueFox/workflows/CodeQL/badge.svg)](https://github.com/xoFeulB/BlueFox/actions/workflows/github-code-scanning/codeql)
+![GitHub top language](https://img.shields.io/github/languages/top/xoFeulB/BlueFox?style=flat-square)
 
 </div>
+
 <hr>
 
-BlueFox は、プロフェッショナルのための Web 自動化ツールです。
+<div align="center">
+<img src="https://ooo.bluefox.ooo/media/BlueFox_tp.png" width="80">
+<img src="https://ooo.bluefox.ooo/media/tail.png" width="80">
+    <h3>Agile Web Automation Software for Time-Starved Professionals</h3>
+    <p>BlueFox to improve your productivity!</p>
+</div>
+
+## About The Project
+
+
 
 ## demo
 
@@ -43,12 +54,10 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f0467
 </div>
 <div>
 
-
 https://github.com/xoFeulB/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de870ceef85
 
 </div>
 <div>
-
 
 https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-8383247d7ecc
 
@@ -240,3 +249,4 @@ DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
 
 ## Usage : in preparation
+## ^.,.^ BlueFox-Chan fan arts

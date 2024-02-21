@@ -6,15 +6,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src="/tab/js/init.js"></script>
+
     <!-- UIkit -->
     <link rel="stylesheet" href="/modules/uikit/css/uikit.min.css" />
     <script src="/modules/uikit/js/uikit.min.js" defer></script>
     <script src="/modules/uikit/js/uikit-icons.min.js" defer></script>
 
+    <script src="/js/bluefox.lib.js" defer></script>
     <script src="/js/postMessage.awaitable.js" defer></script>
     <script src="/js/sync-value.js" type="module" defer></script>
     <script src="/js/md-src.js" type="module" defer></script>
     <script src="/tab/js/index.js" type="module" defer></script>
+
+    <!-- MonacoEditor -->
+    <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
+
 
     <link rel="stylesheet" href="/tab/css/index.css" />
     <link rel="stylesheet" href="/tab/css/modern-ui.css" />
@@ -26,31 +33,26 @@
 <body>
     <div MenuTabs class="bg-main radius-bottom-left radius-bottom-right">
         <div constHide>
-            <input type="text" value="Scripting" id="menuControll">
+            <input type="text" value="Scripting" id="MenuControll">
         </div>
         <div>
             <div class="uk-flex uk-flex-middle">
-                <div MenuTab value="Scripting" setValueOnClick="#menuControll"
+                <div MenuTab value="Scripting" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <img src="/media/tail.png" width="20" height="20">
                     <span>Scripting</span>
                 </div>
-                <div MenuTab value="Tabs" setValueOnClick="#menuControll"
+                <div MenuTab value="Tabs" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span uk-icon="world"></span>
                     <span>Tabs</span>
                 </div>
-                <div MenuTab value="Utility" setValueOnClick="#menuControll"
+                <div MenuTab value="Utility" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span uk-icon="happy"></span>
                     <span>Utility</span>
                 </div>
-                <div MenuTab value="Settings" setValueOnClick="#menuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <span uk-icon="settings"></span>
-                    <span>Settings</span>
-                </div>
-                <div MenuTab value="Information" setValueOnClick="#menuControll"
+                <div MenuTab value="Information" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span uk-icon="info"></span>
                     <span>Information</span>
@@ -62,7 +64,46 @@
     <div>
         <div Main>
             <div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Tabs"]' class="uk-animation-fade">
+                <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow" uk-tooltip
+                    title="Help"></a>
+                <div id="modal-overflow" class="uk-modal-container" uk-modal>
+                    <div class="uk-modal-dialog">
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div class="uk-modal-body" uk-overflow-auto>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Scripting"]'>
+                                <mark-down src="/docs/Scripting.md"></mark-down>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Scripting"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div>
+                                <div class="uk-margin">
+                                    <button ReLoad class="uk-icon-link" uk-icon="refresh" title="ReLoad"
+                                        uk-tooltip></button>
+                                </div>
+                                <div class="divider-icon"></div>
+                                <div class="uk-margin">
+                                    <ul id="FileList" class="uk-list uk-list-striped"></ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-margin">
+                                    <button RunScript class="uk-icon-link" uk-icon="play-circle" title="RunScript"
+                                        uk-tooltip></button>
+                                </div>
+                                <div>
+                                    <div ServerScript></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Tabs"]' class="uk-animation-fade" hide>
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div Tabs>
@@ -70,19 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Scripting"]' class="uk-animation-fade" hide>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div>
-                                <button OpenServerTab class="uk-button uk-button-default">
-                                    <span>OpenServer </span>
-                                    <span class="uk-badge">Experimental</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Utility"]' class="uk-animation-fade" hide>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Utility"]' class="uk-animation-fade" hide>
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div>
@@ -266,129 +295,7 @@
                         </div>
                     </div>
                 </div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Settings"]' class="uk-animation-fade" hide>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div>
-                                <h3 class="uk-heading-bullet">BlueFox</h3>
-                                <!-- <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Protocol</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <select id="BluefoxServerProtocol" class="uk-select uk-width-3-4"
-                                            setValue="BluefoxServerProtocol">
-                                            <option value="http">http</option>
-                                            <option value="https">https</option>
-                                        </select>
-                                    </div>
-                                </div> -->
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Server</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <input id="BlueFoxServer" class="uk-input uk-width-3-4" type="text"
-                                            placeholder="Server" setValue="BluefoxServer" readonly>
-                                    </div>
-                                </div>
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-width-1-3">
-                                        <span class="uk-text-default">Token</span>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <div>
-                                            <div constHide>
-                                                <input id="BluefoxTokenInputState" type="text" value="password" sync
-                                                    sync-to="#BluefoxToken" sync-to-property="type" sync-from-this
-                                                    sync-from-property="value" sync-event='["change"]'>
-                                            </div>
-                                            <input id="BluefoxToken" class="uk-input uk-width-3-4" type="password"
-                                                placeholder="Token" setValue="BluefoxToken" readonly>
-                                            <span>
-                                                <button class="uk-icon-button" uk-icon="eye"
-                                                    setValueOnClick="#BluefoxTokenInputState" value="text"
-                                                    showWhenSome="#BluefoxTokenInputState"
-                                                    showWhenSome-values='["password"]'></button>
-                                                <button class="uk-icon-button" uk-icon="eye-slash"
-                                                    setValueOnClick="#BluefoxTokenInputState" value="password"
-                                                    showWhenSome="#BluefoxTokenInputState"
-                                                    showWhenSome-values='["text"]'></button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="uk-margin">
-                                    <button TestConnection class="uk-button uk-button-default">
-                                        <span>Test Connection</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div showWhenNotEvery="#BlueFoxServer"
-                                showWhenNotEvery-values='["api.bluefox.tech","local.api.bluefox"]' hide>
-                                <div>
-                                    <div class="divider-icon"></div>
-                                    <h3 class="uk-heading-bullet">MySQL/MariaDB</h3>
-                                    <div class="uk-flex uk-flex-middle">
-                                        <div class="uk-width-1-3">
-                                            <span class="uk-text-default">DatabaseName</span>
-                                        </div>
-                                        <div class="uk-width-2-3">
-                                            <input id="DatabaseName" class="uk-input uk-width-3-4" type="text"
-                                                placeholder="DatabaseName">
-                                        </div>
-                                    </div>
-                                    <div class="uk-flex uk-flex-middle">
-                                        <div class="uk-width-1-3">
-                                            <span class="uk-text-default">Server</span>
-                                        </div>
-                                        <div class="uk-width-2-3">
-                                            <input id="DatabaseServer" class="uk-input uk-width-3-4" type="text"
-                                                placeholder="Server">
-                                        </div>
-                                    </div>
-                                    <div class="uk-flex uk-flex-middle">
-                                        <div class="uk-width-1-3">
-                                            <span class="uk-text-default">User</span>
-                                        </div>
-                                        <div class="uk-width-2-3">
-                                            <input id="DatabaseUser" class="uk-input uk-width-3-4" type="text"
-                                                placeholder="User">
-                                        </div>
-                                    </div>
-                                    <div class="uk-flex uk-flex-middle">
-                                        <div class="uk-width-1-3">
-                                            <span class="uk-text-default">Password</span>
-                                        </div>
-                                        <div class="uk-width-2-3">
-                                            <div>
-                                                <div constHide>
-                                                    <input id="DatabasePasswordInputState" type="text" value="password"
-                                                        sync sync-to="#DatabasePassword" sync-to-property="type"
-                                                        sync-from-this sync-from-property="value"
-                                                        sync-event='["change"]'>
-                                                </div>
-                                                <input id="DatabasePassword" class="uk-input uk-width-3-4"
-                                                    type="password" placeholder="Password">
-                                                <span>
-                                                    <button class="uk-icon-button" uk-icon="eye"
-                                                        setValueOnClick="#DatabasePasswordInputState" value="text"
-                                                        showWhenSome="#DatabasePasswordInputState"
-                                                        showWhenSome-values='["password"]'></button>
-                                                    <button class="uk-icon-button" uk-icon="eye-slash"
-                                                        setValueOnClick="#DatabasePasswordInputState" value="password"
-                                                        showWhenSome="#DatabasePasswordInputState"
-                                                        showWhenSome-values='["text"]'></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#menuControll" showWhenSome-values='["Information"]' class="uk-animation-fade" hide>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Information"]' class="uk-animation-fade" hide>
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div>
@@ -478,6 +385,21 @@
                     </div>
                     <hr>
                 </div>
+            </template>
+            <template id="FileListTemplate">
+                <li>
+                    <div class="uk-flex">
+                        <div class="uk-width-1-2 uk-flex">
+                            <span Path></span>
+                        </div>
+                        <div class="uk-width-1-2 uk-flex uk-flex-right">
+                            <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull"
+                                title="ShowInEditor" uk-tooltip></button>
+                            <button Play class="uk-icon-link" uk-icon="play-circle" title="RunScript"
+                                uk-tooltip></button>
+                        </div>
+                    </div>
+                </li>
             </template>
         </div>
 </body>

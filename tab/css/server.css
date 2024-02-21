@@ -10,10 +10,10 @@
   background-color: #82b1ff;
 }
 
-/* [setValueOnClick="#menuControll"]{
+/* [setValueOnClick="#MenuControll"]{
   color: #82b1ff;
 }
-[setValueOnClick="#menuControll"]:hover{
+[setValueOnClick="#MenuControll"]:hover{
   color: #ecc883;
 } */
 .text-white {
@@ -108,14 +108,14 @@ active {
   opacity: 0.5;
   pointer-events: none;
 }
-div:has(> [setValueOnClick="#menuControll"]) {
+div:has(> [setValueOnClick="#MenuControll"]) {
   user-select: none;
 }
-[showWhenSome="#menuControll"] {
+[showWhenSome="#MenuControll"] {
   position: absolute;
   width: 100%;
 }
-div:has([showWhenSome="#menuControll"]) {
+div:has([showWhenSome="#MenuControll"]) {
   position: relative;
 }
 [showWhenSome="#BluefoxTokenInputState"],

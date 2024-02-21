@@ -323,11 +323,11 @@ import { default as anime } from "/modules/anime/anime.es.js";
               event.target.value = null;
             });
         },
-        "#menuControll": async ($) => {
+        "#MenuControll": async ($) => {
           let active = document.querySelector("active");
           let animate = async () => {
             let move_to_elm = document.querySelector(
-              `[value="${$.element.value}"][setValueOnClick="#menuControll"]`
+              `[value="${$.element.value}"][setValueOnClick="#MenuControll"]`
             );
             await anime({
               targets: active,
