@@ -2,7 +2,6 @@
 // https://github.com/LobeliaSecurity
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
-import { default as anime } from "/modules/anime/anime.es.js";
 
 {
   (async () => {
@@ -11,6 +10,7 @@ import { default as anime } from "/modules/anime/anime.es.js";
     };
 
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
+    let connector = new window.Connector();
 
     /* Display */ {
       let TabInfo = {
@@ -26,16 +26,14 @@ import { default as anime } from "/modules/anime/anime.es.js";
               return tabInfo[0];
             })()
           );
+          if (!connector.connector) {
+            await connector.load(TabInfo.id);
+          }
+
+          document.querySelector("title").textContent = `^.,.^ BlueFox / ${TabInfo.title}`;
           TabInfo.DOM = document.querySelector("#TabInfo");
           TabInfo.DOM.TabInfo = TabInfo;
           TabInfo.DOM.dispatchEvent(new Event("sync"));
-          Object.keys(TabInfo).forEach((key) => {
-            [...document.querySelectorAll(`[TabInfo="${key}"]`)].forEach(
-              (_) => {
-                _.textContent = TabInfo[key];
-              }
-            );
-          });
           if (!TabInfo.favIconUrl) {
             document
               .querySelector(
@@ -46,13 +44,38 @@ import { default as anime } from "/modules/anime/anime.es.js";
               .querySelector(`img[sync-from-property="TabInfo.favIconUrl"]`)
               ?.remove();
           }
+          let DOMSnapshot = await connector.post({
+            type: "BlueFox.CaptureDOMSnapshot",
+            object: {
+              computedStyles: [],
+            },
+          });
+          try {
+            let url = new URL(TabInfo.url);
+            await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreStrings.post`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(
+                {
+                  href: url.href,
+                  origin: url.origin,
+                  pathname: url.pathname,
+                  hash: url.hash,
+                  search: url.search,
+                  host: url.host,
+                  hostname: url.hostname,
+                  port: url.port,
+                  strings: [...(new Set(DOMSnapshot.object.strings))]
+                }
+              ),
+            });
+          } catch { }
         },
       };
       await TabInfo.reload();
       chrome.tabs.onUpdated.addListener(TabInfo.reload);
-
-      let connector = new window.Connector();
-      await connector.load(TabInfo.id);
 
       let scenarioHandler = async (scenarios) => {
         for (let scenario of scenarios) {
@@ -138,60 +161,87 @@ import { default as anime } from "/modules/anime/anime.es.js";
           }
 
           for (let action of actions) {
+            log(action);
             await connector.post({
               type: "BlueFox.Dispatch.Action",
               object: action.text,
             });
-            let _ = JSON.parse(action.text);
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            div.className = "uk-button uk-button-text";
-            div.textContent = action.name;
-            div.action = action;
-            li.appendChild(div);
-            document.querySelector("[RecentlyAttached]").appendChild(li);
-            div.addEventListener("click", async (event) => {
-              await connector.post({
-                type: "BlueFox.Dispatch.Action",
-                object: event.target.action.text,
+            try {
+              let url = new URL(TabInfo.url);
+              await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreTail.post`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(
+                  {
+                    "Location": {
+                      href: url.href,
+                      origin: url.origin,
+                      pathname: url.pathname,
+                      hash: url.hash,
+                      search: url.search,
+                      host: url.host,
+                      hostname: url.hostname,
+                      port: url.port,
+                    },
+                    "Tail": JSON.parse(action.text)
+                  }
+                ),
               });
-            });
-            let AttachedTailTemplate = document
-              .querySelector("#AttachedTailTemplate")
-              .content.cloneNode(true);
-            AttachedTailTemplate.querySelector("[Title]").textContent =
-              _.meta.title;
-            AttachedTailTemplate.querySelector("[Title]").action = action;
-            AttachedTailTemplate.querySelector(
-              "[Version]"
-            ).textContent = `v.${_.meta.version}`;
-            AttachedTailTemplate.querySelector(
-              "[ActionsLength]"
-            ).textContent = `${_.actions.length} Actions`;
-            AttachedTailTemplate.querySelector(
-              "[DateTime]"
-            ).textContent = `${new Date().toString()}`;
-            AttachedTailTemplate.querySelector(
-              "[Description]"
-            ).textContent = `${_.meta?.description}`;
-            document
-              .querySelector("[AttachedTails]")
-              .prepend(AttachedTailTemplate);
-            document
-              .querySelector("[AttachedTails]")
-              .children[0].querySelector("[Title]")
-              .addEventListener("click", async (event) => {
+            } catch { }
+            {
+              let _ = JSON.parse(action.text);
+              let li = document.createElement("li");
+              let div = document.createElement("div");
+              div.className = "uk-button uk-button-text";
+              div.textContent = action.name;
+              div.action = action;
+              li.appendChild(div);
+              document.querySelector("[RecentlyAttached]").appendChild(li);
+              div.addEventListener("click", async (event) => {
                 await connector.post({
                   type: "BlueFox.Dispatch.Action",
                   object: event.target.action.text,
                 });
               });
+              let AttachedTailTemplate = document
+                .querySelector("#AttachedTailTemplate")
+                .content.cloneNode(true);
+              AttachedTailTemplate.querySelector("[Title]").textContent =
+                _.meta.title;
+              AttachedTailTemplate.querySelector("[Title]").action = action;
+              AttachedTailTemplate.querySelector(
+                "[Version]"
+              ).textContent = `v.${_.meta.version}`;
+              AttachedTailTemplate.querySelector(
+                "[ActionsLength]"
+              ).textContent = `${_.actions.length} Actions`;
+              AttachedTailTemplate.querySelector(
+                "[DateTime]"
+              ).textContent = `${new Date().toString()}`;
+              AttachedTailTemplate.querySelector(
+                "[Description]"
+              ).textContent = `${(_.meta?.description).join("\n")}`;
+              document
+                .querySelector("[AttachedTails]")
+                .prepend(AttachedTailTemplate);
+              document
+                .querySelector("[AttachedTails]")
+                .children[0].querySelector("[Title]")
+                .addEventListener("click", async (event) => {
+                  await connector.post({
+                    type: "BlueFox.Dispatch.Action",
+                    object: event.target.action.text,
+                  });
+                });
+            }
           }
           for (let script of scripts) {
-            log(await connector.post({
+            await connector.post({
               type: "BlueFox.Dispatch.Script",
               object: script.text,
-            }));
+            });
             let li = document.createElement("li");
             let div = document.createElement("div");
             div.className = "uk-button uk-button-text";
@@ -250,7 +300,7 @@ import { default as anime } from "/modules/anime/anime.es.js";
             ).textContent = `${new Date().toString()}`;
             AttachedTailTemplate.querySelector(
               "[Description]"
-            ).textContent = `${_.meta?.description}`;
+            ).textContent = `${(_.meta?.description).join("\n")}`;
             document
               .querySelector("[AttachedScenarios]")
               .prepend(AttachedTailTemplate);
@@ -279,6 +329,9 @@ import { default as anime } from "/modules/anime/anime.es.js";
           $.element.addEventListener("click", async () => {
             await chrome.windows.create({
               tabId: TabInfo.id,
+              focused: false,
+              top: 0,
+              left: 0,
             });
           });
         },
@@ -324,35 +377,18 @@ import { default as anime } from "/modules/anime/anime.es.js";
             });
         },
         "#MenuControll": async ($) => {
-          let active = document.querySelector("active");
-          let animate = async () => {
-            let move_to_elm = document.querySelector(
-              `[value="${$.element.value}"][setValueOnClick="#MenuControll"]`
-            );
-            await anime({
-              targets: active,
-              scale: 0.3,
-              duration: 500,
-              easing: "easeInExpo",
-            }).finished;
-            await anime({
-              targets: active,
-              left: move_to_elm.getBoundingClientRect().left - 25,
-              duration: 500,
-              easing: "easeOutBounce",
-            }).finished;
-            await anime({
-              targets: active,
-              scale: 1,
-              duration: 300,
-              easing: "easeInExpo",
-            }).finished;
-          };
+          let MenuTabs = [...document.querySelectorAll("[MenuTabs] [MenuTab]")];
           $.element.addEventListener("change", (event) => {
-            animate();
-          });
-          window.addEventListener("resize", (event) => {
-            animate();
+            MenuTabs.filter((_) => {
+              _.classList.remove("bg-white");
+              return _.attributes.value.value == $.element.value;
+            }).forEach((_) => {
+              _.classList.add("bg-white");
+            });
+            window.scroll({
+              top: 0,
+              behavior: "smooth",
+            });
           });
         },
         "[showWhenSome]": async ($) => {
@@ -367,22 +403,8 @@ import { default as anime } from "/modules/anime/anime.es.js";
               return `${_}`;
             });
             if (values.includes(`${target.value}`)) {
-              $.element.style.opacity = 0;
               $.element.removeAttribute("hide");
-              await anime({
-                targets: $.element,
-                opacity: 1,
-                duration: 250,
-                delay: 200,
-                easing: "linear",
-              }).finished;
             } else {
-              await anime({
-                targets: $.element,
-                opacity: 0,
-                duration: 200,
-                easing: "linear",
-              }).finished;
               $.element.setAttribute("hide", "");
             }
           });
@@ -400,22 +422,8 @@ import { default as anime } from "/modules/anime/anime.es.js";
               return `${_}`;
             });
             if (!values.includes(`${target.value}`)) {
-              $.element.style.opacity = 0;
               $.element.removeAttribute("hide");
-              await anime({
-                targets: $.element,
-                opacity: 1,
-                duration: 250,
-                delay: 200,
-                easing: "linear",
-              }).finished;
             } else {
-              await anime({
-                targets: $.element,
-                opacity: 0,
-                duration: 200,
-                easing: "linear",
-              }).finished;
               $.element.setAttribute("hide", "");
             }
           });
@@ -440,6 +448,7 @@ import { default as anime } from "/modules/anime/anime.es.js";
         "[GetSelectors]": async ($) => {
           $.element.addEventListener("click", async (event) => {
             $.element.disabled = true;
+            $.element.setAttribute("uk-icon", "more");
             document.querySelector("#QuerySelector").disabled = true;
             document.querySelector("#QuerySelectorsProperty").disabled = true;
             let selector = document.querySelector("#QuerySelector").value;
@@ -495,6 +504,7 @@ import { default as anime } from "/modules/anime/anime.es.js";
               }
             }
             $.element.disabled = false;
+            $.element.setAttribute("uk-icon", "crosshairs");
             document.querySelector("#QuerySelector").disabled = false;
             document.querySelector("#QuerySelectorsProperty").disabled = false;
           });
@@ -635,6 +645,138 @@ import { default as anime } from "/modules/anime/anime.es.js";
               type: "BlueFox.Scan.NieAgresywny",
               object: {},
             });
+          });
+        },
+        "#UiNames": async ($) => {
+          $.element.SpreadsheetData = [];
+          let Spreadsheet = $.element.querySelector("[Spreadsheet]");
+          let checkbox = $.element.querySelector("[checkbox]");
+          let reload = $.element.querySelector("[Reload]");
+
+          reload.addEventListener("click", (event) => {
+            checkbox.dispatchEvent(new Event("change"));
+          });
+
+          checkbox.addEventListener("change", async (event) => {
+            [...checkbox.querySelectorAll("input")].forEach((_) => {
+              _.disabled = true;
+            });
+            reload.disabled = true;
+            reload.setAttribute("uk-icon", "more");
+            let div = document.createElement("div");
+            div.setAttribute("uk-spinner", "");
+            div.className = "uk-text-center";
+            Spreadsheet.textContent = "";
+            Spreadsheet.appendChild(div);
+
+            let selectors = [...checkbox.querySelectorAll("input")].filter((_) => {
+              return _.checked;
+            }).map((_) => { return _.value; });
+
+            $.element.SpreadsheetData = [];
+            for (let selector of selectors) {
+              let message = await connector.post({
+                type: "BlueFox.GetSelectors",
+                object: {
+                  selector: `[${selector}]`,
+                },
+              });
+
+              if (message.object) {
+                for (let _ of message.object) {
+                  let elementProperties = await connector.post({
+                    type: "BlueFox.GetElementProperties",
+                    object: {
+                      selector: _.selector,
+                    },
+                  });
+                  let property = BlueFoxJs.Util.getProperty(`attributes.${selector}.value`, elementProperties.object);
+                  if (property.object) {
+                    try {
+                      $.element.SpreadsheetData.push(
+                        [
+                          TabInfo.title,
+                          property.object[property.property]
+                            ? property.object[property.property]
+                            : "",
+
+                          property.object[property.property]
+                            ? `[${selector}="${property.object[property.property]}"]`
+                            : _.selector,
+
+                        ]
+                      );
+                    } catch { }
+                  }
+                }
+
+                await BlueFoxJs.Walker.walkHorizontally({
+                  _scope_: document,
+                  "#Actions": async ($$) => {
+                    let Selectors = {};
+                    $.element.SpreadsheetData.forEach((_) => {
+                      Selectors[_[1]] = _[2];
+                    });
+                    let Spreadsheet = $$.element.querySelector("[Spreadsheet]");
+                    $$.element.SpreadsheetData = [[]];
+                    Spreadsheet.textContent = "";
+                    Spreadsheet.style.minHeight = "500px";
+                    jspreadsheet(Spreadsheet, {
+                      data: $$.element.SpreadsheetData,
+                      columns: [
+                        {
+                          type: "dropdown", title: "Type", width: 300, align: "left",
+                          source: [
+                            "set",
+                            "push",
+                            "call",
+                            "event",
+                            "key",
+                            "open",
+                            "focus",
+                            "capture",
+                            "save",
+                            "assert",
+                          ]
+                        },
+                        {
+                          type: 'dropdown', title: 'Target', width: 300, align: "left",
+                          source: $.element.SpreadsheetData.map((_) => { return _[1]; })
+                        },
+                        {
+                          type: 'dropdown', title: 'ObjectPath', width: 300, align: "left",
+                          source: [
+                            "property.value",
+                            "property.click",
+                            "attribute.style",
+                            "attribute.class",
+                          ]
+                        },
+                        { type: 'text', title: 'Value', width: 300, align: "left" },
+                      ],
+                    });
+                  },
+                });
+              }
+            }
+
+            div.remove();
+            [...checkbox.querySelectorAll("input")].forEach((_) => {
+              _.disabled = false;
+            });
+            reload.disabled = false;
+            reload.setAttribute("uk-icon", "refresh");
+            if ($.element.SpreadsheetData.length != 0) {
+              jspreadsheet(Spreadsheet, {
+                data: $.element.SpreadsheetData,
+                filters: true,
+                columns: [
+                  { type: 'text', title: 'LocationTitle', width: 300, align: "left" },
+                  { type: 'text', title: 'Name', width: 300, align: "left" },
+                  { type: 'text', title: 'Selector', width: 300, align: "left" },
+                ],
+              });
+            }
           });
         },
       });

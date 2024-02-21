@@ -1,22 +1,3 @@
-[constHide],
-[hide] {
-  display: none !important;
-}
-
-.bg-orange {
-  background-color: #ecc883;
-}
-.bg-blue {
-  background-color: #82b1ff;
-}
-
-.text-white {
-  color: white;
-}
-.text-black {
-  color: black;
-}
-
 [CapturePreview] {
   pointer-events: initial !important;
   height: 40px;
@@ -24,28 +5,11 @@
   cursor: pointer;
 }
 
-.charms-header {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-}
-
 [SideNav] {
   position: sticky;
   top: 0;
   /* height: 100vh; */
   overflow: scroll;
-}
-[MenuTabs] {
-  border-bottom: solid 1px #e5e5e5;
-  position: sticky;
-}
-.bg-main {
-  background-color: #f6f8fa;
-}
-.bg-white {
-  background-color: white;
 }
 
 [BlueFoxFileAttach] {
@@ -63,39 +27,6 @@ li > a {
   width: 100%;
 }
 
-.divider-icon {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  position: relative;
-  height: 20px;
-  background-size: contain;
-  background-image: url("/media/tail.png");
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-}
-.divider-icon::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  max-width: calc(50% - (50px / 2));
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.divider-icon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 100%;
-  max-width: calc(50% - (50px / 2));
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.hidden-overflow {
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
 active {
   position: absolute;
   display: block;
@@ -110,13 +41,6 @@ active {
 div:has(> [setValueOnClick="#MenuControll"]) {
   user-select: none;
 }
-[showWhenSome="#MenuControll"] {
-  position: absolute;
-  width: 100%;
-}
-div:has([showWhenSome="#MenuControll"]) {
-  position: relative;
-}
 [Description] {
   white-space: pre-wrap;
 }
@@ -128,6 +52,22 @@ div:has([showWhenSome="#MenuControll"]) {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 500px;
 }
+.button-radius-top {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 500px;
+  border-top-right-radius: 500px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.button-radius-bottom {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 500px;
+  border-bottom-right-radius: 500px;
+}
 [GetElementPropertiesNotification] {
   max-height: 80vh;
 }
@@ -135,4 +75,11 @@ div:has([showWhenSome="#MenuControll"]) {
   white-space: pre-wrap;
   max-height: 80vh;
   overflow: scroll;
+}
+[Spreadsheet] {
+  width: 100%;
+  overflow-x: scroll;
+}
+[Spreadsheet] tbody tr:nth-child(even) {
+  background-color: #f2f8ff;
 }

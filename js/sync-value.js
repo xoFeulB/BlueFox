@@ -8,7 +8,6 @@ export const Values = await BlueFoxJs.Sync.value({
   Title: `^.,.^ BlueFox`,
   Copyright: `© ${new Date().getFullYear()} BlueFoxEnterprise`,
   Version: `v${chrome.runtime.getManifest().version}`,
-  BluefoxProtocol: "http",
   BluefoxServer: "localhost.bluefox.ooo",
   BluefoxToken:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJCbHVlRm94T3BlbkJldGEiOiJCbHVlRm94T3BlbkJldGEifQ.FmEvhzj_ujU9nN1TnuzB3OMF1s-mF-hL3N0iim6cikg",

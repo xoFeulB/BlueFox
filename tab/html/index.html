@@ -23,6 +23,7 @@
     <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
 
 
+    <link rel="stylesheet" href="/tab/css/common.css" />
     <link rel="stylesheet" href="/tab/css/index.css" />
     <link rel="stylesheet" href="/tab/css/modern-ui.css" />
 
@@ -31,7 +32,7 @@
 </head>
 
 <body>
-    <div MenuTabs class="bg-main radius-bottom-left radius-bottom-right">
+    <div MenuTabs class="bg-main radius-bottom-left radius-bottom-right" uk-sticky>
         <div constHide>
             <input type="text" value="Scripting" id="MenuControll">
         </div>
@@ -64,8 +65,8 @@
     <div>
         <div Main>
             <div>
-                <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow" uk-tooltip
-                    title="Help"></a>
+                <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow"
+                    uk-tooltip="Help"></a>
                 <div id="modal-overflow" class="uk-modal-container" uk-modal>
                     <div class="uk-modal-dialog">
                         <button class="uk-modal-close-default" type="button" uk-close></button>
@@ -83,18 +84,17 @@
                         <div class="uk-container uk-container-default">
                             <div>
                                 <div class="uk-margin">
-                                    <button ReLoad class="uk-icon-link" uk-icon="refresh" title="ReLoad"
-                                        uk-tooltip></button>
+                                    <button ReLoad class="uk-icon-link" uk-icon="refresh" uk-tooltip="ReLoad"></button>
                                 </div>
-                                <div class="divider-icon"></div>
-                                <div class="uk-margin">
+                                <div class="uk-margin ">
                                     <ul id="FileList" class="uk-list uk-list-striped"></ul>
                                 </div>
+                                <div class="divider-icon"></div>
                             </div>
                             <div>
                                 <div class="uk-margin">
-                                    <button RunScript class="uk-icon-link" uk-icon="play-circle" title="RunScript"
-                                        uk-tooltip></button>
+                                    <button RunScript class="uk-icon-link" uk-icon="play-circle"
+                                        uk-tooltip="RunScript"></button>
                                 </div>
                                 <div>
                                     <div ServerScript></div>
@@ -119,7 +119,6 @@
                                     <li>
                                         <a class="uk-accordion-title" href="#">
                                             <span>TSV to BlueFox:v0-JSON</span>
-                                            <span class="uk-badge">Experimental</span>
                                         </a>
                                         <div class="uk-accordion-content">
                                             <div class="uk-margin">
@@ -203,95 +202,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <!-- <div>
-                                <ul uk-accordion="multiple: true">
-                                    <li>
-                                        <a class="uk-accordion-title" href="#">
-                                            <span>TSV to BlueFox:v1-JSON</span>
-                                            <span class="uk-badge">Experimental</span>
-                                        </a>
-                                        <div class="uk-accordion-content">
-                                            <div class="uk-margin">
-                                                <div>
-                                                    <div>in↓</div>
-                                                    <textarea v1-in class="uk-textarea" rows="10"></textarea>
-                                                </div>
-                                                <div>
-                                                    <div>out↓</div>
-                                                    <textarea v1-out class="uk-textarea" rows="10"></textarea>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <table class="uk-table">
-                                                    <caption>TSV format</caption>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>type</th>
-                                                            <th>target</th>
-                                                            <th>objectPath</th>
-                                                            <th>value</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>set</td>
-                                                            <td>CSS Selector</td>
-                                                            <td>property.propertyName | attribute.attributeName</td>
-                                                            <td>Value</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>eval</td>
-                                                            <td>CSS Selector</td>
-                                                            <td>property.propertyName | attribute.attributeName</td>
-                                                            <td>Argument</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>capture</td>
-                                                            <td>CSS Selector</td>
-                                                            <td></td>
-                                                            <td>FileName</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>take</td>
-                                                            <td>CSS Selector</td>
-                                                            <td>property.propertyName | attribute.attributeName</td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>save</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td>FileName</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>sleep</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td>Millisecond</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>event</td>
-                                                            <td>CSS Selector</td>
-                                                            <td></td>
-                                                            <td>EventType</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -361,13 +271,9 @@
                             </header>
                             <div class="uk-comment-body">
                                 <button Focus class="uk-button uk-button-primary">Focus</button>
-                                <button Intelligence class="uk-button uk-button-default">
-                                    <div class="uk-flex uk-flex-middle">
-                                        <img src="/media/tail.png" width="20" height="20">
-                                        <span>intelligence</span>
-                                    </div>
-                                </button>
                                 <button SwitchTab class="uk-button uk-button-default">Switch Tab</button>
+                                <button TabToWindow class="uk-button uk-button-default"
+                                    uk-tooltip="title: Drop into new window; pos: bottom">Drop</button>
                             </div>
                         </article>
 
@@ -394,9 +300,8 @@
                         </div>
                         <div class="uk-width-1-2 uk-flex uk-flex-right">
                             <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull"
-                                title="ShowInEditor" uk-tooltip></button>
-                            <button Play class="uk-icon-link" uk-icon="play-circle" title="RunScript"
-                                uk-tooltip></button>
+                                uk-tooltip="ShowInEditor"></button>
+                            <button Play class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
                         </div>
                     </div>
                 </li>
