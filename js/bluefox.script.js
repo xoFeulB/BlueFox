@@ -136,7 +136,5 @@ export class BlueFoxScript {
       },
     };
     await this.tabs.reload();
-    chrome.tabs.onUpdated.addListener(this.tabs.reload);
-    chrome.tabs.onRemoved.addListener(this.tabs.reload);
   }
 };

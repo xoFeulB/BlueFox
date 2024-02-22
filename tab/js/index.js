@@ -316,6 +316,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 `  if (!(await blueFoxScript.tabs.get("https://www.google.com").length)) {`,
                 `    await blueFoxScript.tabs.create("https://www.google.com");`,
                 `    await sleep(1000);`,
+                `    await blueFoxScript.tabs.reload();`,
                 `  }`,
                 ``,
                 `  let tab = await blueFoxScript.tabs.get("https://www.google.com")[0];`,
