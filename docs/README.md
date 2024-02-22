@@ -1,25 +1,26 @@
 # ^.,.^ BlueFox
 
 <div align="center">
-<img src="https://repository-images.githubusercontent.com/589325811/52c33fdb-ccbb-4be9-8e20-62f642102f3b">
+    <img src="https://repository-images.githubusercontent.com/589325811/52c33fdb-ccbb-4be9-8e20-62f642102f3b">
 </div>
 
 <div>
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/xoFeulB/BlueFox?style=social">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/xoFeulB/BlueFox?style=social">
-<img alt="GitHub forks" src="https://img.shields.io/github/forks/xoFeulB/BlueFox?style=social">
-<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/xoFeulB/BlueFox?style=social">
-<img alt="GitHub milestones" src="https://img.shields.io/github/milestones/open/xoFeulB/BlueFox?style=social">
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/xoFeulB/BlueFox?style=social">
+    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/xoFeulB/BlueFox?style=social">
+    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/xoFeulB/BlueFox?style=social">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/xoFeulB/BlueFox?style=social">
+    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/xoFeulB/BlueFox?style=social">
+    <img alt="GitHub milestones" src="https://img.shields.io/github/milestones/open/xoFeulB/BlueFox?style=social">
+    <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/xoFeulB/BlueFox?style=social">
 </div>
 <div>
-<img src="https://img.shields.io/badge/-Javascript-333.svg?logo=javascript&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Html5-333.svg?logo=html5&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Css3-333.svg?logo=css3&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Microsoftedge-333.svg?logo=microsoftedge&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Google%20chrome-333.svg?logo=google-chrome&style=for-the-badge">
-<img src="https://img.shields.io/badge/-Visual%20Studio%20Code-333.svg?logo=microsoft&style=for-the-badge">
-<div>
+    <img src="https://img.shields.io/badge/-Javascript-333.svg?logo=javascript&style=for-the-badge">
+    <img src="https://img.shields.io/badge/-Html5-333.svg?logo=html5&style=for-the-badge">
+    <img src="https://img.shields.io/badge/-Css3-333.svg?logo=css3&style=for-the-badge">
+    <img src="https://img.shields.io/badge/-Microsoftedge-333.svg?logo=microsoftedge&style=for-the-badge">
+    <img src="https://img.shields.io/badge/-Google%20chrome-333.svg?logo=google-chrome&style=for-the-badge">
+    <img src="https://img.shields.io/badge/-Visual%20Studio%20Code-333.svg?logo=microsoft&style=for-the-badge">
+</div>
+
 <div>
 
 [![CodeQL](https://github.com/xoFeulB/BlueFox/workflows/CodeQL/badge.svg)](https://github.com/xoFeulB/BlueFox/actions/workflows/github-code-scanning/codeql)
@@ -30,8 +31,8 @@
 <hr>
 
 <div align="center">
-<img src="https://ooo.bluefox.ooo/media/BlueFox_tp.png" width="80">
-<img src="https://ooo.bluefox.ooo/media/tail.png" width="80">
+    <img src="https://ooo.bluefox.ooo/media/BlueFox_tp.png" width="80">
+    <img src="https://ooo.bluefox.ooo/media/tail.png" width="80">
     <h3>Agile Web Automation Software for Time-Starved Professionals</h3>
     <p>BlueFox to improve your productivity!</p>
 </div>
