@@ -11,6 +11,7 @@ highlight.registerLanguage("language-sh", bash);
 import css from "/modules/highlight/es/languages/css.min.js";
 highlight.registerLanguage("language-css", css);
 import javascript from "/modules/highlight/es/languages/javascript.min.js";
+highlight.registerLanguage("language-bluefoxscript", javascript);
 highlight.registerLanguage("language-javascript", javascript);
 highlight.registerLanguage("language-js", javascript);
 import json from "/modules/highlight/es/languages/json.min.js";
@@ -63,28 +64,67 @@ window.customElements.define("mark-down", class extends HTMLElement {
                 language: $.element.className ? $.element.className : "language-sh",
               }
             ).value;
-            let button = Object.assign(
-              document.createElement("button"),
-              {
-                className: $.element.className ? "uk-icon-link copy-code" : "uk-icon-link",
-              }
-            );
-            button.setAttribute("uk-icon", "copy");
-            button.setAttribute("title", "copy");
-            button.setAttribute("uk-tooltip", "");
-            button.addEventListener("click", async (event) => {
-              navigator.clipboard.writeText($.element.textContent);
-              button.classList.add("uk-spinner");
-              await sleep(930);
-              button.classList.remove("uk-spinner");
-            });
+
             let menu = Object.assign(
               document.createElement($.element.className ? "div" : "span"),
               {
                 className: "code-menu"
               }
             );
-            menu.append(button);
+            let menu_container = Object.assign(
+              document.createElement($.element.className ? "div" : "span"),
+              {
+                className: "code-menu-container"
+              }
+            );
+
+            if ($.element.closest("bluefoxscript")) {
+              let run_button = Object.assign(
+                document.createElement("button"),
+                {
+                  className: "uk-icon-link uk-margin-small-right",
+                }
+              );
+              run_button.setAttribute("uk-icon", "play-circle");
+              run_button.setAttribute("title", "RunScript");
+              run_button.setAttribute("uk-tooltip", "");
+              run_button.addEventListener("click", async (event) => {
+                run_button.classList.add("uk-spinner");
+                await chrome.runtime.sendMessage({
+                  type: "Debugger.attach",
+                });
+                await chrome.runtime.sendMessage({
+                  type: "Runtime.evaluate",
+                  object: {
+                    expression: $.element.textContent,
+                    objectGroup: "BlueFox-js-lanch",
+                    awaitPromise: true,
+                    returnByValue: true,
+                  },
+                });
+                run_button.classList.remove("uk-spinner");
+              });
+              menu_container.append(run_button);
+            }
+
+            let copy_button = Object.assign(
+              document.createElement("button"),
+              {
+                className: "uk-icon-link",
+              }
+            );
+            copy_button.setAttribute("uk-icon", "copy");
+            copy_button.setAttribute("title", "copy");
+            copy_button.setAttribute("uk-tooltip", "");
+            copy_button.addEventListener("click", async (event) => {
+              navigator.clipboard.writeText($.element.textContent);
+              copy_button.classList.add("uk-spinner");
+              await sleep(930);
+              copy_button.classList.remove("uk-spinner");
+            });
+
+            menu_container.append(copy_button);
+            menu.append(menu_container);
             $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
           }
         });

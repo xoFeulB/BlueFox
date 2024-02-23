@@ -107,8 +107,7 @@ img {
 .code-menu {
     position: relative;
 }
-
-.copy-code {
+.code-menu-container {
     position: absolute;
     top: 0;
     right: 0;

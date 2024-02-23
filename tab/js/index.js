@@ -285,7 +285,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 `        });`,
                 `    }`,
                 `  );`,
-                `  window.alert(JSON.stringify(search_result.result.value));`,
+                `  window.alert(JSON.stringify(search_result.result.value, null, 4));`,
                 `})();`,
               ].join("\n"),
               language: "javascript",

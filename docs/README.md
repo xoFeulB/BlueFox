@@ -65,6 +65,7 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
 </div>
 
 ## JavaScript Example
+<bluefoxscript>
 
 ```javascript
 (async () => {
@@ -101,9 +102,11 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
         });
     }
   );
-  window.alert(JSON.stringify(search_result.result.value));
+
+  window.alert(JSON.stringify(search_result.result.value, null, 4));
 })();
 ```
+</bluefoxscript>
 
 <hr>
 
