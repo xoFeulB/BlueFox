@@ -74,10 +74,10 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
   if (!(await blueFoxScript.tabs.get("https://www.google.com").length)) {
     await blueFoxScript.tabs.create("https://www.google.com");
     await sleep(1000);
+    await blueFoxScript.tabs.reload();
   }
 
   let tab = await blueFoxScript.tabs.get("https://www.google.com")[0];
-  ///////////////////////////////////////
   await tab.dispatch
     .tails()
     .target("textarea")
@@ -85,12 +85,11 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
     .target("[name='btnK'][tabindex='0']")
     .call("click", null)
     .run({ sleep: 50 });
-  ///////////////////////////////////////
   await sleep(1000);
 
-  let search_result = await tab.dispatch.script(() => {
-    return JSON.stringify(
-      [...document.querySelectorAll("#search a[data-jsarwt='1']")]
+  let search_result = await tab.dispatch.script(
+    () => {
+      return [...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])")]
         .filter((_) => {
           return _.querySelector("h3");
         })
@@ -98,141 +97,12 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
           return {
             href: _.href,
             title: _.querySelector("h3").textContent,
-          };
-        })
-    );
-  });
-  log(JSON.parse(search_result.result.value));
+          }
+        });
+    }
+  );
+  window.alert(JSON.stringify(search_result.result.value));
 })();
-```
-
-<hr>
-
-## JSON Example
-
-BlueFox makes your test definitions highly available and portable, taking your productivity to the next level.  
-BlueFox automation are "Data structuralable". Here is a simple example.  
-It uses spreadsheets that engineers hate and a JSON format that can be easily generated from your favorite programming language.  
-That's why I say "not scripts, It's data structures".
-
-```JSON
-{
-    "meta": {
-        "version": 1,
-        "title": "v1 format",
-        "description": "description"
-    },
-    "sleep": 0,
-    "dispatchEvents": [
-        {
-            "comment": "",
-            "option": {
-                "eventObject": "path",
-                "eventType": "event type",
-                "eventArgs": "any"
-            }
-        }
-    ],
-    "actions": [
-        {
-            "comment": "",
-            "type": "set",
-            "target": {
-                "selector": "css selector",
-                "property": "property | null"
-            },
-            "option": {
-                "property": {
-                    "path": "value"
-                },
-                "attribute": {
-                    "key": "value"
-                }
-            }
-        },
-        {
-            "comment": "",
-            "type": "push",
-            "target": {
-                "selector": "css selector",
-                "property": "property | null"
-            },
-            "option": {
-                "property": {
-                    "path": "value"
-                },
-                "attribute": {
-                    "key": "value"
-                }
-            }
-        },
-        {
-            "comment": "",
-            "type": "call",
-            "target": {
-                "selector": "css selector",
-                "property": "property | null"
-            },
-            "option": "any"
-        },
-        {
-            "comment": "",
-            "type": "event",
-            "target": {
-                "selector": "css selector",
-                "property": "property | null"
-            },
-            "option": {
-                "eventObject": "path",
-                "eventType": "event type",
-                "eventArgs": "any"
-            }
-        },
-        {
-            "comment": "",
-            "type": "sleep",
-            "option": {
-                "msec": "int"
-            }
-        },
-        {
-            "comment": "",
-            "type": "open",
-            "option": {
-                "url": "http..."
-            }
-        },
-        {
-            "comment": "",
-            "type": "focus",
-            "target": {
-                "selector": "css selector",
-                "property": "property | null",
-                "reset": "boolean"
-            }
-        },
-        {
-            "comment": "need for human",
-            "type": "capture",
-            "target": {
-                "selector": "css selector",
-                "property": "property | null"
-            },
-            "option": {
-                "fileName": "fileName",
-                "format": "jpeg|png|webp",
-                "quality": "int | 0~100"
-            }
-        },
-        {
-            "comment": "need for human",
-            "type": "save",
-            "option": {
-                "fileName": "fileName"
-            }
-        }
-    ]
-}
 ```
 
 <hr>
@@ -247,7 +117,7 @@ or Download archive(ZIP) from releases page or repo top page this repo, and expo
 releases : https://github.com/xoFeulB/BlueFox/releases  
 DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 
-then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
+then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="edge://extensions/" target="_blank">edge://extensions/</a>)
 
 ## Usage : in preparation
 ## ^.,.^ BlueFox-Chan fan arts

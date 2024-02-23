@@ -129,6 +129,10 @@
     let CaptureType = {
       click: EventFilter.MouseEvent,
       dblclick: EventFilter.MouseEvent,
+      drop: EventFilter.MouseEvent,
+      dragover: EventFilter.MouseEvent,
+      dragenter: EventFilter.MouseEvent,
+      pointerdown: EventFilter.MouseEvent,
       beforeinput: EventFilter.InputEvent,
       focus: EventFilter.FocusEvent,
       focusin: EventFilter.FocusEvent,

@@ -609,7 +609,72 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
           );
           menu.append(button);
           $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
-        }
+        },
+        "textarea[v0-in]": async ($) => {
+          $.element.addEventListener("input", (event) => {
+            let R = [];
+            let lines = $.element.value
+              .split("\n")
+              .filter((_) => {
+                return _ != "";
+              })
+              .map((_) => {
+                return _.split("\t");
+              });
+            for (let line of lines.slice(1)) {
+              let r = {};
+              for (let i in lines[0]) {
+                r[lines[0][i]] = line[i].replaceAll("\\n", "\n");
+              }
+              if (r.type) {
+                R.push(r);
+              }
+            }
+
+            let J = R.map((_) => {
+              _.value =
+                {
+                  null: null,
+                  true: true,
+                  false: false,
+                }[_.value.toLowerCase()] ?? _.value;
+              let j = {
+                type: _.type,
+                target: _.target,
+              };
+
+              if (_.type == "event") {
+                j.dispatchEvent = _.value;
+              } else if (_.type == "sleep") {
+                j.target = Number(_.value);
+              } else if (_.type == "capture") {
+                j.fileName = _.value;
+              } else if (_.type == "save") {
+                j.fileName = _.value;
+              } else if (_.objectPath) {
+                let objectPath = _.objectPath.split(".");
+                j[objectPath[0]] = {};
+                j[objectPath[0]][
+                  objectPath[1].join ? objectPath[1].join(".") : objectPath[1]
+                ] = _.value;
+              }
+              return j;
+            });
+
+            document.querySelector("textarea[v0-out]").value = JSON.stringify(
+              {
+                meta: {
+                  version: 0,
+                },
+                sleep: 0,
+                dispatchEvents: ["change"],
+                actions: J,
+              },
+              null,
+              4
+            );
+          });
+        },
       });
       await BlueFoxJs.Sync.view();
 
