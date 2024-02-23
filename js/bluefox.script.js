@@ -14,7 +14,9 @@ export class BlueFoxScript {
     this.connector = new Connector();
   }
 
+  // interface
   async runRemoteScript() { }
+  async getRemoteFile() { }
 
   async init() {
     this.tabs = {
@@ -115,26 +117,28 @@ export class BlueFoxScript {
           return regexp_object.test(_.url.href);
         });
       },
-      getFocused: () => {
-        let regexp_object = new RegExp(regexp, "g");
-        return this.tabs.info.filter((_) => {
-          return regexp_object.test(_.url.href);
-        });
-      },
-      create: async (url, option = {
+      create: async (url, msec = 1000, option = {
         focused: false,
         top: 0,
         left: 0,
       }) => {
-        await chrome.windows.create(
+        let created = await chrome.windows.create(
           Object.assign(
             {
               url: url,
             }, option
           )
         );
+        await sleep(msec);
+        await this.tabs.reload();
+
+        let tab = this.tabs.info.filter((_) => {
+          return _.id == created.tabs[0].id;
+        })[0];
+        return tab;
       },
     };
     await this.tabs.reload();
+    return this;
   }
 };

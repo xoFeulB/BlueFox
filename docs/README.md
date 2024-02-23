@@ -69,16 +69,9 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
 
 ```javascript
 (async () => {
-  let blueFoxScript = new BlueFoxScript();
-  await blueFoxScript.init();
+  let blueFoxScript = await new BlueFoxScript().init();
 
-  if (!(await blueFoxScript.tabs.get("https://www.google.com").length)) {
-    await blueFoxScript.tabs.create("https://www.google.com");
-    await sleep(1000);
-    await blueFoxScript.tabs.reload();
-  }
-
-  let tab = await blueFoxScript.tabs.get("https://www.google.com")[0];
+  let tab = await blueFoxScript.tabs.create("https://www.google.com");
   await tab.dispatch
     .tails()
     .target("textarea")
