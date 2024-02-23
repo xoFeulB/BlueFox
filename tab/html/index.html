@@ -48,11 +48,6 @@
                     <span uk-icon="world"></span>
                     <span>Tabs</span>
                 </div>
-                <div MenuTab value="Utility" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <span uk-icon="happy"></span>
-                    <span>Utility</span>
-                </div>
                 <div MenuTab value="Information" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span uk-icon="info"></span>
@@ -107,100 +102,6 @@
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div Tabs>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Utility"]' class="uk-animation-fade" hide>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div>
-                                <ul uk-accordion="multiple: true">
-                                    <li>
-                                        <a class="uk-accordion-title" href="#">
-                                            <span>TSV to BlueFox:v0-JSON</span>
-                                        </a>
-                                        <div class="uk-accordion-content">
-                                            <div class="uk-margin">
-                                                <div>
-                                                    <div>in↓</div>
-                                                    <textarea v0-in class="uk-textarea" rows="10"></textarea>
-                                                </div>
-                                                <div>
-                                                    <div>out↓</div>
-                                                    <textarea v0-out class="uk-textarea" rows="10"></textarea>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <table class="uk-table">
-                                                    <caption>TSV format</caption>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>type</th>
-                                                            <th>target</th>
-                                                            <th>objectPath</th>
-                                                            <th>value</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>set</td>
-                                                            <td>CSS Selector</td>
-                                                            <td>property.propertyName | attribute.attributeName</td>
-                                                            <td>Value</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>eval</td>
-                                                            <td>CSS Selector</td>
-                                                            <td>property.propertyName | attribute.attributeName</td>
-                                                            <td>Argument</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>capture</td>
-                                                            <td>CSS Selector</td>
-                                                            <td></td>
-                                                            <td>FileName</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>take</td>
-                                                            <td>CSS Selector</td>
-                                                            <td>property.propertyName | attribute.attributeName</td>
-                                                            <td></td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>save</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td>FileName</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>sleep</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td>Millisecond</td>
-                                                        </tr>
-                                                    </tbody>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>event</td>
-                                                            <td>CSS Selector</td>
-                                                            <td></td>
-                                                            <td>EventType</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
