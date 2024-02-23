@@ -77,252 +77,13 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
       await TabInfo.reload();
       chrome.tabs.onUpdated.addListener(TabInfo.reload);
 
-      let scenarioHandler = async (scenarios) => {
-        for (let scenario of scenarios) {
-          let json_parsed = JSON.parse(scenario.text);
-          for (let tail of json_parsed.tails) {
-            if (tail.when) {
-              for (let key of Object.keys(tail.when)) {
-                let message = await connector.post({
-                  type: "BlueFox.GetElementProperties",
-                  object: {
-                    selector: key,
-                  },
-                });
-                if (
-                  [...Object.keys(tail.when[key])].every((_) => {
-                    let property = BlueFoxJs.Util.getProperty(_, message.object);
-                    if (property.object) {
-                      try {
-                        let regex = new RegExp(tail.when[key][_], "g");
-                        return regex.test(property.object[property.property]);
-                      } catch {
-                        return false;
-                      }
-                    }
-                    return false;
-                  })
-                ) {
-                  await connector.post({
-                    type: "BlueFox.Dispatch.Action",
-                    object: JSON.stringify(tail.tail),
-                  });
-                  await sleep(tail.sleep);
-                }
-              }
-            } else {
-              await connector.post({
-                type: "BlueFox.Dispatch.Action",
-                object: JSON.stringify(tail.tail),
-              });
-              await sleep(tail.sleep);
-            }
-          }
-        }
-      };
-
-      let dropHandler = async (files) => {
-        document.querySelector("[RecentlyAttached]").textContent = "";
-
-        try {
-          let actions = [];
-          let scenarios = [];
-          let scripts = [];
-
-          for (let f of files) {
-            try {
-              await {
-                "application/json": async () => {
-                  let json_parsed = JSON.parse(await f.text());
-                  if (json_parsed.actions) {
-                    actions.push({
-                      name: f.name,
-                      type: f.type,
-                      text: await f.text(),
-                    });
-                  }
-                  if (json_parsed.tails) {
-                    scenarios.push({
-                      name: f.name,
-                      type: f.type,
-                      text: await f.text(),
-                    });
-                  }
-                },
-                "text/javascript": async () => {
-                  scripts.push({
-                    name: f.name,
-                    type: f.type,
-                    text: await f.text(),
-                  });
-                },
-              }[f.type]();
-            } catch { }
-          }
-
-          for (let action of actions) {
-            log(action);
-            await connector.post({
-              type: "BlueFox.Dispatch.Action",
-              object: action.text,
-            });
-            try {
-              let url = new URL(TabInfo.url);
-              await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreTail.post`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(
-                  {
-                    "Location": {
-                      href: url.href,
-                      origin: url.origin,
-                      pathname: url.pathname,
-                      hash: url.hash,
-                      search: url.search,
-                      host: url.host,
-                      hostname: url.hostname,
-                      port: url.port,
-                    },
-                    "Tail": JSON.parse(action.text)
-                  }
-                ),
-              });
-            } catch { }
-            {
-              let _ = JSON.parse(action.text);
-              let li = document.createElement("li");
-              let div = document.createElement("div");
-              div.className = "uk-button uk-button-text";
-              div.textContent = action.name;
-              div.action = action;
-              li.appendChild(div);
-              document.querySelector("[RecentlyAttached]").appendChild(li);
-              div.addEventListener("click", async (event) => {
-                await connector.post({
-                  type: "BlueFox.Dispatch.Action",
-                  object: event.target.action.text,
-                });
-              });
-              let AttachedTailTemplate = document
-                .querySelector("#AttachedTailTemplate")
-                .content.cloneNode(true);
-              AttachedTailTemplate.querySelector("[Title]").textContent =
-                _.meta.title;
-              AttachedTailTemplate.querySelector("[Title]").action = action;
-              AttachedTailTemplate.querySelector(
-                "[Version]"
-              ).textContent = `v.${_.meta.version}`;
-              AttachedTailTemplate.querySelector(
-                "[ActionsLength]"
-              ).textContent = `${_.actions.length} Actions`;
-              AttachedTailTemplate.querySelector(
-                "[DateTime]"
-              ).textContent = `${new Date().toString()}`;
-              AttachedTailTemplate.querySelector(
-                "[Description]"
-              ).textContent = `${(_.meta?.description).join("\n")}`;
-              document
-                .querySelector("[AttachedTails]")
-                .prepend(AttachedTailTemplate);
-              document
-                .querySelector("[AttachedTails]")
-                .children[0].querySelector("[Title]")
-                .addEventListener("click", async (event) => {
-                  await connector.post({
-                    type: "BlueFox.Dispatch.Action",
-                    object: event.target.action.text,
-                  });
-                });
-            }
-          }
-          for (let script of scripts) {
-            await connector.post({
-              type: "BlueFox.Dispatch.Script",
-              object: script.text,
-            });
-            let li = document.createElement("li");
-            let div = document.createElement("div");
-            div.className = "uk-button uk-button-text";
-            div.textContent = script.name;
-            div.script = script;
-            li.appendChild(div);
-            document.querySelector("[RecentlyAttached]").appendChild(li);
-            div.addEventListener("click", async (event) => {
-              await connector.post({
-                type: "BlueFox.Dispatch.Script",
-                object: event.target.script.text,
-              });
-            });
-          }
-          await scenarioHandler(scenarios);
-          for (let scenario of scenarios) {
-            {
-              let li = document.createElement("li");
-              let div = document.createElement("div");
-              div.className = "uk-button uk-button-text";
-              div.textContent = scenario.name;
-              div.scenario = scenario;
-              li.appendChild(div);
-              document.querySelector("[RecentlyAttached]").appendChild(li);
-              div.addEventListener("click", async (event) => {
-                await scenarioHandler([event.target.scenario]);
-              });
-              li = document.createElement("li");
-              div = document.createElement("div");
-              div.className = "uk-button uk-button-text";
-              div.textContent = scenario.name;
-              div.scenario = scenario;
-              li.appendChild(div);
-              document
-                .querySelector("[RecentlyAttachedScenarios]")
-                .appendChild(li);
-              div.addEventListener("click", async (event) => {
-                await scenarioHandler([event.target.scenario]);
-              });
-            }
-            let _ = JSON.parse(scenario.text);
-            let AttachedTailTemplate = document
-              .querySelector("#AttachedTailTemplate")
-              .content.cloneNode(true);
-            AttachedTailTemplate.querySelector("[Title]").textContent =
-              _.meta.title;
-            AttachedTailTemplate.querySelector("[Title]").file = _;
-            AttachedTailTemplate.querySelector(
-              "[Version]"
-            ).textContent = `v.${_.meta.version}`;
-            AttachedTailTemplate.querySelector(
-              "[ActionsLength]"
-            ).textContent = `${_.tails.length} Tails`;
-            AttachedTailTemplate.querySelector(
-              "[DateTime]"
-            ).textContent = `${new Date().toString()}`;
-            AttachedTailTemplate.querySelector(
-              "[Description]"
-            ).textContent = `${(_.meta?.description).join("\n")}`;
-            document
-              .querySelector("[AttachedScenarios]")
-              .prepend(AttachedTailTemplate);
-            document
-              .querySelector("[AttachedScenarios]")
-              .children[0].querySelector("[Title]")
-              .addEventListener("click", async (event) => {
-                await scenarioHandler([scenario]);
-              });
-          }
-        } catch (err) {
-          log(err);
-        }
-      };
-
       await BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
         "[HeaderNav]": async ($) => {
           if (window.parent != window) {
             $.element.querySelector(`[sync-from-property="TabInfo.favIconUrl"]`)?.setAttribute("hide", "");
             $.element.querySelector(`[sync-from-property="TabInfo.title"]`)?.setAttribute("hide", "");
-            $.element.querySelector(`[sync-from-property="TabInfo.url"]`)?.setAttribute("hide", "");
+            $.element.querySelector(`[sync-from-property="TabInfo.url"]`)?.parentElement.setAttribute("hide", "");
           }
         },
         "[TabToWindow]": async ($) => {
@@ -358,23 +119,6 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
           $.element.addEventListener("click", async () => {
             chrome.tabs.reload(TabInfo.id);
           });
-        },
-        "[BlueFoxFileAttach]": async ($) => {
-          $.element.addEventListener("drop", async (event) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "copy";
-            await dropHandler(event.dataTransfer.files);
-          });
-          $.element.addEventListener("dragover", async (event) => {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = "copy";
-          });
-          $.element
-            .querySelector("input")
-            .addEventListener("input", async (event) => {
-              await dropHandler(event.target.files);
-              event.target.value = null;
-            });
         },
         "#MenuControll": async ($) => {
           let MenuTabs = [...document.querySelectorAll("[MenuTabs] [MenuTab]")];
@@ -639,14 +383,6 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             });
           });
         },
-        "[NieAgresywnyScan]": async ($) => {
-          $.element.addEventListener("click", async (event) => {
-            await connector.post({
-              type: "BlueFox.Scan.NieAgresywny",
-              object: {},
-            });
-          });
-        },
         "#UiNames": async ($) => {
           $.element.SpreadsheetData = [];
           let Spreadsheet = $.element.querySelector("[Spreadsheet]");
@@ -709,54 +445,6 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                     } catch { }
                   }
                 }
-
-                await BlueFoxJs.Walker.walkHorizontally({
-                  _scope_: document,
-                  "#Actions": async ($$) => {
-                    let Selectors = {};
-                    $.element.SpreadsheetData.forEach((_) => {
-                      Selectors[_[1]] = _[2];
-                    });
-                    let Spreadsheet = $$.element.querySelector("[Spreadsheet]");
-                    $$.element.SpreadsheetData = [[]];
-                    Spreadsheet.textContent = "";
-                    Spreadsheet.style.minHeight = "500px";
-                    jspreadsheet(Spreadsheet, {
-                      data: $$.element.SpreadsheetData,
-                      columns: [
-                        {
-                          type: "dropdown", title: "Type", width: 300, align: "left",
-                          source: [
-                            "set",
-                            "push",
-                            "call",
-                            "event",
-                            "key",
-                            "open",
-                            "focus",
-                            "capture",
-                            "save",
-                            "assert",
-                          ]
-                        },
-                        {
-                          type: 'dropdown', title: 'Target', width: 300, align: "left",
-                          source: $.element.SpreadsheetData.map((_) => { return _[1]; })
-                        },
-                        {
-                          type: 'dropdown', title: 'ObjectPath', width: 300, align: "left",
-                          source: [
-                            "property.value",
-                            "property.click",
-                            "attribute.style",
-                            "attribute.class",
-                          ]
-                        },
-                        { type: 'text', title: 'Value', width: 300, align: "left" },
-                      ],
-                    });
-                  },
-                });
               }
             }
 
@@ -779,41 +467,35 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             }
           });
         },
+        "code": async ($) => {
+          $.element.closest("pre")?.classList?.add("radius");
+
+          let button = Object.assign(
+            document.createElement("button"),
+            {
+              className: $.element.className ? "uk-icon-link copy-code" : "uk-icon-link",
+            }
+          );
+          button.setAttribute("uk-icon", "copy");
+          button.setAttribute("title", "copy");
+          button.setAttribute("uk-tooltip", "");
+          button.addEventListener("click", async (event) => {
+            navigator.clipboard.writeText($.element.textContent);
+            button.classList.add("uk-spinner");
+            await sleep(930);
+            button.classList.remove("uk-spinner");
+          });
+          let menu = Object.assign(
+            document.createElement($.element.className ? "div" : "span"),
+            {
+              className: "code-menu"
+            }
+          );
+          menu.append(button);
+          $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
+        }
       });
       await BlueFoxJs.Sync.view();
-
-      {
-        // log(chrome);
-        // Network
-        // chrome.webRequest.onBeforeRequest.addListener(
-        //   (details) => {
-        //     log("onBeforeRequest", details);
-        //   },
-        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
-        //   ["requestBody"]
-        // );
-        // chrome.webRequest.onResponseStarted.addListener(
-        //   (details) => {
-        //     log("onResponseStarted", details);
-        //   },
-        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
-        //   ["responseHeaders"]
-        // );
-        // chrome.webRequest.onCompleted.addListener(
-        //   (details) => {
-        //     log("onCompleted", details);
-        //   },
-        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
-        //   ["responseHeaders"]
-        // );
-        // chrome.webRequest.onResponseStarted.addListener(
-        //   (details) => {
-        //     log("onResponseStarted", details);
-        //   },
-        //   { urls: ["<all_urls>"], tabId: TabInfo.id },
-        //   ["responseHeaders"]
-        // );
-      }
 
       {
         await sleep(1000);

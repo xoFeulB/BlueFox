@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="/tab/css/common.css" />
     <link rel="stylesheet" href="/tab/css/focus.css" />
     <link rel="stylesheet" href="/tab/css/modern-ui.css" />
+
+    <link rel="stylesheet" href="/modules/highlight/styles/github.min.css" />
 </head>
 
 <body>
@@ -50,8 +52,9 @@
                                 sync-from-property="TabInfo.title"></span>
                         </div>
                         <div class="uk-text-meta">
-                            <span sync sync-to-this sync-to-property="textContent" sync-from="#TabInfo"
-                                sync-from-property="TabInfo.url"></span>
+                            <code>
+                                <span sync sync-to-this sync-to-property="textContent" sync-from="#TabInfo" sync-from-property="TabInfo.url"></span>
+                            </code>
                         </div>
                         <div class="uk-text-meta">
                             <span EventListners>...</span>
@@ -101,17 +104,7 @@
             <div class="uk-flex uk-flex-middle">
                 <div MenuTab value="Gathering" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <img src="/media/tail.png" width="20" height="20">
                     <span>Gathering</span>
-                </div>
-                <div MenuTab value="Tails" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <img src="/media/tail.png" width="20" height="20">
-                    <span>Tails</span>
-                </div>
-                <div MenuTab value="Scenario" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <span>Scenario</span>
                 </div>
                 <div MenuTab value="Selector" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
@@ -121,50 +114,12 @@
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span>CapturEvents</span>
                 </div>
-                <div MenuTab value="NieAgresywnyScan" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <span>NieAgresywnyScan</span>
-                </div>
             </div>
         </div>
     </div>
 
-    <div class="uk-flex uk-flex-center">
-        <div SideNav class="uk-width-1-4 uk-visible@s">
-            <div class="uk-padding">
-                <div>
-                    <div class="uk-flex uk-flex-middle">
-                        <span uk-icon="icon: bolt;" class="uk-margin-small-right"></span>
-                        <span class="uk-text-default uk-text-bold">Recently Attached</span>
-                    </div>
-                    <div class="uk-margin-top">
-                        <ul RecentlyAttached class="uk-list uk-link-text uk-text-small"></ul>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-flex uk-flex-middle">
-                        <img src="/media/tail.png" width="30" height="30" class="uk-margin-small-right">
-                        <span class="uk-text-default uk-text-bold">Tails</span>
-                    </div>
-                    <div class="uk-margin-top">
-                        <ul class="uk-list uk-link-text uk-text-small" Tails>
-                            <li><a>BlueFox</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="divider-icon"></div>
-                <div>
-                    <div class="uk-flex uk-flex-middle">
-                        <span uk-icon="icon: calendar;" class="uk-margin-small-right"></span>
-                        <span class="uk-text-default uk-text-bold">Scenario</span>
-                    </div>
-                    <div class="uk-margin-top">
-                        <ul Scenarios class="uk-list uk-link-text uk-text-small"></ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div Main class="uk-width-expand uk-padding">
+    <div>
+        <div Main>
             <div>
                 <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow"
                     uk-tooltip="Help"></a>
@@ -181,229 +136,130 @@
             </div>
             <div>
                 <div showWhenSome="#MenuControll" showWhenSome-values='["Gathering"]' class="uk-animation-fade" hide>
-                    <div id="UiNames">
-                        <div class="uk-margin">
-                            <div checkbox>
-                                <label>
-                                    <input value="bluefox-label" class="uk-checkbox" type="checkbox">
-                                    <span>bluefox-label</span>
-                                </label>
-                                <label>
-                                    <input value="aria-description" class="uk-checkbox" type="checkbox">
-                                    <span>aria-description</span>
-                                </label>
-                                <label>
-                                    <input value="aria-label" class="uk-checkbox" type="checkbox">
-                                    <span>aria-label</span>
-                                </label>
-                            </div>
-                        </div>
-                        <ul uk-accordion="multiple: true">
-                            <li class="uk-open">
-                                <a class="uk-accordion-title">
-                                    <span>UI Selectors</span>
-                                </a>
-                                <div class="uk-accordion-content">
-                                    <div>
-                                        <span>
-                                            <button Reload class="uk-icon-button button-radius-top" uk-icon="refresh"
-                                                uk-tooltip="Reload">
-                                            </button>
-                                        </span>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div id="UiNames">
+                                <div class="uk-margin">
+                                    <div checkbox>
+                                        <label>
+                                            <input value="data-testid" class="uk-checkbox" type="checkbox">
+                                            <span>data-testid</span>
+                                        </label>
+                                        <label>
+                                            <input value="bluefox-label" class="uk-checkbox" type="checkbox">
+                                            <span>bluefox-label</span>
+                                        </label>
+                                        <label>
+                                            <input value="aria-description" class="uk-checkbox" type="checkbox">
+                                            <span>aria-description</span>
+                                        </label>
+                                        <label>
+                                            <input value="aria-label" class="uk-checkbox" type="checkbox">
+                                            <span>aria-label</span>
+                                        </label>
                                     </div>
-                                    <div Spreadsheet></div>
-                                    <div>
-                                        <a class="uk-icon-button button-radius-bottom" href="#UiNames" uk-scroll
-                                            uk-icon="chevron-up" uk-tooltip="Scroll up">
+                                </div>
+                                <ul uk-accordion="multiple: true">
+                                    <li class="uk-open">
+                                        <a class="uk-accordion-title">
+                                            <span>UI Selectors</span>
                                         </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="Actions">
-                        <ul uk-accordion="multiple: true">
-                            <li class="uk-open">
-                                <a class="uk-accordion-title">
-                                    <span>Actions</span>
-                                </a>
-                                <div class="uk-accordion-content">
-                                    <div>
-                                        <span class="uk-button-group-download-selectors">
-                                            <button class="uk-button uk-button-default" type="button">
-                                                <div class="uk-flex uk-flex-middle">
-                                                    <div class="uk-margin-small-right" uk-icon="download"></div>
-                                                    <div>Download</div>
-                                                </div>
-                                            </button>
-                                            <div
-                                                uk-dropdown="mode: click; target: !.uk-button-group-download-selectors;">
-                                                <ul class="uk-nav uk-dropdown-nav">
-                                                    <li>
-                                                        <div ActionsDownloadJSON class="uk-button uk-button-text">
-                                                            <span>JSON (JavaScript Object Notation)</span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                        <div class="uk-accordion-content">
+                                            <div>
+                                                <span>
+                                                    <button Reload class="uk-icon-button button-radius-top"
+                                                        uk-icon="refresh" uk-tooltip="Reload">
+                                                    </button>
+                                                </span>
                                             </div>
-                                        </span>
-                                    </div>
-                                    <div Spreadsheet></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin">
-                            <div setTextContent="Copyright"></div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Selector"]' class="uk-animation-fade" hide>
-                    <div>
-                        <span class="uk-button-group-download-selectors">
-                            <button class="uk-button uk-button-default" type="button">
-                                <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-margin-small-right" uk-icon="download"></div>
-                                    <div>Download</div>
-                                </div>
-                            </button>
-                            <div uk-dropdown="mode: click; target: !.uk-button-group-download-selectors;">
-                                <ul class="uk-nav uk-dropdown-nav">
-                                    <li>
-                                        <div SelectorDownloadJSON class="uk-button uk-button-text">
-                                            <span>JSON (JavaScript Object Notation)</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div SelectorDownloadCSV class="uk-button uk-button-text">
-                                            <span>CSV (Tab-Separated Values)</span>
+                                            <div Spreadsheet></div>
+                                            <div>
+                                                <a class="uk-icon-button button-radius-bottom" href="#UiNames" uk-scroll
+                                                    uk-icon="chevron-up" uk-tooltip="Scroll up">
+                                                </a>
+                                            </div>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
-                        </span>
-                        <span>
-                            <input type="text" id="QuerySelector" class="uk-input uk-form-width-medium"
-                                placeholder="QuerySelector">
-                            <span>
-                                <button GetSelectors class="uk-icon-button button-radius-right" uk-icon="crosshairs"
-                                    uk-tooltip="Get selectors">
-                                </button>
-                            </span>
-                        </span>
-                    </div>
-                    <div class="uk-margin">
-                        <input type="text" id="QuerySelectorsProperty" class="uk-input uk-form-width-medium"
-                            placeholder="Attribute" value="name">
-                        <ul SelectorsList class="uk-list uk-child-width-fill"></ul>
-                    </div>
-
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin">
-                            <div setTextContent="Copyright"></div>
                         </div>
                     </div>
                 </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Tails"]' class="uk-animation-fade" hide>
-                    <div>
-                        <div BlueFoxFileAttach class="uk-placeholder uk-text-center uk-text-default bg-white">
-                            <span uk-icon="icon: bolt; ratio: 2"></span>
-                            <span>Attach JSON by dropping them here or</span>
-                            <div uk-form-custom>
-                                <input type="file" multiple>
-                                <span class="uk-link">selecting one</span>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Selector"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div>
+                                <span class="uk-button-group-download-selectors">
+                                    <button class="uk-button uk-button-default" type="button">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <div class="uk-margin-small-right" uk-icon="download"></div>
+                                            <div>Download</div>
+                                        </div>
+                                    </button>
+                                    <div uk-dropdown="mode: click; target: !.uk-button-group-download-selectors;">
+                                        <ul class="uk-nav uk-dropdown-nav">
+                                            <li>
+                                                <div SelectorDownloadJSON class="uk-button uk-button-text">
+                                                    <span>JSON (JavaScript Object Notation)</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div SelectorDownloadCSV class="uk-button uk-button-text">
+                                                    <span>CSV (Tab-Separated Values)</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </span>
+                                <span>
+                                    <input type="text" id="QuerySelector" class="uk-input uk-form-width-medium"
+                                        placeholder="QuerySelector">
+                                    <span>
+                                        <button GetSelectors class="uk-icon-button button-radius-right"
+                                            uk-icon="crosshairs" uk-tooltip="Get selectors">
+                                        </button>
+                                    </span>
+                                </span>
                             </div>
-                        </div>
-                        <div AttachedTails class="uk-child-width-expand"></div>
-                    </div>
-
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin">
-                            <div setTextContent="Copyright"></div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Scenario"]' class="uk-animation-fade" hide>
-                    <div AttachedScenarios class="uk-child-width-expand">
-                    </div>
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin">
-                            <div setTextContent="Copyright"></div>
+                            <div class="uk-margin">
+                                <input type="text" id="QuerySelectorsProperty" class="uk-input uk-form-width-medium"
+                                    placeholder="Attribute" value="name">
+                                <ul SelectorsList class="uk-list uk-child-width-fill"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div showWhenSome="#MenuControll" showWhenSome-values='["CapturEvents"]' class="uk-animation-fade" hide>
-                    <div class="uk-margin">
-                        <span class="uk-badge">Experimental</span>
-                        <div>
-                            <button CapturEvents class="uk-button uk-button-default">
-                                <span uk-icon="play"></span>
-                                <span> CapturEvents</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div>
-                        <div>[out] CapturEventsOut↓</div>
-                        <div CapturEventsOut></div>
-                    </div>
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin">
-                            <div setTextContent="Copyright"></div>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div class="uk-margin">
+                                <span class="uk-badge">Experimental</span>
+                                <div>
+                                    <button CapturEvents class="uk-button uk-button-default">
+                                        <span uk-icon="play"></span>
+                                        <span> CapturEvents</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <div>[out] CapturEventsOut↓</div>
+                                <div CapturEventsOut></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["NieAgresywnyScan"]' class="uk-animation-fade"
-                    hide>
-                    <div class="uk-margin">
-                        <span class="uk-badge">Experimental</span>
-                        <div>
-                            <button NieAgresywnyScan class="uk-button uk-button-default">
-                                <span uk-icon="play"></span>
-                                <span> NieAgresywnyScan</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div>
-                        <div>[out] NieAgresywnyScanOut↓</div>
-                        <div NieAgresywnyScanOut></div>
-                    </div>
-                    <div>
-                        <div class="divider-icon"></div>
-                        <div class="uk-margin">
-                            <div setTextContent="Copyright"></div>
-                        </div>
-                    </div>
+            </div>
+
+            <div>
+                <div class="divider-icon"></div>
+                <div class="uk-margin">
+                    <div setTextContent="Copyright"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div constHide>
-        <template id="AttachedTailTemplate">
-            <div>
-                <div class="uk-card uk-card-default uk-card-small uk-card-body uk-margin-small-bottom">
-                    <h3 Title class="uk-button uk-button-text uk-card-title uk-margin-remove-bottom"></h3>
-                    <div>
-                        <div class="uk-text-meta">
-                            <span Version></span>
-                            <span> | </span>
-                            <span ActionsLength></span>
-                            <span> | </span>
-                            <span DateTime></span>
-                        </div>
-                        <div class="uk-text-default">
-                            <p Description></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </template>
         <template id="SelectorTemplate">
             <div class="uk-flex">
                 <input type="text" class="uk-input uk-width-expand uk-margin-small-right" placeholder="Key">

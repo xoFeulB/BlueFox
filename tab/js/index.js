@@ -15,8 +15,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
   }
 
   async getRemoteFile(path) {
+    let regexp_object = new RegExp(path, "g");
+
     let workspaceObject = ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
-      return _.path == path;
+      return regexp_object.test(_.path);
     })[0]).workspaceObject;
 
     let fetch_result = await fetch(
@@ -144,6 +146,11 @@ window.BlueFoxScript = class extends BlueFoxScript {
                   );
                 }
               );
+              await BlueFoxJs.Walker.walkHorizontally({
+                _scope_: TabsTemplate,
+                "code": $.self["code"],
+              });
+
               $.element.appendChild(TabsTemplate);
             }
             reloading = false;
@@ -357,6 +364,33 @@ window.BlueFoxScript = class extends BlueFoxScript {
             window.dispatchEvent(new CustomEvent("reload_ws"));
           });
         },
+        "code": async ($) => {
+          $.element.closest("pre")?.classList?.add("radius");
+
+          let button = Object.assign(
+            document.createElement("button"),
+            {
+              className: $.element.className ? "uk-icon-link copy-code" : "uk-icon-link",
+            }
+          );
+          button.setAttribute("uk-icon", "copy");
+          button.setAttribute("title", "copy");
+          button.setAttribute("uk-tooltip", "");
+          button.addEventListener("click", async (event) => {
+            navigator.clipboard.writeText($.element.textContent);
+            button.classList.add("uk-spinner");
+            await sleep(930);
+            button.classList.remove("uk-spinner");
+          });
+          let menu = Object.assign(
+            document.createElement($.element.className ? "div" : "span"),
+            {
+              className: "code-menu"
+            }
+          );
+          menu.append(button);
+          $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
+        }
       });
       BlueFoxJs.Sync.view();
     }
