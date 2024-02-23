@@ -397,6 +397,36 @@ window.BlueFoxScript = class extends BlueFoxScript {
                     });
                 });
               });
+              await BlueFoxJs.Walker.walkHorizontally({
+                _scope_: filelist,
+                "code": async ($) => {
+                  $.element.closest("pre")?.classList?.add("radius");
+
+                  let button = Object.assign(
+                    document.createElement("button"),
+                    {
+                      className: $.element.className ? "uk-icon-link copy-code" : "uk-icon-link",
+                    }
+                  );
+                  button.setAttribute("uk-icon", "copy");
+                  button.setAttribute("title", "copy");
+                  button.setAttribute("uk-tooltip", "");
+                  button.addEventListener("click", async (event) => {
+                    navigator.clipboard.writeText($.element.textContent);
+                    button.classList.add("uk-spinner");
+                    await sleep(930);
+                    button.classList.remove("uk-spinner");
+                  });
+                  let menu = Object.assign(
+                    document.createElement($.element.className ? "div" : "span"),
+                    {
+                      className: "code-menu"
+                    }
+                  );
+                  menu.append(button);
+                  $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
+                }
+              });
             },
             "dispatch": async (data) => {
               let file = await (await fetch(`http://${Values.values.BluefoxServer.value}:7777/GetFile.get?${JSON.stringify(data)}`)).text();
