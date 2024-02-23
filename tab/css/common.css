@@ -1,7 +1,11 @@
 img {
     pointer-events: none;
+    user-select: none;
 }
-
+.img-selectable {
+    pointer-events: all !important;
+    user-select: all !important;
+}
 [constHide],
 [hide] {
     display: none !important;
