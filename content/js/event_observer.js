@@ -7,18 +7,9 @@
       console.log("event_observer.js", ...args);
     };
     log("loaded");
-    let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
 
     let getCssSelector = (e) => {
       return CssSelectorGenerator.getCssSelector(e);
-      if (e.id) {
-        return `#${e.id}`;
-      }
-      return [...e.attributes]
-        .map((_) => {
-          return `[${_.name}="${_.value}"]`;
-        })
-        .join("");
     };
 
     let sendMessage = async (arg) => {
@@ -35,8 +26,6 @@
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
           target: getCssSelector(event.target),
-          // target: CssSelectorGenerator.getCssSelector(event.target),
-
           timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
@@ -50,7 +39,6 @@
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
           target: getCssSelector(event.target),
-          // target: CssSelectorGenerator.getCssSelector(event.target),
           timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
@@ -73,17 +61,13 @@
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
           target: getCssSelector(event.target),
-          // target: CssSelectorGenerator.getCssSelector(event.target),
           timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
             composed: event.composed,
-
             // UIEvent
             detail: event.detail,
-            // view: event.view,
-
             key: event.key,
             code: event.code,
             location: event.location,
@@ -104,13 +88,11 @@
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
           target: getCssSelector(event.target),
-          // target: CssSelectorGenerator.getCssSelector(event.target),
           timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
             composed: event.composed,
-
             // UIEvent
             detail: event.detail,
           },
@@ -121,17 +103,13 @@
           type: event.type,
           eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
           target: getCssSelector(event.target),
-          // target: CssSelectorGenerator.getCssSelector(event.target),
           timestamp: event.timeStamp,
           property: {
             bubbles: event.bubbles,
             cancelable: event.cancelable,
             composed: event.composed,
-
             // UIEvent
             detail: event.detail,
-            // view: event.view,
-
             screenX: event.screenX,
             screenY: event.screenY,
             clientX: event.clientX,

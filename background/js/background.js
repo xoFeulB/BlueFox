@@ -7,13 +7,6 @@
       console.log("background.js", ...args);
     };
     log("loaded");
-    let sendMessage = async (arg) => {
-      try {
-        return await chrome.runtime.sendMessage(arg);
-      } catch (err) {
-        log(err);
-      }
-    };
 
     let R = {
       pageInfo: {},
@@ -29,7 +22,6 @@
           R.debugger[sender.tab.id] = sender;
           return sender.tab.id;
         } catch (err) {
-          // log(err);
           return false;
         }
       },
@@ -39,7 +31,6 @@
           log("Debugger Detached", sender);
           return sender.tab.id;
         } catch (err) {
-          // log(err);
           return false;
         }
       },
@@ -234,7 +225,6 @@
     });
 
     chrome.tabs.onRemoved.addListener((tabId) => {
-      // log(R);
       delete R.event_observer[tabId];
       delete R.pageInfo[tabId];
       delete R.debugger[tabId];
@@ -242,7 +232,6 @@
 
     chrome.tabs.onUpdated.addListener(async (tabId) => {
       try {
-        // log(R);
         R.event_observer[tabId] = [];
         let dom_snapshot = await chrome.debugger.sendCommand(
           { tabId: tabId },
@@ -266,14 +255,11 @@
         };
       } catch { }
     });
-    // chrome.tabs.onDetached.addListener((event)=>{log(event)});
-    // chrome.tabs.onAttached.addListener((event)=>{log(event)});
 
     chrome.tabs.onCreated.addListener((tab) => {
       R.pageInfo[tab.id] = [];
       R.pageInfo[tab.id] = {};
     });
 
-    // chrome.tabs.onMoved.addListener((event)=>{log(event)});
   })();
 }

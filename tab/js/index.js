@@ -343,7 +343,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
             "getFileTree": async (data) => {
               let workspaces = await (await fetch(`http://${Values.values.BluefoxServer.value}:7777/GetWorkspace.get`)).json();
               let filelist = document.querySelector("#FileList");
-              filelist.textContent = "";
+              filelist.textContent = "Found, and Waiting BlueFoxServer...";
               filelist.workspaces = workspaces;
 
               workspaces.forEach((workspace) => {

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>^.,.^ BlueFox / Focus</title>
+    <title>^.,.^ / Focus</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="/modules/uikit/css/uikit.min.css" />
     <script src="/modules/uikit/js/uikit.min.js" defer></script>
     <script src="/modules/uikit/js/uikit-icons.min.js" defer></script>
-
-    <!-- MonacoEditor -->
-    <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
 
     <!-- Jspreadsheet -->
     <script src="/modules/jspreadsheet/jexcel.js"></script>
@@ -114,6 +111,11 @@
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span>CapturEvents</span>
                 </div>
+                <div MenuTab value="Tails" setValueOnClick="#MenuControll"
+                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+                    <img src="/media/tail.png" width="20" height="20">
+                    <span>Tails</span>
+                </div>
             </div>
         </div>
     </div>
@@ -129,6 +131,9 @@
                         <div class="uk-modal-body" uk-overflow-auto>
                             <div showWhenSome="#MenuControll" showWhenSome-values='["Gathering"]'>
                                 <mark-down src="/docs/Gathering.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Tails"]'>
+                                <mark-down src="/docs/Tails.md"></mark-down>
                             </div>
                         </div>
                     </div>
@@ -233,7 +238,6 @@
                     <div class="uk-section uk-section-small">
                         <div class="uk-container uk-container-default">
                             <div class="uk-margin">
-                                <span class="uk-badge">Experimental</span>
                                 <div>
                                     <button CapturEvents class="uk-button uk-button-default">
                                         <span uk-icon="play"></span>
@@ -244,6 +248,20 @@
                             <div>
                                 <div>[out] CapturEventsOut↓</div>
                                 <div CapturEventsOut></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Tails"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div BlueFoxFileAttach class="uk-placeholder uk-text-center uk-text-default bg-white">
+                                <span uk-icon="icon: bolt; ratio: 2"></span>
+                                <span>Attach JSON by dropping them here or</span>
+                                <div uk-form-custom>
+                                    <input type="file" multiple>
+                                    <span class="uk-link">selecting one</span>
+                                </div>
                             </div>
                         </div>
                     </div>

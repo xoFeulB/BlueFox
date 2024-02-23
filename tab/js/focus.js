@@ -12,6 +12,105 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
     let connector = new window.Connector();
 
+    let scenarioHandler = async (scenarios) => {
+      for (let scenario of scenarios) {
+        let json_parsed = JSON.parse(scenario.text);
+        for (let tail of json_parsed.tails) {
+          if (tail.when) {
+            for (let key of Object.keys(tail.when)) {
+              let message = await connector.post({
+                type: "BlueFox.GetElementProperties",
+                object: {
+                  selector: key,
+                },
+              });
+              if (
+                [...Object.keys(tail.when[key])].every((_) => {
+                  let property = BlueFoxJs.Util.getProperty(_, message.object);
+                  if (property.object) {
+                    try {
+                      let regex = new RegExp(tail.when[key][_], "g");
+                      return regex.test(property.object[property.property]);
+                    } catch {
+                      return false;
+                    }
+                  }
+                  return false;
+                })
+              ) {
+                await connector.post({
+                  type: "BlueFox.Dispatch.Action",
+                  object: JSON.stringify(tail.tail),
+                });
+                await sleep(tail.sleep);
+              }
+            }
+          } else {
+            await connector.post({
+              type: "BlueFox.Dispatch.Action",
+              object: JSON.stringify(tail.tail),
+            });
+            await sleep(tail.sleep);
+          }
+        }
+      }
+    };
+
+    let dropHandler = async (files) => {
+      try {
+        let actions = [];
+        let scenarios = [];
+        let scripts = [];
+
+        for (let f of files) {
+          try {
+            await {
+              "application/json": async () => {
+                let json_parsed = JSON.parse(await f.text());
+                if (json_parsed.actions) {
+                  actions.push({
+                    name: f.name,
+                    type: f.type,
+                    text: await f.text(),
+                  });
+                }
+                if (json_parsed.tails) {
+                  scenarios.push({
+                    name: f.name,
+                    type: f.type,
+                    text: await f.text(),
+                  });
+                }
+              },
+              "text/javascript": async () => {
+                scripts.push({
+                  name: f.name,
+                  type: f.type,
+                  text: await f.text(),
+                });
+              },
+            }[f.type]();
+          } catch { }
+        }
+
+        for (let action of actions) {
+          await connector.post({
+            type: "BlueFox.Dispatch.Action",
+            object: action.text,
+          });
+        }
+        for (let script of scripts) {
+          await connector.post({
+            type: "BlueFox.Dispatch.Script",
+            object: script.text,
+          });
+        }
+        await scenarioHandler(scenarios);
+      } catch (err) {
+        log(err);
+      }
+    };
+
     /* Display */ {
       let TabInfo = {
         reload: async () => {
@@ -30,7 +129,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             await connector.load(TabInfo.id);
           }
 
-          document.querySelector("title").textContent = `^.,.^ BlueFox / ${TabInfo.title}`;
+          document.querySelector("title").textContent = `^.,.^ / ${TabInfo.title}`;
           TabInfo.DOM = document.querySelector("#TabInfo");
           TabInfo.DOM.TabInfo = TabInfo;
           TabInfo.DOM.dispatchEvent(new Event("sync"));
@@ -119,6 +218,23 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
           $.element.addEventListener("click", async () => {
             chrome.tabs.reload(TabInfo.id);
           });
+        },
+        "[BlueFoxFileAttach]": async ($) => {
+          $.element.addEventListener("drop", async (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "copy";
+            await dropHandler(event.dataTransfer.files);
+          });
+          $.element.addEventListener("dragover", async (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "copy";
+          });
+          $.element
+            .querySelector("input")
+            .addEventListener("input", async (event) => {
+              await dropHandler(event.target.files);
+              event.target.value = null;
+            });
         },
         "#MenuControll": async ($) => {
           let MenuTabs = [...document.querySelectorAll("[MenuTabs] [MenuTab]")];

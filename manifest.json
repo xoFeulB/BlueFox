@@ -2,42 +2,13 @@
     "manifest_version": 3,
     "name": "^.,.^ BlueFox",
     "version": "0.3.0",
-    "description": "BlueFoxは、過酷な開発現場で働くプロフェッショナルのためのWeb自動化ツールです。",
+    "description": "Agile Web Automation Software for Time-Starved Professionals",
     "host_permissions": [
         "<all_urls>"
     ],
-    "content_security_policy": {
-        "sandbox": "sandbox allow-scripts; script-src 'self'; worker-src blob:"
-    },
     "permissions": [
-        "activeTab",
         "tabs",
-        "debugger",
-        "scripting",
-        "storage",
-        "browsingData",
-        "clipboardRead",
-        "contentSettings",
-        "contextMenus",
-        "cookies",
-        "desktopCapture",
-        "downloads",
-        "fontSettings",
-        "geolocation",
-        "pageCapture",
-        "proxy",
-        "search",
-        "sessions",
-        "storage",
-        "system.cpu",
-        "system.display",
-        "system.memory",
-        "system.storage",
-        "tabCapture",
-        "unlimitedStorage",
-        "webNavigation",
-        "webRequest",
-        "bookmarks"
+        "debugger"
     ],
     "background": {
         "service_worker": "/background/js/background.js",
@@ -50,10 +21,6 @@
             ],
             "js": [
                 "/modules/css-selector-generator/css-selector-generator.js",
-                "/modules/estraverse/estraverse.js",
-                "/modules/esprima/esprima.js",
-                "/js/query-walker.js",
-                "/js/bluefox-scanner.js",
                 "/content/js/content_script.js",
                 "/content/js/event_observer.js",
                 "/modules/BlueFoxJs/bluefox.min.js"
@@ -65,8 +32,8 @@
         "newtab": "/tab/html/index.html"
     },
     "icons": {
-        "16": "/media/tail.png",
-        "48": "/media/tail.png",
-        "128": "/media/tail.png"
+        "16": "/media/icons/16.png",
+        "48": "/media/icons/48.png",
+        "128": "/media/icons/128.png"
     }
 }
