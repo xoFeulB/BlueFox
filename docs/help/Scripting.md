@@ -1,5 +1,13 @@
 # Scripting
 
+## Global objects
+
+- `log` ... console.log
+- `assert` ... console.assert
+- `await sleep`
+- `BlueFoxScript`
+- `BlueFoxJs`
+
 ## 1. Inside async function
 
 <bluefoxscript>

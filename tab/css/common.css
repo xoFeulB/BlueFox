@@ -107,12 +107,16 @@ img {
 .code-menu {
     position: relative;
 }
-.code-menu-container {
+.code-menu-container-absolute {
     position: absolute;
     top: 0;
     right: 0;
 }
-
+.code-menu-container-relative {
+    position: relative;
+    top: 0;
+    right: 0;
+}
 .help-open {
     position: fixed;
     right: 0;

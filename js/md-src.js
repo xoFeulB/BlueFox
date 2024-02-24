@@ -77,7 +77,7 @@ window.customElements.define("mark-down", class extends HTMLElement {
             let menu_container = Object.assign(
               document.createElement($.element.className ? "div" : "span"),
               {
-                className: "code-menu-container"
+                className: $.element.className ? "code-menu-container-absolute" : "code-menu-container-relative"
               }
             );
 
