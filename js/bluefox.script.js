@@ -70,10 +70,10 @@ export class BlueFoxScript {
                     return message.object;
                   }
                   async run(object) {
-                    await _.dispatch.action(
+                    let R = await _.dispatch.action(
                       Object.assign(this.tail, object)
                     );
-                    return this;
+                    return R.object;
                   }
                   saveTail(title, description, object) {
                     let R = JSON.parse(JSON.stringify(this.tail));
