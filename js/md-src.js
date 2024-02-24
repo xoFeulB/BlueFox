@@ -56,6 +56,9 @@ window.customElements.define("mark-down", class extends HTMLElement {
             $.element.setAttribute("target", "_blank");
             $.element.setAttribute("rel", "noopener noreferrer");
           },
+          "table": async ($) => {
+            $.element.classList.add("uk-table", "uk-table-divider", "uk-table-small");
+          },
           "code": async ($) => {
             $.element.closest("pre")?.classList?.add("radius");
             $.element.innerHTML = highlight.highlight(

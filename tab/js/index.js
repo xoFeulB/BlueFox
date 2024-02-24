@@ -9,8 +9,9 @@ import { AwaitbleWebSocket } from "/js/websocket.awaitable.js";
 window.BlueFoxJs = BlueFoxJs;
 window.BlueFoxScript = class extends BlueFoxScript {
   async runRemoteScript(path) {
+    let regexp_object = new RegExp(path, "g");
     await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
-      return _.path == path;
+      return regexp_object.test(_.path);
     })[0]).play();
   }
 
@@ -252,7 +253,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
             window.MonacoEditor = monaco.editor.create($.element, {
               value: [
                 `(async () => {`,
-                `  let blueFoxScript = await new BlueFoxScript().init();`,
+                `  let blueFoxScript = await new BlueFoxScript();`,
                 ``,
                 `  let tab = await blueFoxScript.tabs.create("https://www.google.com");`,
                 `  await tab.dispatch`,
@@ -288,8 +289,11 @@ window.BlueFoxScript = class extends BlueFoxScript {
           });
         },
         "[ReLoad]": async ($) => {
-          $.element.addEventListener("click", (event) => {
+          $.element.addEventListener("click", async (event) => {
+            $.element.classList.add("uk-spinner");
             window.dispatchEvent(new CustomEvent("reload_ws"));
+            await sleep(930);
+            $.element.classList.remove("uk-spinner");
           });
         },
         "code": async ($) => {

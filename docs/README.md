@@ -69,7 +69,7 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
 
 ```javascript
 (async () => {
-  let blueFoxScript = await new BlueFoxScript().init();
+  let blueFoxScript = await new BlueFoxScript();
 
   let tab = await blueFoxScript.tabs.create("https://www.google.com");
   await tab.dispatch

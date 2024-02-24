@@ -12,13 +12,17 @@ export class BlueFoxScript {
   constructor() {
     this.tabs = {};
     this.connector = new Connector();
+
+    return new Promise((resolve, reject) => {
+      this.init(resolve);
+    });
   }
 
   // interface
   async runRemoteScript() { }
   async getRemoteFile() { }
 
-  async init() {
+  async init(resolve) {
     this.tabs = {
       info: {},
       reload: async () => {
@@ -139,6 +143,6 @@ export class BlueFoxScript {
       },
     };
     await this.tabs.reload();
-    return this;
+    resolve(this);
   }
 };
