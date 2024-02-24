@@ -39,32 +39,41 @@
 
 ## About The Project
 
+BlueFox is a web front-end test automation and operational knowledge sharing solution designed to increase the productivity of web developers, especially those responsible for various areas such as design, development, unit testing, integration testing, and E2E testing.
 
+## Demo
 
-## demo
+### X(Twitter)
 
-<div>
+`/tweet.js`
+<img src="https://ooo.bluefox.ooo/media/Demo/demo1.gif" width="100%">
 
-https://user-images.githubusercontent.com/31212444/226794728-41125a6a-62d4-403f-9afb-cafab7ed400f.mp4
+### KeyEvent
 
-</div>
-<div>
+`/key.js`
+<img src="https://ooo.bluefox.ooo/media/Demo/demo2.gif" width="100%">
 
-https://github.com/xoFeulB/BlueFox/assets/31212444/531675c7-80a0-4ba8-a680-f04672dbb2c6
+### Google search
 
-</div>
-<div>
+`/google-search.js`
+<img src="https://ooo.bluefox.ooo/media/Demo/demo3.gif" width="100%">
 
-https://github.com/xoFeulB/BlueFox/assets/31212444/41f42f93-9278-48e3-9269-2de870ceef85
+### input type="file" upload
 
-</div>
-<div>
+`/file-upload.js`
+<img src="https://ooo.bluefox.ooo/media/Demo/demo4.gif" width="100%">
 
-https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-8383247d7ecc
+### assert test (Failed)
 
-</div>
+`/8bit-pattern-test.js`
+<img src="https://ooo.bluefox.ooo/media/Demo/demo5.gif" width="100%">
+
+### assert test (Passed)
+
+<img src="https://ooo.bluefox.ooo/media/Demo/demo6.gif" width="100%">
 
 ## JavaScript Example
+
 <bluefoxscript>
 
 ```javascript
@@ -81,29 +90,30 @@ https://github.com/xoFeulB/BlueFox/assets/31212444/6d7baa28-a60a-4c93-995c-83832
     .run({ sleep: 50 });
   await sleep(1000);
 
-  let search_result = await tab.dispatch.script(
-    () => {
-      return [...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])")]
-        .filter((_) => {
-          return _.querySelector("h3");
-        })
-        .map((_) => {
-          return {
-            href: _.href,
-            title: _.querySelector("h3").textContent,
-          }
-        });
-    }
-  );
+  let search_result = await tab.dispatch.script(() => {
+    return [
+      ...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])"),
+    ]
+      .filter((_) => {
+        return _.querySelector("h3");
+      })
+      .map((_) => {
+        return {
+          href: _.href,
+          title: _.querySelector("h3").textContent,
+        };
+      });
+  });
 
   window.alert(JSON.stringify(search_result.result.value, null, 4));
 })();
 ```
+
 </bluefoxscript>
 
 <hr>
 
-## Installation
+## Manual installation
 
 ```bash
 git clone https://github.com/xoFeulB/BlueFox.git
@@ -113,7 +123,41 @@ or Download archive(ZIP) from releases page or repo top page this repo, and expo
 releases : https://github.com/xoFeulB/BlueFox/releases  
 DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 
-then, drag-and-drop BlueFox folder to Chrome extensions page (<a href="edge://extensions/" target="_blank">edge://extensions/</a>)
+then, drag-and-drop BlueFox folder to Chrome(Edge) developper-mode extensions page (<a href="edge://extensions/" target="_blank">edge://extensions/</a>)
 
-## Usage : in preparation
+## BlueFoxServer and BlueFoxScript examples
+
+### BlueFoxServer
+
+[Download and Install BlueFoxServer to use the VSCode integration feature (marketplace.visualstudio.com)](https://marketplace.visualstudio.com/items?itemName=BlueFoxEnterprise.BlueFoxServer)
+
+### BlueFoxScript examples
+
+```bash
+git clone https://github.com/xoFeulB/BlueFoxScript-Examples.git
+```
+
+or Download archive(ZIP) from releases page or repo top page this repo, and export files.  
+DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/heads/main.zip
+
+<div align="center">
+    <img src="https://ooo.bluefox.ooo/media/Demo/demo7.gif" width="50%">
+    <p>Open With Code</p>
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs1.png" width="50%">
+    <p>Bring BlueFoxServer online</p>
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs2.png" width="50%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs3.png" width="50%">
+</div>
+
 ## ^.,.^ BlueFox-Chan fan arts
+
+<div align="center">
+    <img src="https://ooo.bluefox.ooo/media/FanArts/art1.png" width="300">
+    <img src="https://ooo.bluefox.ooo/media/FanArts/art2.png" width="300">
+</div>
+<div align="center">
+    <h4>CREDITS</h4>
+    <div>
+        <a href="https://twitter.com/pa_painting_ape">ぷらすあるふぁ(https://twitter.com/pa_painting_ape)</a>
+    </div>
+</div>
