@@ -142,7 +142,7 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
 
 <div align="center">
     <img src="https://ooo.bluefox.ooo/media/Demo/demo7.gif" width="50%">
-    <p>Open With Code</p>
+    <p>Open BlueFoxScript-Examples With VSCode</p>
     <img src="https://ooo.bluefox.ooo/media/Demo/vscs1.png" width="50%">
     <p>Bring BlueFoxServer online</p>
     <img src="https://ooo.bluefox.ooo/media/Demo/vscs2.png" width="50%">
