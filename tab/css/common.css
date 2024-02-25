@@ -2,10 +2,12 @@ img {
     pointer-events: none;
     user-select: none;
 }
+
 .img-selectable {
     pointer-events: all !important;
     user-select: all !important;
 }
+
 [constHide],
 [hide] {
     display: none !important;
@@ -107,18 +109,30 @@ img {
 .code-menu {
     position: relative;
 }
+
 .code-menu-container-absolute {
     position: absolute;
     top: 0;
     right: 0;
 }
+
 .code-menu-container-relative {
     position: relative;
     top: 0;
     right: 0;
 }
+
 .help-open {
     position: fixed;
+    right: 0;
+    bottom: 0;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    z-index: 999;
+}
+
+.scroll-up {
+    position: absolute;
     right: 0;
     bottom: 0;
     margin-right: 15px;

@@ -678,6 +678,16 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             );
           });
         },
+        "[ScrollUp]": async ($) => {
+          $.element.addEventListener("click", async (event) => {
+            let modal_body = document.querySelector("#modal-overflow > div .uk-modal-body");
+            modal_body.scrollBy({
+              top: modal_body.scrollHeight * -1,
+              left: modal_body.scrollWidth * -1,
+              behavior: "smooth",
+            });
+          });
+        },
       });
       await BlueFoxJs.Sync.view();
 
