@@ -152,12 +152,12 @@ or Download archive(ZIP) from releases page or repo top page this repo, and expo
 DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/heads/main.zip
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/demo7.gif" width="50%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/demo7.gif" width="60%">
     <h4>1. Open BlueFoxScript-Examples With VSCode</h4>
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs1.png" width="50%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs1.png" width="60%">
     <h4>2. Bring BlueFoxServer online</h4>
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs2.png" width="50%">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs3.png" width="50%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs2.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs3.png" width="60%">
 </div>
 
 #### RunScript
