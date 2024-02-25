@@ -69,7 +69,7 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
 <img src="https://ooo.bluefox.ooo/media/Demo/demo5.gif" width="100%">
 
 ### assert test (Passed)
-
+`Temporary script editor`
 <img src="https://ooo.bluefox.ooo/media/Demo/demo6.gif" width="100%">
 
 ## JavaScript Example
@@ -127,6 +127,8 @@ then, drag-and-drop BlueFox folder to Chrome(Edge) developper-mode extensions pa
 
 ## BlueFoxServer and BlueFoxScript examples
 
+BlueFoxServer, a VSCode extension, shares files on workspaces opened in VSCode with BlueFox, allowing script execution, retrieval of original data for file upload using automation, and temporary editing of scripts.
+
 ### BlueFoxServer
 
 [Download and Install BlueFoxServer to use the VSCode integration feature (marketplace.visualstudio.com)](https://marketplace.visualstudio.com/items?itemName=BlueFoxEnterprise.BlueFoxServer)
@@ -142,11 +144,24 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
 
 <div align="center">
     <img src="https://ooo.bluefox.ooo/media/Demo/demo7.gif" width="50%">
-    <p>Open BlueFoxScript-Examples With VSCode</p>
+    <h4>1. Open BlueFoxScript-Examples With VSCode</h4>
     <img src="https://ooo.bluefox.ooo/media/Demo/vscs1.png" width="50%">
-    <p>Bring BlueFoxServer online</p>
+    <h4>2. Bring BlueFoxServer online</h4>
     <img src="https://ooo.bluefox.ooo/media/Demo/vscs2.png" width="50%">
     <img src="https://ooo.bluefox.ooo/media/Demo/vscs3.png" width="50%">
+</div>
+
+#### RunScript
+
+<div align="center">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs4.png" width="100%">
+</div>
+
+#### Temporary edit
+
+<div align="center">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs5.png" width="100%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs6.png" width="100%">
 </div>
 
 ## ^.,.^ BlueFox-Chan fan arts

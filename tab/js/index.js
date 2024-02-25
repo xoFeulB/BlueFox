@@ -59,21 +59,31 @@ window.BlueFoxScript = class extends BlueFoxScript {
       await BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
         "[Tabs]": async ($) => {
-          let reloading = false;
-          $.element.reload = async (event) => {
-            if (reloading) {
-              return;
+          $.element.tabs = {};
+          $.element.onCreated = async (tab) => {
+            if (
+              [
+                tab.url != "",
+                !tab.url?.includes("edge://"),
+                !tab.url?.includes("extension://"),
+                !tab.url?.includes("chrome://"),
+                !tab.url?.includes("chrome-extension://"),
+              ].every((_) => {
+                return _;
+              })
+            ) {
+              $.element.tabs[tab.id] = tab;
             }
-            reloading = true;
-            $.element.textContent = "";
-            let tabs = [
-              {
-                tab: null,
-                url: "",
-                title: "",
-                id: "",
-              },
-              ...(await chrome.tabs.query({ url: "<all_urls>" })),
+          };
+
+          $.element.onRemoved = async (id) => {
+            $.element.tabs[id]?.element?.remove();
+            delete $.element.tabs[id];
+          }
+
+          $.element.onUpdated = async (event) => {
+            [
+              ...(await chrome.tabs.query({ url: "<all_urls>" }))
             ].filter((_) => {
               return [
                 _.url != "",
@@ -84,86 +94,106 @@ window.BlueFoxScript = class extends BlueFoxScript {
               ].every((__) => {
                 return __;
               });
-            });
-            for (let tab of tabs) {
-              let TabsTemplate = document
-                .querySelector("#TabsTemplate")
-                .content.cloneNode(true);
-              if (tab.favIconUrl) {
-                TabsTemplate.querySelector("[favicon]").src = tab.favIconUrl;
+            }).forEach((_) => {
+              if ($.element.tabs[_.id]) {
+                $.element.tabs[_.id] = Object.assign($.element.tabs[_.id], _);
               } else {
-                TabsTemplate.querySelector("div:has(>[favicon])").setAttribute(
-                  "uk-icon",
-                  "icon: world; ratio: 2"
-                );
-                TabsTemplate.querySelector("[favicon]").remove();
+                $.element.tabs[_.id] = _;
               }
+            });
 
-              TabsTemplate.querySelector("[title]").textContent = tab.title;
-              TabsTemplate.querySelector("[URL]").textContent = tab.url;
-              TabsTemplate.querySelector(
-                "[SwitchTab]"
-              ).attributes.SwitchTab.value = tab.id;
-              TabsTemplate.querySelector("[SwitchTab]").addEventListener(
-                "click",
-                async (event) => {
-                  await chrome.tabs.update(
-                    Number(event.target.attributes.SwitchTab.value),
-                    { active: true }
-                  );
-                }
-              );
-              TabsTemplate.querySelector("[Focus]").addEventListener(
-                "click",
-                (event) => {
-                  window.open(`./focus.html#${tab.id}`, "_blank");
-                }
-              );
-              TabsTemplate.querySelector("[FocusInFrame]").addEventListener(
-                "click",
-                (event) => {
-                  event.target
-                    .closest("[tabInfo]")
-                    .querySelector("[FocusFrame]").textContent = "";
-                  let iframe = Object.assign(document.createElement("iframe"), {
-                    src: `./focus.html#${tab.id}`,
-                  });
-                  event.target
-                    .closest("[tabInfo]")
-                    .querySelector("[FocusFrame]")
-                    .appendChild(iframe);
-                }
-              );
-              TabsTemplate.querySelector("[TabToWindow]").addEventListener(
-                "click",
-                async (event) => {
-                  await chrome.windows.create(
-                    {
-                      tabId: tab.id,
-                      focused: false,
-                      top: 0,
-                      left: 0,
+            for (let [id, tab] of Object.entries($.element.tabs)) {
+              if (tab.id in $.element.tabs) {
+                if ($.element.tabs[tab.id].element) {
+                  $.element.tabs[tab.id].element.querySelector("[title]").textContent = tab.title;
+                  $.element.tabs[tab.id].element.querySelector("[url]").textContent = tab.url;
+                  if (tab.favIconUrl) {
+                    $.element.tabs[tab.id].element.querySelector("[favicon]").src = tab.favIconUrl;
+                    $.element.tabs[tab.id].element.querySelector("[favicon]").removeAttribute("hide");
+                  } else {
+                    $.element.tabs[tab.id].element.querySelector("div:has(>[favicon])").setAttribute(
+                      "uk-icon",
+                      "icon: world; ratio: 2"
+                    );
+                    $.element.tabs[tab.id].element.querySelector("[favicon]").setAttribute("hide", "");
+                  }
+                } else {
+                  let TabsTemplate = document.querySelector("#TabsTemplate").content.cloneNode(true);
+                  if (tab.favIconUrl) {
+                    TabsTemplate.querySelector("[favicon]").src = tab.favIconUrl;
+                  } else {
+                    TabsTemplate.querySelector("div:has(>[favicon])").setAttribute(
+                      "uk-icon",
+                      "icon: world; ratio: 2"
+                    );
+                    TabsTemplate.querySelector("[favicon]").setAttribute("hide", "");
+                  }
+
+                  TabsTemplate.querySelector("[title]").textContent = tab.title;
+                  TabsTemplate.querySelector("[url]").textContent = tab.url;
+                  TabsTemplate.querySelector(
+                    "[SwitchTab]"
+                  ).attributes.SwitchTab.value = tab.id;
+                  TabsTemplate.querySelector("[SwitchTab]").addEventListener(
+                    "click",
+                    async (event) => {
+                      await chrome.tabs.update(
+                        Number(event.target.attributes.SwitchTab.value),
+                        { active: true }
+                      );
                     }
                   );
+                  TabsTemplate.querySelector("[Focus]").addEventListener(
+                    "click",
+                    (event) => {
+                      window.open(`./focus.html#${tab.id}`, "_blank");
+                    }
+                  );
+                  TabsTemplate.querySelector("[FocusInFrame]").addEventListener(
+                    "click",
+                    (event) => {
+                      event.target
+                        .closest("[tabInfo]")
+                        .querySelector("[FocusFrame]").textContent = "";
+                      if (!JSON.parse(event.target.getAttribute("aria-expanded"))) {
+                        let iframe = Object.assign(document.createElement("iframe"), {
+                          src: `./focus.html#${tab.id}`,
+                        });
+                        event.target
+                          .closest("[tabInfo]")
+                          .querySelector("[FocusFrame]")
+                          .appendChild(iframe);
+                      }
+                    }
+                  );
+                  TabsTemplate.querySelector("[TabToWindow]").addEventListener(
+                    "click",
+                    async (event) => {
+                      await chrome.windows.create(
+                        {
+                          tabId: tab.id,
+                          focused: false,
+                          top: 0,
+                          left: 0,
+                        }
+                      );
+                    }
+                  );
+                  await BlueFoxJs.Walker.walkHorizontally({
+                    _scope_: TabsTemplate,
+                    "code": $.self["code"],
+                  });
+
+                  $.element.appendChild(TabsTemplate);
+                  $.element.tabs[tab.id].element = $.element.children[$.element.children.length - 1];
                 }
-              );
-              await BlueFoxJs.Walker.walkHorizontally({
-                _scope_: TabsTemplate,
-                "code": $.self["code"],
-              });
-
-              $.element.appendChild(TabsTemplate);
+              }
             }
-            reloading = false;
-          };
-          $.element.reload();
+          }
 
-          chrome.tabs.onCreated.addListener($.element.reload);
-          chrome.tabs.onRemoved.addListener($.element.reload);
-          chrome.tabs.onDetached.addListener($.element.reload);
-          chrome.tabs.onAttached.addListener($.element.reload);
-          chrome.tabs.onUpdated.addListener($.element.reload);
-          chrome.tabs.onMoved.addListener($.element.reload);
+          chrome.tabs.onCreated.addListener($.element.onCreated);
+          chrome.tabs.onRemoved.addListener($.element.onRemoved);
+          chrome.tabs.onUpdated.addListener($.element.onUpdated);
         },
         "#MenuControll": async ($) => {
           let MenuTabs = [...document.querySelectorAll("[MenuTabs] [MenuTab]")];
@@ -297,6 +327,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
           });
         },
         "code": async ($) => {
+          if ($.element.closest("mark-down")) {
+            return;
+          }
+
           $.element.closest("pre")?.classList?.add("radius");
 
           let button = Object.assign(

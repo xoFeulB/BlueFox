@@ -45,7 +45,7 @@ window.customElements.define("mark-down", class extends HTMLElement {
         }
         await BlueFoxJs.Walker.walkHorizontally({
           _scope_: div,
-          "h1,h2,h3,h4,h5": async ($) => {
+          "h1,h2,h3": async ($) => {
             $.element.classList.add("uk-heading-divider");
           },
           "img": async ($) => {
@@ -125,8 +125,9 @@ window.customElements.define("mark-down", class extends HTMLElement {
               await sleep(930);
               copy_button.classList.remove("uk-spinner");
             });
-
+            let copy_button_2 = Object.assign(document.createElement("bt2"));
             menu_container.append(copy_button);
+            menu_container.append(copy_button_2);
             menu.append(menu_container);
             $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
           }

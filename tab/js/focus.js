@@ -141,7 +141,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               ?.setAttribute("uk-icon", "icon: world; ratio: 2");
             document
               .querySelector(`img[sync-from-property="TabInfo.favIconUrl"]`)
-              ?.remove();
+              ?.setAttribute("hide", "");
           }
           let DOMSnapshot = await connector.post({
             type: "BlueFox.CaptureDOMSnapshot",
@@ -183,6 +183,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             $.element.querySelector(`[sync-from-property="TabInfo.favIconUrl"]`)?.setAttribute("hide", "");
             $.element.querySelector(`[sync-from-property="TabInfo.title"]`)?.setAttribute("hide", "");
             $.element.querySelector(`[sync-from-property="TabInfo.url"]`)?.parentElement.setAttribute("hide", "");
+            $.element.querySelector(`div:has(>img[sync-from-property="TabInfo.favIconUrl"])`)?.setAttribute("hide", "");
           }
         },
         "[TabToWindow]": async ($) => {
@@ -584,6 +585,9 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
           });
         },
         "code": async ($) => {
+          if ($.element.closest("mark-down")) {
+            return;
+          }
           $.element.closest("pre")?.classList?.add("radius");
 
           let button = Object.assign(

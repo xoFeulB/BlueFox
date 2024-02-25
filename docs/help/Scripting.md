@@ -145,3 +145,5 @@
 ```
 
 </bluefoxscript>
+
+<mark-down src="/docs/help/BlueFoxServer.md"></mark-down>
