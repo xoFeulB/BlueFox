@@ -1,0 +1,85 @@
+[CapturePreview] {
+  pointer-events: initial !important;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+
+[SideNav] {
+  position: sticky;
+  top: 0;
+  /* height: 100vh; */
+  overflow: scroll;
+}
+
+[BlueFoxFileAttach] {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+[BlueFoxFileAttach] > [uk-form-custom] {
+  text-indent: 0.5em;
+}
+
+li > a {
+  display: inline-block;
+  width: 100%;
+}
+
+active {
+  position: absolute;
+  display: block;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  background-color: #ecc883;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+div:has(> [setValueOnClick="#MenuControll"]) {
+  user-select: none;
+}
+[Description] {
+  white-space: pre-wrap;
+}
+.button-radius-right {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 500px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 500px;
+}
+.button-radius-top {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 500px;
+  border-top-right-radius: 500px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.button-radius-bottom {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 500px;
+  border-bottom-right-radius: 500px;
+}
+[GetElementPropertiesNotification] {
+  max-height: 80vh;
+}
+[CapturEventsOut] {
+  white-space: pre-wrap;
+  max-height: 80vh;
+  overflow: scroll;
+}
+[Spreadsheet] {
+  width: 100%;
+  overflow-x: scroll;
+}
+[Spreadsheet] tbody tr:nth-child(even) {
+  background-color: #f2f8ff;
+}

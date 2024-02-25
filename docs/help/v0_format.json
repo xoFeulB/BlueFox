@@ -1,0 +1,60 @@
+{
+    "meta": {
+        "version": 0,
+        "title": "v0 format",
+        "description": "description"
+    },
+    "sleep": 0,
+    "dispatchEvents": [
+        "eventType"
+    ],
+    "actions": [
+        {
+            "type": "set",
+            "target": "#target",
+            "property": {
+                "dot separated property path (like ... style.color)" : "property value"
+            },
+            "attribute": {
+                "attribute name" : "attribute value"
+            }
+        },
+        {
+            "type": "take",
+            "target": "#target",
+            "property": {
+                "dot separated property path (like ... value)" : "property value"
+            },
+            "attribute": {
+                "attribute name" : "attribute value"
+            }
+        },
+        {
+            "type": "eval",
+            "target": "#target",
+            "property": {
+                "dot separated property path (like ... click)" : "property value"
+            }
+        },
+        {
+            "type": "capture",
+            "target": "#target",
+            "fileName": "target_capture",
+            "format": "jpeg | png | webp ... default:jpeg",
+            "quality": "0~100 (jpeg only) ... default:50"
+        },
+        {
+            "type": "sleep",
+            "target": "0~ ... sleep millisecond"
+        },
+        {
+            "type": "event",
+            "target": "#target",
+            "dispatchEvent": "mouseover"
+        },
+        {
+            "type": "save",
+            "fileName": "save_taken_values ... save type:take values to json"
+        }
+    ]
+}

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>^.,.^ / Focus</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- UIkit -->
+    <link rel="stylesheet" href="/modules/uikit/css/uikit.min.css" />
+    <script src="/modules/uikit/js/uikit.min.js" defer></script>
+    <script src="/modules/uikit/js/uikit-icons.min.js" defer></script>
+
+    <!-- Jspreadsheet -->
+    <script src="/modules/jspreadsheet/jexcel.js"></script>
+    <script src="/modules/jspreadsheet/jsuites.js"></script>
+    <link rel="stylesheet" href="/modules/jspreadsheet/jsuites.css" type="text/css" />
+    <link rel="stylesheet" href="/modules/jspreadsheet/jexcel.css" type="text/css" />
+
+    <script src="/js/postMessage.awaitable.js" defer></script>
+    <script src="/js/sync-value.js" type="module" defer></script>
+    <script src="/js/md-src.js" type="module" defer></script>
+    <script src="/tab/js/focus.js" type="module" defer></script>
+
+    <link rel="stylesheet" href="/tab/css/common.css" />
+    <link rel="stylesheet" href="/tab/css/focus.css" />
+    <link rel="stylesheet" href="/tab/css/modern-ui.css" />
+
+    <link rel="stylesheet" href="/modules/highlight/styles/github.min.css" />
+</head>
+
+<body>
+    <div constHide>
+        <input type="text" value="Gathering" id="MenuControll">
+        <input type="text" id="TabInfo">
+    </div>
+
+    <div HeaderNav class="uk-flex uk-flex-middle uk-flex-center uk-padding-small bg-main">
+        <div class="uk-width-expand">
+            <div class="uk-flex uk-flex-left uk-flex-middle">
+                <div>
+                    <img sync sync-to-this sync-to-property="src" sync-from="#TabInfo"
+                        sync-from-property="TabInfo.favIconUrl" width="40" height="40" class="img-selectable" />
+                </div>
+                <div>
+                    <div class="uk-margin-small-left">
+                        <div class="uk-text-lead">
+                            <span sync sync-to-this sync-to-property="textContent" sync-from="#TabInfo"
+                                sync-from-property="TabInfo.title"></span>
+                        </div>
+                        <div class="uk-text-meta">
+                            <code>
+                                <span sync sync-to-this sync-to-property="textContent" sync-from="#TabInfo" sync-from-property="TabInfo.url"></span>
+                            </code>
+                        </div>
+                        <div class="uk-text-meta">
+                            <span EventListners>...</span>
+                            <span>EventListners</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-expand">
+            <div class="uk-flex uk-flex-right uk-flex-middle">
+                <div>
+                    <img CapturePreview uk-img uk-toggle="target: #modal-CapturePreview"
+                        uk-tooltip="title: CapturedImage; pos: bottom">
+                    <div id="modal-CapturePreview" uk-modal class="uk-modal-container">
+                        <div class="uk-modal-dialog uk-modal-body">
+                            <button class="uk-modal-close-outside" type="button" uk-close></button>
+                            <div class="uk-text-center">
+                                <div class="uk-margin">
+                                    <button CaptureWindow class="uk-button uk-button-default">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <div class="uk-margin-small-right" uk-icon="camera"></div>
+                                            <div>Capture window</div>
+                                        </div>
+                                    </button>
+                                </div>
+                                <img uk-img sync sync-to-this sync-to-property="src" sync-from="[CapturePreview]"
+                                    sync-from-property="src" class="uk-box-shadow-default img-selectable">
+                            </div>
+                        </div>
+                    </div>
+                    <button CaptureWindow class="uk-icon-button" uk-icon="icon: camera;"
+                        uk-tooltip="title: Capture window; pos: bottom">
+                    </button>
+                    <button TabToWindow class="uk-icon-button" uk-icon="icon: move;"
+                        uk-tooltip="title: Drop into new window; pos: bottom">
+                    </button>
+                    <button ReloadTab class="uk-icon-button" uk-icon="icon: refresh;"
+                        uk-tooltip="title: Reload tab; pos: bottom">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div MenuTabs class="bg-main radius-bottom-left radius-bottom-right" uk-sticky>
+        <div>
+            <div class="uk-flex uk-flex-middle">
+                <div MenuTab value="Gathering" setValueOnClick="#MenuControll"
+                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+                    <span>Gathering</span>
+                </div>
+                <div MenuTab value="Selector" setValueOnClick="#MenuControll"
+                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+                    <span>Selector</span>
+                </div>
+                <div MenuTab value="CapturEvents" setValueOnClick="#MenuControll"
+                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+                    <span>CapturEvents</span>
+                </div>
+                <div MenuTab value="Tails" setValueOnClick="#MenuControll"
+                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+                    <img src="/media/tail.png" width="20" height="20">
+                    <span>Tails</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div Main>
+            <div>
+                <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow"
+                    uk-tooltip="Help"></a>
+                <div id="modal-overflow" class="uk-modal-container" uk-modal>
+                    <div class="uk-modal-dialog radius">
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div class="uk-modal-body" uk-overflow-auto>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Gathering"]'>
+                                <mark-down src="/docs/help/Gathering.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Selector"]'>
+                                <mark-down src="/docs/help/Selector.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["CapturEvents"]'>
+                                <mark-down src="/docs/help/CapturEvents.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Tails"]'>
+                                <mark-down src="/docs/help/Tails.md"></mark-down>
+                            </div>
+                        </div>
+
+                        <div class="uk-text-right scroll-up">
+                            <button ScrollUp class="uk-icon-link" uk-icon="chevron-up" uk-tooltip="Scroll up"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Gathering"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div id="UiNames">
+                                <div class="uk-margin">
+                                    <div checkbox>
+                                        <label>
+                                            <input value="data-testid" class="uk-checkbox" type="checkbox">
+                                            <span>data-testid</span>
+                                        </label>
+                                        <label>
+                                            <input value="bluefox-label" class="uk-checkbox" type="checkbox">
+                                            <span>bluefox-label</span>
+                                        </label>
+                                        <label>
+                                            <input value="aria-description" class="uk-checkbox" type="checkbox">
+                                            <span>aria-description</span>
+                                        </label>
+                                        <label>
+                                            <input value="aria-label" class="uk-checkbox" type="checkbox">
+                                            <span>aria-label</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <ul uk-accordion="multiple: true">
+                                    <li class="uk-open">
+                                        <a class="uk-accordion-title">
+                                            <span>UI Selectors</span>
+                                        </a>
+                                        <div class="uk-accordion-content">
+                                            <div>
+                                                <span>
+                                                    <button Reload class="uk-icon-button button-radius-top"
+                                                        uk-icon="refresh" uk-tooltip="Reload">
+                                                    </button>
+                                                </span>
+                                            </div>
+                                            <div Spreadsheet></div>
+                                            <div>
+                                                <a class="uk-icon-button button-radius-bottom" href="#UiNames" uk-scroll
+                                                    uk-icon="chevron-up" uk-tooltip="Scroll up">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Selector"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div>
+                                <span class="uk-button-group-download-selectors">
+                                    <button class="uk-button uk-button-default" type="button">
+                                        <div class="uk-flex uk-flex-middle">
+                                            <div class="uk-margin-small-right" uk-icon="download"></div>
+                                            <div>Download</div>
+                                        </div>
+                                    </button>
+                                    <div uk-dropdown="mode: click; target: !.uk-button-group-download-selectors;">
+                                        <ul class="uk-nav uk-dropdown-nav">
+                                            <li>
+                                                <div SelectorDownloadJSON class="uk-button uk-button-text">
+                                                    <span>JSON (JavaScript Object Notation)</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div SelectorDownloadCSV class="uk-button uk-button-text">
+                                                    <span>CSV (Tab-Separated Values)</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </span>
+                                <span>
+                                    <input type="text" id="QuerySelector" class="uk-input uk-form-width-medium"
+                                        placeholder="QuerySelector">
+                                    <span>
+                                        <button GetSelectors class="uk-icon-button button-radius-right"
+                                            uk-icon="crosshairs" uk-tooltip="Get selectors">
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="uk-margin">
+                                <input type="text" id="QuerySelectorsProperty" class="uk-input uk-form-width-medium"
+                                    placeholder="Property" value="name">
+                                <ul SelectorsList class="uk-list uk-child-width-fill"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["CapturEvents"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div class="uk-margin">
+                                <div>
+                                    <button CapturEvents class="uk-button uk-button-default">
+                                        <span uk-icon="play"></span>
+                                        <span> CapturEvents</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <div>[out] CapturEventsOut↓</div>
+                                <div CapturEventsOut></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Tails"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div BlueFoxFileAttach class="uk-placeholder uk-text-center uk-text-default bg-white">
+                                <span uk-icon="icon: bolt; ratio: 2"></span>
+                                <span>Attach JSON by dropping them here or</span>
+                                <div uk-form-custom>
+                                    <input type="file" multiple>
+                                    <span class="uk-link">selecting one</span>
+                                </div>
+                            </div>
+                            <div>
+                                <ul uk-accordion="multiple: true">
+                                    <li>
+                                        <a class="uk-accordion-title" href="#">
+                                            <span>TSV to BlueFox:v0-JSON</span>
+                                        </a>
+                                        <div class="uk-accordion-content">
+                                            <div class="uk-margin">
+                                                <div>
+                                                    <div>in↓</div>
+                                                    <textarea v0-in class="uk-textarea" rows="10"></textarea>
+                                                </div>
+                                                <div>
+                                                    <div>out↓</div>
+                                                    <textarea v0-out class="uk-textarea" rows="10"></textarea>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <table class="uk-table">
+                                                    <caption>TSV format</caption>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>type</th>
+                                                            <th>target</th>
+                                                            <th>objectPath</th>
+                                                            <th>value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>set</td>
+                                                            <td>CSS Selector</td>
+                                                            <td>property.propertyName | attribute.attributeName</td>
+                                                            <td>Value</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>eval</td>
+                                                            <td>CSS Selector</td>
+                                                            <td>property.propertyName | attribute.attributeName</td>
+                                                            <td>Argument</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>capture</td>
+                                                            <td>CSS Selector</td>
+                                                            <td></td>
+                                                            <td>FileName</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>take</td>
+                                                            <td>CSS Selector</td>
+                                                            <td>property.propertyName | attribute.attributeName</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>save</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>FileName</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>sleep</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>Millisecond</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>event</td>
+                                                            <td>CSS Selector</td>
+                                                            <td></td>
+                                                            <td>EventType</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="divider-icon"></div>
+                <div class="uk-margin-left uk-margin">
+                    <div setTextContent="Copyright"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div constHide>
+        <template id="SelectorTemplate">
+            <div class="uk-flex">
+                <input type="text" class="uk-input uk-width-expand uk-margin-small-right" placeholder="Key">
+                <input type="text" class="uk-input uk-width-expand" placeholder="Selector">
+                <button GetElementProperties class="uk-icon-button button-radius-right" uk-tooltip="Get properties"
+                    uk-icon="eye"></button>
+            </div>
+        </template>
+    </div>
+</body>
+
+</html>
