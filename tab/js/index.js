@@ -106,7 +106,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
               if (tab.id in $.element.tabs) {
                 if ($.element.tabs[tab.id].element) {
                   $.element.tabs[tab.id].element.querySelector("[title]").textContent = tab.title;
-                  $.element.tabs[tab.id].element.querySelector("[url]").textContent = tab.url;
+                  $.element.tabs[tab.id].element.querySelector("[url]").childNodes[0].textContent = tab.url;
                   if (tab.favIconUrl) {
                     $.element.tabs[tab.id].element.querySelector("div:has(>[favicon])").removeAttribute("uk-icon");
                     $.element.tabs[tab.id].element.querySelector("[favicon]").src = tab.favIconUrl;
