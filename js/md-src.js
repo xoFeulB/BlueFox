@@ -45,6 +45,9 @@ window.customElements.define("mark-down", class extends HTMLElement {
         }
         await BlueFoxJs.Walker.walkHorizontally({
           _scope_: div,
+          "h1,h2,h3,h4,h5": async ($) => {
+            $.element.setAttribute("header-anchor", `#${$.element.textContent.toLocaleLowerCase().replaceAll(/[\(\)\.]/g, "").replaceAll(/[ ]/g, "-")}`);
+          },
           "h1,h2,h3": async ($) => {
             $.element.classList.add("uk-heading-divider");
           },
@@ -56,8 +59,17 @@ window.customElements.define("mark-down", class extends HTMLElement {
             $.element.classList.add("uk-margin-bottom");
           },
           "a": async ($) => {
-            $.element.setAttribute("target", "_blank");
-            $.element.setAttribute("rel", "noopener noreferrer");
+            if ($.element.getAttribute("href")[0] == "#") {
+              let href = $.element.getAttribute("href");
+              $.element.removeAttribute("href");
+              $.element.addEventListener("click", (event) => {
+                $.self._scope_.querySelector(`[header-anchor="${href}"]`);
+                UIkit.scroll($.self._scope_).scrollTo($.self._scope_.querySelector(`[header-anchor="${href}"]`));
+              })
+            } else {
+              $.element.setAttribute("target", "_blank");
+              $.element.setAttribute("rel", "noopener noreferrer");
+            }
           },
           "table": async ($) => {
             $.element.classList.add("uk-table", "uk-table-divider", "uk-table-small");

@@ -41,6 +41,15 @@
 
 BlueFox is a web front-end test automation and operational knowledge sharing solution designed to increase the productivity of web developers, especially those responsible for various areas such as design, development, unit testing, integration testing, and E2E testing.
 
+## Table of Contents
+
+- [Demo](#demo)
+- [JavaScript Example](#javascript-example)
+- [Manual installation](#manual-installation)
+- [BlueFoxServer and BlueFoxScript examples](#bluefoxserver-and-bluefoxscript-examples)
+  - [BlueFoxServer](#bluefoxserver)
+  - [BlueFoxScript examples](#bluefoxscript-examples)
+
 ## Demo
 
 ### X(Twitter)

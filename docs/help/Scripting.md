@@ -1,5 +1,19 @@
 # Scripting
 
+## Table of Contents
+
+- [Global objects](#global-objects)
+- [1. Inside async function](#1-inside-async-function)
+- [2. Initialize](#2-initialize)
+- [3. Open target window](#3-open-target-window)
+- [4. Initialize tails](#4-initialize-tails)
+- [5. Preparing tails](#5-preparing-tails)
+- [6. Run tails](#6-run-tails)
+- [7. Run script and get result](#7-run-script-and-get-result)
+- [VSCode integration feature](#vscode-integration-feature)
+  - [BlueFoxServer](#bluefoxserver)
+  - [BlueFoxScript examples](#bluefoxscript-examples)
+
 ## Global objects
 
 - `log` ... console.log

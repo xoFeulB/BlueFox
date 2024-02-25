@@ -64,7 +64,7 @@
         <div class="uk-width-expand">
             <div class="uk-flex uk-flex-right uk-flex-middle">
                 <div>
-                    <img CapturePreview uk-img uk-toggle="target: #modal-CapturePreview">
+                    <img CapturePreview uk-img uk-toggle="target: #modal-CapturePreview" uk-tooltip="title: CapturedImage; pos: bottom">
                     <div id="modal-CapturePreview" uk-modal class="uk-modal-container">
                         <div class="uk-modal-dialog uk-modal-body">
                             <button class="uk-modal-close-outside" type="button" uk-close></button>
@@ -131,6 +131,12 @@
                         <div class="uk-modal-body" uk-overflow-auto>
                             <div showWhenSome="#MenuControll" showWhenSome-values='["Gathering"]'>
                                 <mark-down src="/docs/help/Gathering.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Selector"]'>
+                                <mark-down src="/docs/help/Selector.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["CapturEvents"]'>
+                                <mark-down src="/docs/help/CapturEvents.md"></mark-down>
                             </div>
                             <div showWhenSome="#MenuControll" showWhenSome-values='["Tails"]'>
                                 <mark-down src="/docs/help/Tails.md"></mark-down>

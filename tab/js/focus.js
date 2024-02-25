@@ -428,7 +428,6 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 },
               });
               let property = BlueFoxJs.Util.getProperty(event.target.value, message.object);
-              log(property);
               if (property.object) {
                 try {
                   _.querySelector(`[placeholder="Key"]`).value = property.object[property.property]
