@@ -69,6 +69,7 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
 <img src="https://ooo.bluefox.ooo/media/Demo/demo5.gif" width="100%">
 
 ### assert test (Passed)
+
 `Temporary script editor`
 <img src="https://ooo.bluefox.ooo/media/Demo/demo6.gif" width="100%">
 
@@ -124,6 +125,14 @@ releases : https://github.com/xoFeulB/BlueFox/releases
 DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 
 then, drag-and-drop BlueFox folder to Chrome(Edge) developper-mode extensions page (<a href="edge://extensions/" target="_blank">edge://extensions/</a>)
+
+### Manual update
+
+in cloned BlueFox.git directory
+
+```bash
+git pull
+```
 
 ## BlueFoxServer and BlueFoxScript examples
 
