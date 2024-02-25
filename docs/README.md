@@ -163,14 +163,14 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
 #### RunScript
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs4.png" width="100%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs4.png" width="60%">
 </div>
 
 #### Temporary edit
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs5.png" width="100%">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs6.png" width="100%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs5.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/vscs6.png" width="60%">
 </div>
 
 ## ^.,.^ BlueFox-Chan fan arts
