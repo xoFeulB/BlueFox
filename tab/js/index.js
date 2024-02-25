@@ -108,6 +108,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                   $.element.tabs[tab.id].element.querySelector("[title]").textContent = tab.title;
                   $.element.tabs[tab.id].element.querySelector("[url]").textContent = tab.url;
                   if (tab.favIconUrl) {
+                    $.element.tabs[tab.id].element.querySelector("div:has(>[favicon])").removeAttribute("uk-icon");
                     $.element.tabs[tab.id].element.querySelector("[favicon]").src = tab.favIconUrl;
                     $.element.tabs[tab.id].element.querySelector("[favicon]").removeAttribute("hide");
                   } else {
@@ -120,7 +121,9 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 } else {
                   let TabsTemplate = document.querySelector("#TabsTemplate").content.cloneNode(true);
                   if (tab.favIconUrl) {
+                    TabsTemplate.querySelector("div:has(>[favicon])").removeAttribute("uk-icon");
                     TabsTemplate.querySelector("[favicon]").src = tab.favIconUrl;
+                    TabsTemplate.querySelector("[favicon]").removeAttribute("hide");
                   } else {
                     TabsTemplate.querySelector("div:has(>[favicon])").setAttribute(
                       "uk-icon",
