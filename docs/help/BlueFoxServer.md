@@ -8,7 +8,7 @@ BlueFoxServer, a VSCode extension, shares files on workspaces opened in VSCode w
 
 [Download and Install BlueFoxServer to use the VSCode integration feature (marketplace.visualstudio.com)](https://marketplace.visualstudio.com/items?itemName=BlueFoxEnterprise.BlueFoxServer)
 
-### BlueFoxScript examples
+### BlueFox Scripting examples
 
 ```bash
 git clone https://github.com/xoFeulB/BlueFoxScript-Examples.git

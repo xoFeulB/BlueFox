@@ -82,6 +82,11 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
 `Temporary script editor`
 <img src="https://ooo.bluefox.ooo/media/Demo/demo6.gif" width="100%">
 
+### EventListener callback
+
+`/8bit-pattern-event-listener.js`
+<img src="https://ooo.bluefox.ooo/media/Demo/demo8.gif" width="100%">
+
 ## JavaScript Example
 
 <bluefoxscript>
