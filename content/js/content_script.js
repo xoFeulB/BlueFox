@@ -181,10 +181,10 @@
     };
 
     let messageHandler = {
-      "BlueFox.Dispatch": async (object) => {
-        log(object);
+      "BlueFox.Dispatch": async (message, connector) => {
+        log(message.object);
         let R;
-        for (let f of object.files) {
+        for (let f of message.object.files) {
           await {
             "application/json": async (_) => {
               R = await BlueFox.do(JSON.parse(await _.text));
@@ -204,16 +204,16 @@
         }
         return R;
       },
-      "BlueFox.Dispatch.Action": async (object) => {
-        log("BlueFox.Dispatch.Action", JSON.parse(object));
-        return await BlueFox.do(JSON.parse(object));
+      "BlueFox.Dispatch.Action": async (message, connector) => {
+        log("BlueFox.Dispatch.Action", JSON.parse(message.object));
+        return await BlueFox.do(JSON.parse(message.object));
       },
-      "BlueFox.Dispatch.Script": async (object) => {
-        log("BlueFox.Dispatch.Script", object);
+      "BlueFox.Dispatch.Script": async (message, connector) => {
+        log("BlueFox.Dispatch.Script", message.object);
         let R = await sendMessage({
           type: "Runtime.evaluate",
           object: {
-            expression: object,
+            expression: message.object,
             objectGroup: "BlueFox-js-lanch",
             awaitPromise: true,
             returnByValue: true,
@@ -221,14 +221,15 @@
         });
         return R;
       },
-      "BlueFox.CaptureWindow": async (object) => {
+      "BlueFox.CaptureWindow": async (message, connector) => {
+        log("BlueFox.CaptureWindow", message.object);
         let R = await sendMessage({
           type: "Page.captureScreenshot",
-          object: object,
+          object: message.object,
         });
         return R;
       },
-      "BlueFox.GetEventListners": async (object) => {
+      "BlueFox.GetEventListners": async (message, connector) => {
         let R = (
           await sendMessage({
             type: "DOMDebugger.getEventListeners",
@@ -248,10 +249,10 @@
         ).listeners;
         return R;
       },
-      "BlueFox.GetSelectors": async (object) => {
+      "BlueFox.GetSelectors": async (message, connector) => {
         let R = [];
         try {
-          [...document.querySelectorAll(object.selector)].forEach((_) => {
+          [...document.querySelectorAll(message.object.selector)].forEach((_) => {
             try {
               R.push({
                 selector: CssSelectorGenerator.getCssSelector(_),
@@ -275,10 +276,10 @@
         } catch { }
         return R;
       },
-      "BlueFox.GetElementProperties": async (object) => {
+      "BlueFox.GetElementProperties": async (message, connector) => {
         let R = {};
         try {
-          let target = document.querySelector(object.selector);
+          let target = document.querySelector(message.object.selector);
           for (let property in target) {
             R[property] = target[property];
           }
@@ -293,31 +294,31 @@
         } catch { }
         return R;
       },
-      "BlueFox.CaptureDOMSnapshot": async (object) => {
+      "BlueFox.CaptureDOMSnapshot": async (message, connector) => {
         let R = await sendMessage({
           type: "DOMSnapshot.captureSnapshot",
-          object: object,
+          object: message.object,
         });
         return R;
       },
-      "BlueFoxScript.AddEventListener": async (object) => {
+      "BlueFoxScript.AddEventListener": async (message, connector) => {
         try {
           let R = [];
-          [...document.querySelectorAll(object.selector)].forEach((_) => {
+          [...document.querySelectorAll(message.object.selector)].forEach((_) => {
             let selector = CssSelectorGenerator.getCssSelector(_);
             let uuid = crypto.randomUUID();
             _.addEventListener(
-              object.event_type,
+              message.object.event_type,
               (event) => {
-                object.connector.postMessage(
+                connector.postMessage(
                   Object.assign(
-                    object.message,
+                    message,
                     {
                       object: {
-                        uuid: object.uuid,
+                        uuid: message.object.uuid,
                         object: {
                           uuid: uuid,
-                          type: object.type,
+                          type: message.object.type,
                           event: (() => {
                             try {
                               return Object.assign(
@@ -328,7 +329,7 @@
                               );
                             } catch (e) {
                               return {
-                                type: object.event_type,
+                                type: message.object.event_type,
                                 target: selector,
                               };
                             }
@@ -372,10 +373,8 @@
       connector.onMessage.addListener(async (message) => {
         try {
           let R = await messageHandler[message.type](
-            Object.assign(message.object, {
-              message: message,
-              connector: connector,
-            })
+            message,
+            connector,
           );
           connector.postMessage({
             uuid: message.uuid,
