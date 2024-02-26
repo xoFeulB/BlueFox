@@ -108,6 +108,23 @@ export class BlueFoxScript {
                   }
                 })();
                 return R;
+              },
+              addEventListeners: async (selector, event_type, callback) => {
+                let uuid = crypto.randomUUID();
+                await this.connector.load(_.id);
+                this.connector.connector.onMessage.addListener((P) => {
+                  if (P.object.uuid == uuid) {
+                    callback(P.object.object);
+                  }
+                });
+                return (await this.connector.post({
+                  type: "BlueFoxScript.AddEventListener",
+                  object: {
+                    uuid: uuid,
+                    selector: selector,
+                    event_type: event_type
+                  },
+                })).object;
               }
             };
             return _;

@@ -61,6 +61,125 @@
       return R;
     };
 
+    let EventFilter = {
+      Event: (event) => {
+        return {
+          type: event.type,
+          eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
+          timestamp: event.timeStamp,
+          property: {
+            bubbles: event.bubbles,
+            cancelable: event.cancelable,
+            composed: event.composed,
+          },
+        };
+      },
+      InputEvent: (event) => {
+        return {
+          type: event.type,
+          eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
+          timestamp: event.timeStamp,
+          property: {
+            bubbles: event.bubbles,
+            cancelable: event.cancelable,
+            composed: event.composed,
+
+            // UIEvent
+            detail: event.detail,
+            // view: event.view,
+
+            inputType: event.inputType,
+            data: event.data,
+            isComposing: event.isComposing,
+            detail: event.detail,
+          },
+        };
+      },
+      KeyboardEvent: (event) => {
+        return {
+          type: event.type,
+          eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
+          timestamp: event.timeStamp,
+          property: {
+            bubbles: event.bubbles,
+            cancelable: event.cancelable,
+            composed: event.composed,
+            // UIEvent
+            detail: event.detail,
+            key: event.key,
+            code: event.code,
+            location: event.location,
+            repeat: event.repeat,
+            isComposing: event.isComposing,
+            charCode: event.charCode,
+            keyCode: event.keyCode,
+            which: event.which,
+            ctrlKey: event.ctrlKey,
+            shiftKey: event.shiftKey,
+            altKey: event.altKey,
+            metaKey: event.metaKey,
+          },
+        };
+      },
+      FocusEvent: (event) => {
+        return {
+          type: event.type,
+          eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
+          timestamp: event.timeStamp,
+          property: {
+            bubbles: event.bubbles,
+            cancelable: event.cancelable,
+            composed: event.composed,
+            // UIEvent
+            detail: event.detail,
+          },
+        };
+      },
+      MouseEvent: (event) => {
+        return {
+          type: event.type,
+          eventPrototype: Object.prototype.toString.call(event).slice(8, -1),
+          timestamp: event.timeStamp,
+          property: {
+            bubbles: event.bubbles,
+            cancelable: event.cancelable,
+            composed: event.composed,
+            // UIEvent
+            detail: event.detail,
+            screenX: event.screenX,
+            screenY: event.screenY,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            ctrlKey: event.ctrlKey,
+            shiftKey: event.shiftKey,
+            altKey: event.altKey,
+            metaKey: event.metaKey,
+            button: event.button,
+            buttons: event.buttons,
+            region: event.region,
+          },
+        };
+      },
+    };
+
+    let CaptureType = {
+      click: EventFilter.MouseEvent,
+      dblclick: EventFilter.MouseEvent,
+      drop: EventFilter.MouseEvent,
+      dragover: EventFilter.MouseEvent,
+      dragenter: EventFilter.MouseEvent,
+      pointerdown: EventFilter.MouseEvent,
+      beforeinput: EventFilter.InputEvent,
+      focus: EventFilter.FocusEvent,
+      focusin: EventFilter.FocusEvent,
+      focusout: EventFilter.FocusEvent,
+      keydown: EventFilter.KeyboardEvent,
+      keypress: EventFilter.KeyboardEvent,
+      keyup: EventFilter.KeyboardEvent,
+      input: EventFilter.InputEvent,
+      change: EventFilter.Event,
+    };
+
     let messageHandler = {
       "BlueFox.Dispatch": async (object) => {
         log(object);
@@ -169,7 +288,7 @@
               name: attribute.name,
               value: attribute.value
             };
-          })
+          });
 
         } catch { }
         return R;
@@ -181,12 +300,80 @@
         });
         return R;
       },
+      "BlueFoxScript.AddEventListener": async (object) => {
+        try {
+          let R = [];
+          [...document.querySelectorAll(object.selector)].forEach((_) => {
+            let selector = CssSelectorGenerator.getCssSelector(_);
+            let uuid = crypto.randomUUID();
+            _.addEventListener(
+              object.event_type,
+              (event) => {
+                object.connector.postMessage(
+                  Object.assign(
+                    object.message,
+                    {
+                      object: {
+                        uuid: object.uuid,
+                        object: {
+                          uuid: uuid,
+                          type: object.type,
+                          event: (() => {
+                            try {
+                              return Object.assign(
+                                CaptureType[event.type](event),
+                                {
+                                  target: selector,
+                                }
+                              );
+                            } catch (e) {
+                              return {
+                                type: object.event_type,
+                                target: selector,
+                              };
+                            }
+                          })(),
+                          properties: (() => {
+                            let r = {};
+                            for (let property in _) {
+                              r[property] = _[property];
+                            }
+                            r.attributes = {};
+                            [..._.attributes].forEach((attribute) => {
+                              r.attributes[attribute.name] = {
+                                name: attribute.name,
+                                value: attribute.value
+                              };
+                            });
+                            return r;
+                          })()
+                        }
+                      },
+                    }
+                  )
+                );
+              }
+            );
+
+            R.push(
+              {
+                uuid: uuid,
+                selector: selector,
+              }
+            );
+          })
+          return R;
+        } catch (e) {
+          return [];
+        }
+      },
     };
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener(async (message) => {
         try {
           let R = await messageHandler[message.type](
             Object.assign(message.object, {
+              message: message,
               connector: connector,
             })
           );
