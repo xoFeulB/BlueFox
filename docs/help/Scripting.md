@@ -28,6 +28,40 @@ Automate with javascript
 
 ## Scripting Reference
 
+### BlueFoxScript.runRemoteScript()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  let blueFoxScript = await new BlueFoxScript();
+
+  await blueFoxScript.runRemoteScript("/alert.js");
+})();
+```
+
+</bluefoxscript>
+
+### BlueFoxScript.getRemoteFile()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  let blueFoxScript = await new BlueFoxScript();
+
+  let file = await blueFoxScript.getRemoteFile("/img/BlueFox.png");
+
+  // Property
+  file.name;
+  file.type;
+  file.blob;
+  file.object;
+})();
+```
+
+</bluefoxscript>
+
 ### BlueFoxScript.tabs.info[n]
 
 <bluefoxscript>
