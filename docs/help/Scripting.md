@@ -28,7 +28,9 @@ Automate with javascript
 
 ## Scripting Reference
 
-### BlueFoxScript.runRemoteScript()
+### BlueFoxScript.runScript()
+
+Run String:script
 
 <bluefoxscript>
 
@@ -36,13 +38,18 @@ Automate with javascript
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  await blueFoxScript.runRemoteScript("/alert.js");
+  let script = await (
+    await fetch("https://ooo.bluefox.ooo/BlueFoxDemo/js/confirm.js")
+  ).text();
+  window.alert(
+    `Confirmed: ${(await blueFoxScript.runScript(script)).result.value}`
+  );
 })();
 ```
 
 </bluefoxscript>
 
-### BlueFoxScript.getRemoteFile()
+### BlueFoxScript.runWorkspaceScript()
 
 <bluefoxscript>
 
@@ -50,7 +57,21 @@ Automate with javascript
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let file = await blueFoxScript.getRemoteFile("/img/BlueFox.png");
+  await blueFoxScript.runWorkspaceScript("/alert.js");
+})();
+```
+
+</bluefoxscript>
+
+### BlueFoxScript.getWorkspaceFile()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  let blueFoxScript = await new BlueFoxScript();
+
+  let file = await blueFoxScript.getWorkspaceFile("/img/BlueFox.png");
 
   // Property
   file.name;
@@ -94,7 +115,29 @@ Automate with javascript
 
 ```javascript
 (async () => {
-  let tails = tab.dispatch.tails({ sleep: 100 });
+  let tails = tab.dispatch.tails({
+    sleep: 100,
+    dispatchEvents: [
+      {
+        option: {
+          eventObject: "Event",
+          eventType: "change",
+          eventArgs: {
+            bubbles: true,
+          },
+        },
+      },
+      {
+        option: {
+          eventObject: "Event",
+          eventType: "input",
+          eventArgs: {
+            bubbles: true,
+          },
+        },
+      },
+    ],
+  });
 })();
 ```
 

@@ -19,8 +19,9 @@ export class BlueFoxScript {
   }
 
   // interface
-  async runRemoteScript() { }
-  async getRemoteFile() { }
+  async runWorkspaceScript() { }
+  async getWorkspaceFile() { }
+  async runScript() { }
 
   async init(resolve) {
     this.tabs = {

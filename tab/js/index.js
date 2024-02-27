@@ -8,14 +8,14 @@ import { AwaitbleWebSocket } from "/js/websocket.awaitable.js";
 
 window.BlueFoxJs = BlueFoxJs;
 window.BlueFoxScript = class extends BlueFoxScript {
-  async runRemoteScript(path) {
+  async runWorkspaceScript(path) {
     let regexp_object = new RegExp(path, "g");
     await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
       return regexp_object.test(_.path);
     })[0]).play();
   }
 
-  async getRemoteFile(path) {
+  async getWorkspaceFile(path) {
     let regexp_object = new RegExp(path, "g");
 
     let workspaceObject = ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
@@ -33,6 +33,21 @@ window.BlueFoxScript = class extends BlueFoxScript {
       blob: [...new Uint8Array(await B.arrayBuffer())],
       object: "Uint8Array",
     };
+  }
+
+  async runScript(script) {
+    await chrome.runtime.sendMessage({
+      type: "Debugger.attach",
+    });
+    return await chrome.runtime.sendMessage({
+      type: "Runtime.evaluate",
+      object: {
+        expression: script,
+        objectGroup: "BlueFox-js-lanch",
+        awaitPromise: true,
+        returnByValue: true,
+      },
+    });
   }
 }
 
