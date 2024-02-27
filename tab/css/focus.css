@@ -18,11 +18,12 @@
   align-items: center;
   justify-content: center;
 }
-[BlueFoxFileAttach] > [uk-form-custom] {
+
+[BlueFoxFileAttach]>[uk-form-custom] {
   text-indent: 0.5em;
 }
 
-li > a {
+li>a {
   display: inline-block;
   width: 100%;
 }
@@ -41,9 +42,20 @@ active {
 div:has(> [setValueOnClick="#MenuControll"]) {
   user-select: none;
 }
+
 [Description] {
   white-space: pre-wrap;
 }
+
+.button-radius-none {
+  width: 40px;
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
 .button-radius-right {
   width: 40px;
   height: 40px;
@@ -52,6 +64,7 @@ div:has(> [setValueOnClick="#MenuControll"]) {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 500px;
 }
+
 .button-radius-top {
   width: 40px;
   height: 40px;
@@ -60,6 +73,7 @@ div:has(> [setValueOnClick="#MenuControll"]) {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
+
 .button-radius-bottom {
   width: 40px;
   height: 40px;
@@ -68,18 +82,22 @@ div:has(> [setValueOnClick="#MenuControll"]) {
   border-bottom-left-radius: 500px;
   border-bottom-right-radius: 500px;
 }
+
 [GetElementPropertiesNotification] {
   max-height: 80vh;
 }
+
 [CapturEventsOut] {
   white-space: pre-wrap;
   max-height: 80vh;
   overflow: scroll;
 }
+
 [Spreadsheet] {
   width: 100%;
   overflow-x: scroll;
 }
+
 [Spreadsheet] tbody tr:nth-child(even) {
   background-color: #f2f8ff;
 }

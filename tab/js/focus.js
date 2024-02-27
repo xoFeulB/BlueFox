@@ -356,7 +356,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                   }
                   SelectorTemplate.querySelector(
                     `[placeholder="Selector"]`
-                  ).value = _.selector;
+                  ).value = JSON.stringify(_.selector);
 
                   li.appendChild(SelectorTemplate);
                   SelectorsList.appendChild(li);
@@ -462,6 +462,15 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               document.querySelector(
                 "[GetElementPropertiesNotification] > code"
               ).textContent = R;
+            }
+            else if (
+              event.target.attributes["CopySelector"] ||
+              event.target.closest("[CopySelector]")
+            ) {
+              event.target.closest("div").querySelector("[CopySelector]").classList.add("uk-spinner");
+              navigator.clipboard.writeText(JSON.stringify(event.target.closest("div").Selector.selector));
+              await sleep(930);
+              event.target.closest("div").querySelector("[CopySelector]").classList.remove("uk-spinner");
             }
           });
         },
