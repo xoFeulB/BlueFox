@@ -31,6 +31,8 @@ export class BlueFoxScript {
           let tabInfo = [
             ...(await chrome.tabs.query({ url: "<all_urls>" })),
           ].map((_) => {
+            _.windowId = _.windowId;
+            _.id = _.id;
             _.url = new URL(_.url);
             _.dispatch = {
               script: async (callable) => {
@@ -127,6 +129,15 @@ export class BlueFoxScript {
                   },
                 })).object;
               }
+            };
+            _.close = async () => {
+              await chrome.runtime.sendMessage({
+                type: "Tab.removeWindow",
+                object: _.windowId
+              });
+            };
+            _.reload = async () => {
+              await chrome.tabs.reload(_.id);
             };
             return _;
           });
