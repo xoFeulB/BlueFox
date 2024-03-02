@@ -457,6 +457,30 @@ run Tails
 
 </bluefoxscript>
 
+### BlueFoxScript.tabs.info[n].close()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tab.close();
+})();
+```
+
+</bluefoxscript>
+
+### BlueFoxScript.tabs.info[n].reload()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tab.reload();
+})();
+```
+
+</bluefoxscript>
+
 ## Step by Step
 
 ### 1. Inside async function
