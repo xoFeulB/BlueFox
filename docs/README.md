@@ -1,7 +1,7 @@
 # ^.,.^ BlueFox
 
 <div align="center">
-    <img src="https://repository-images.githubusercontent.com/589325811/52c33fdb-ccbb-4be9-8e20-62f642102f3b">
+    <img src="https://ooo.bluefox.ooo/media/SocialPreview_4.png">
 </div>
 
 <div>
@@ -192,6 +192,7 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
 <div align="center">
     <img src="https://ooo.bluefox.ooo/media/FanArts/art1.png" width="300">
     <img src="https://ooo.bluefox.ooo/media/FanArts/art2.png" width="300">
+    <img src="https://ooo.bluefox.ooo/media/FanArts/art3.png" width="300">
 </div>
 <div align="center">
     <h4>CREDITS</h4>
