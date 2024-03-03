@@ -190,8 +190,6 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
 ## ^.,.^ BlueFox-Chan fan arts
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/FanArts/art1.png" width="300">
-    <img src="https://ooo.bluefox.ooo/media/FanArts/art2.png" width="300">
     <img src="https://ooo.bluefox.ooo/media/FanArts/art3.png" width="300">
 </div>
 <div align="center">
