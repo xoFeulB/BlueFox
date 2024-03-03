@@ -187,7 +187,7 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
     <img src="https://ooo.bluefox.ooo/media/Demo/vscs6.png" width="60%">
 </div>
 
-## ^.,.^ BlueFox-Chan fan arts
+## ^.,.^ BlueFox-chan fan arts
 
 <div align="center">
     <img src="https://ooo.bluefox.ooo/media/FanArts/art3.png" width="300">
