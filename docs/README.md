@@ -102,8 +102,7 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
     .setProperty({ value: "^.,.^ BlueFox" })
     .target("[name='btnK'][tabindex='0']")
     .call("click", null)
-    .run({ sleep: 50 });
-  await sleep(1000);
+    .runTillNextOnLoad({ sleep: 50 });
 
   let search_result = await tab.dispatch.script(() => {
     return [
@@ -119,7 +118,6 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
         };
       });
   });
-
   window.alert(JSON.stringify(search_result.result.value, null, 4));
 })();
 ```
