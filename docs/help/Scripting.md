@@ -381,7 +381,6 @@ sleep millisecond
 })();
 ```
 
-</bluefoxscript>
 
 </bluefoxscript>
 
