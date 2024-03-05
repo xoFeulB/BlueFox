@@ -175,7 +175,7 @@ same as .target(\``:is([data-testid="${UI Name}"],[bluefox-label="${UI Name}"],[
 
 ```javascript
 (async () => {
-  tails.target(`UI Name`);
+  tails.defined(`UI Name`);
 })();
 ```
 
