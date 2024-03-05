@@ -543,8 +543,6 @@ window.BlueFoxScript = class extends BlueFoxScript {
         }
       }
       window.addEventListener("reload_ws", () => {
-        log("reload_ws");
-
         start_ws();
       });
       window.dispatchEvent(new CustomEvent("reload_ws"));
