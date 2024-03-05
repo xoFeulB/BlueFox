@@ -59,6 +59,34 @@ export class BlueFoxScript {
                   object: config,
                 });
               },
+              tillScriptTrue: async (callable, max_polling = 20) => {
+                return new Promise((resolve, reject) => {
+                  let polling_count = max_polling;
+                  let polling = () => {
+                    setTimeout(async () => {
+                      try {
+                        if (!polling_count--) {
+                          reject();
+                          return;
+                        }
+                        await this.connector.load(_.id);
+                        let R = (await this.connector.post({
+                          type: "BlueFox.Dispatch.Script",
+                          object: `(${callable.toString()})();`,
+                        })).object;
+                        if (!R.result.value) {
+                          polling();
+                        } else {
+                          resolve(R);
+                        }
+                      } catch (e) {
+                        polling();
+                      }
+                    }, 100)
+                  }
+                  polling();
+                });
+              },
               tails: (config) => {
                 let R = new (class extends BlueFoxJs.Automation.BlueFoxScript {
                   constructor() {
@@ -81,6 +109,63 @@ export class BlueFoxScript {
                       Object.assign(this.tail, object)
                     );
                     return R.object;
+                  }
+                  async runTillNextOnLoad(object, max_polling = 20) {
+                    let uuid_prev = await new Promise((resolve, reject) => {
+                      let polling_count = max_polling;
+                      let polling = () => {
+                        setTimeout(async () => {
+                          try {
+                            if (!polling_count--) {
+                              reject();
+                              return;
+                            }
+                            await this.connector.load(_.id);
+                            let uuid = (await this.connector.post({
+                              type: "Tab.windowOnLoad",
+                              object: {},
+                            })).object;
+                            if (!uuid) {
+                              polling();
+                            } else {
+                              resolve(uuid);
+                            }
+                          } catch (e) {
+                            polling();
+                          }
+                        }, 100)
+                      }
+                      polling();
+                    });
+                    let R = _.dispatch.action(
+                      Object.assign(this.tail, object)
+                    );
+                    return await new Promise((resolve, reject) => {
+                      let polling_count = max_polling;
+                      let polling = () => {
+                        setTimeout(async () => {
+                          try {
+                            if (!polling_count--) {
+                              reject();
+                              return;
+                            }
+                            await this.connector.load(_.id);
+                            let uuid = (await this.connector.post({
+                              type: "Tab.windowOnLoad",
+                              object: {},
+                            })).object;
+                            if (!uuid || uuid_prev == uuid) {
+                              polling();
+                            } else {
+                              resolve(await R);
+                            }
+                          } catch (e) {
+                            polling();
+                          }
+                        }, 100)
+                      }
+                      polling();
+                    });
                   }
                   saveTail(title, description, object) {
                     let R = JSON.parse(JSON.stringify(this.tail));
@@ -128,7 +213,7 @@ export class BlueFoxScript {
                     event_type: event_type
                   },
                 })).object;
-              }
+              },
             };
             _.close = async () => {
               await chrome.runtime.sendMessage({
@@ -150,7 +235,7 @@ export class BlueFoxScript {
           return regexp_object.test(_.url.href);
         });
       },
-      create: async (url, msec = 1000, option = {
+      create: async (url, max_polling = 20, option = {
         focused: false,
         top: 0,
         left: 0,
@@ -162,9 +247,35 @@ export class BlueFoxScript {
             }, option
           )
         );
-        await sleep(msec);
-        await this.tabs.reload();
 
+        await new Promise((resolve, reject) => {
+          let polling_count = max_polling;
+          let polling = () => {
+            setTimeout(async () => {
+              try {
+                if (!polling_count--) {
+                  reject();
+                  return;
+                }
+                await this.connector.load(created.tabs[0].id);
+                let uuid = (await this.connector.post({
+                  type: "Tab.windowOnLoad",
+                  object: {},
+                })).object;
+                if (!uuid) {
+                  polling();
+                } else {
+                  resolve(uuid);
+                }
+              } catch (e) {
+                polling();
+              }
+            }, 100)
+          }
+          polling();
+        });
+
+        await this.tabs.reload();
         let tab = this.tabs.info.filter((_) => {
           return _.id == created.tabs[0].id;
         })[0];
