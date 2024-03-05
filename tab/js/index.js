@@ -499,7 +499,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
               await chrome.runtime.sendMessage({
                 type: "Debugger.attach",
               });
-              await chrome.runtime.sendMessage({
+              let R = await chrome.runtime.sendMessage({
                 type: "Runtime.evaluate",
                 object: {
                   expression: data.content,
@@ -508,6 +508,12 @@ window.BlueFoxScript = class extends BlueFoxScript {
                   returnByValue: true,
                 },
               });
+              delete data.content;
+              webSocket.socket.send(
+                JSON.stringify(
+                  Object.assign(data, R)
+                )
+              );
             },
             "ReLoad": async (data) => {
               window.dispatchEvent(new CustomEvent("reload_ws"));
