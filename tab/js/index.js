@@ -393,6 +393,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
           }
           let webSocketMessageHandler = {
             "getFileTree": async (data) => {
+              document.querySelector("[vscode-notice]").setAttribute("hide", "");
               let workspaces = await (await fetch(`http://${Values.values.BluefoxServer.value}:7777/GetWorkspace.get`)).json();
               let filelist = document.querySelector("#FileList");
               filelist.textContent = "Found, and Waiting BlueFoxServer...";
@@ -530,6 +531,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
             await sleep(3000);
             window.dispatchEvent(new CustomEvent("reload_ws"));
           });
+          webSocket.socket.addEventListener("close", async (event) => {
+            document.querySelector("[vscode-notice]").removeAttribute("hide");
+            let filelist = document.querySelector("#FileList").textContent = "";
+          });
 
           await webSocketMessageHandler["getFileTree"](null);
         } catch (e) {
@@ -538,6 +543,8 @@ window.BlueFoxScript = class extends BlueFoxScript {
         }
       }
       window.addEventListener("reload_ws", () => {
+        log("reload_ws");
+
         start_ws();
       });
       window.dispatchEvent(new CustomEvent("reload_ws"));
