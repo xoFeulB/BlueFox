@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "^.,.^ BlueFox",
-    "version": "0.3.5",
+    "version": "0.4.0",
     "description": "Agile Web Automation Software for Time-Starved Professionals",
     "host_permissions": [
         "<all_urls>"
@@ -15,6 +15,15 @@
         "type": "module"
     },
     "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "/content/js/content_observer.js"
+            ],
+            "run_at": "document_start"
+        },
         {
             "matches": [
                 "<all_urls>"

@@ -257,7 +257,6 @@
     });
 
     chrome.tabs.onCreated.addListener((tab) => {
-      R.pageInfo[tab.id] = [];
       R.pageInfo[tab.id] = {};
     });
 

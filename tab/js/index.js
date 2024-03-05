@@ -63,13 +63,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
 
     let log = console.log;
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    let sendMessage = async (arg) => {
-      try {
-        return await chrome.runtime.sendMessage(arg);
-      } catch (err) {
-        log(err);
-      }
-    };
+
     /* Display */ {
       await BlueFoxJs.Walker.walkHorizontally({
         _scope_: document,
@@ -280,10 +274,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
           window.ServerScriptOut = document.querySelector("[ServerScriptOut]");
           $.element.addEventListener("click", async (event) => {
             $.element.classList.add("uk-spinner");
-            await sendMessage({
+            await chrome.runtime.sendMessage({
               type: "Debugger.attach",
             });
-            await sendMessage({
+            await chrome.runtime.sendMessage({
               type: "Runtime.evaluate",
               object: {
                 expression: window.MonacoEditor.getValue(),
@@ -310,8 +304,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                 `    .setProperty({ value: "^.,.^ BlueFox" })`,
                 `    .target("[name='btnK'][tabindex='0']")`,
                 `    .call("click", null)`,
-                `    .run({ sleep: 50 });`,
-                `  await sleep(1000);`,
+                `    .runTillNextOnLoad({ sleep: 50 });`,
                 ``,
                 `  let search_result = await tab.dispatch.script(`,
                 `    () => {`,
@@ -489,10 +482,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
             },
             "dispatch": async (data) => {
               let file = await (await fetch(`http://${Values.values.BluefoxServer.value}:7777/GetFile.get?${JSON.stringify(data)}`)).text();
-              await sendMessage({
+              await chrome.runtime.sendMessage({
                 type: "Debugger.attach",
               });
-              await sendMessage({
+              await chrome.runtime.sendMessage({
                 type: "Runtime.evaluate",
                 object: {
                   expression: file,
@@ -503,10 +496,10 @@ window.BlueFoxScript = class extends BlueFoxScript {
               });
             },
             "RunScript": async (data) => {
-              await sendMessage({
+              await chrome.runtime.sendMessage({
                 type: "Debugger.attach",
               });
-              await sendMessage({
+              await chrome.runtime.sendMessage({
                 type: "Runtime.evaluate",
                 object: {
                   expression: data.content,

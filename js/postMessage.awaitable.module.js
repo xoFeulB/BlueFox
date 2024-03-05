@@ -17,27 +17,27 @@ export class Connector {
     this.connector = await chrome.tabs.connect(tabId);
     this.connector.onMessage.addListener((P) => {
       if (P.uuid in this.postPool) {
-        this.postPool[P.uuid](P);
+        this.postPool[P.uuid].resolve(P);
         delete this.postPool[P.uuid];
       }
     });
     this.connector.onDisconnect.addListener((P) => {
+      Object.entries(this.postPool).forEach(([uuid, promise]) => {
+        promise.reject();
+      })
       this.connector = null;
     });
   }
 
   async post(P) {
     let uuid = crypto.randomUUID();
-
     let R = new Promise((resolve, reject) => {
-      this.postPool[uuid] = (_) => {
-        resolve(_);
+      this.postPool[uuid] = {
+        resolve: resolve,
+        reject: reject
       };
     });
 
-    if (!this.connector) {
-      await this.load(this.tabId);
-    }
     this.connector.postMessage(
       Object.assign(P, {
         uuid: uuid,

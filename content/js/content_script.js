@@ -10,7 +10,7 @@
       };
       window.addEventListener("BlueFoxJs@Ready", BlueFoxJsReady);
     });
-    let BlueFox = new BlueFoxJs.Automation.BlueFox()
+    let BlueFox = new BlueFoxJs.Automation.BlueFox();
 
     let log = (...args) => {
       console.log("content_scripts.js", ...args);
@@ -278,8 +278,23 @@
       },
       "BlueFox.GetElementProperties": async (message, connector) => {
         let R = {};
+        let select = (selector) => {
+          if (selector[0] == "/") {
+            return document.evaluate(
+              selector,
+              document,
+              null,
+              XPathResult.FIRST_ORDERED_NODE_TYPE,
+              null,
+            ).singleNodeValue;
+          }
+          else {
+            return document.querySelector(selector);
+          }
+        };
         try {
-          let target = document.querySelector(message.object.selector);
+
+          let target = select(message.object.selector);
           for (let property in target) {
             R[property] = target[property];
           }
@@ -304,7 +319,26 @@
       "BlueFoxScript.AddEventListener": async (message, connector) => {
         try {
           let R = [];
-          [...document.querySelectorAll(message.object.selector)].forEach((_) => {
+          let elements = [];
+          if (message.object.selector[0] == "/") {
+            let result = document.evaluate(
+              message.object.selector,
+              document,
+              null,
+              XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
+              null,
+            );
+            elements = [...(
+              function* () {
+                while ((node = result.iterateNext())) {
+                  yield node;
+                }
+              }
+            )(result)];
+          } else {
+            elements = [...document.querySelectorAll(message.object.selector)];
+          }
+          elements.forEach((_) => {
             let selector = CssSelectorGenerator.getCssSelector(_);
             let uuid = crypto.randomUUID();
             _.addEventListener(

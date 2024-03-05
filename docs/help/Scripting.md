@@ -161,7 +161,7 @@ Run String:script
 
 ```javascript
 (async () => {
-  tails.target(`CSS Selector`);
+  tails.target(`CSS Selector or XPath`);
 })();
 ```
 
@@ -296,7 +296,7 @@ move into Shadow DOM, iframe
 ```javascript
 (async () => {
   tails.capture(
-    (selector = `CSS Selector`),
+    (selector = `CSS Selector or XPath`),
     (object = {
       fileName: "capture",
       format: "png",
@@ -371,6 +371,20 @@ sleep millisecond
 
 </bluefoxscript>
 
+#### .getProperties()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  let properties = await tails.getProperties(`CSS Selector or XPath`);
+})();
+```
+
+</bluefoxscript>
+
+</bluefoxscript>
+
 #### .run()
 
 run Tails
@@ -380,6 +394,20 @@ run Tails
 ```javascript
 (async () => {
   await tails.run({ sleep: 100 });
+})();
+```
+
+</bluefoxscript>
+
+#### .runTillNextOnLoad()
+
+run Tails and await till next window.onload
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tails.runTillNextOnLoad({ sleep: 100 });
 })();
 ```
 
@@ -421,6 +449,20 @@ run Tails
   await tab.dispatch.script(() => {
     window.alert("^.,.^ BlueFox");
   });
+})();
+```
+
+</bluefoxscript>
+
+### BlueFoxScript.tabs.info[n].dispatch.tillScriptTrue()
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tab.dispatch.tillScriptTrue(() => {
+    return true;
+  }, (max_polling = 5000));
 })();
 ```
 
