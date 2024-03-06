@@ -520,7 +520,6 @@ window.BlueFoxScript = class extends BlueFoxScript {
               window.dispatchEvent(new CustomEvent("reload_ws"));
             },
           };
-
           webSocket.socket.addEventListener("message", async (event) => {
             let data = JSON.parse(event.data);
             if (data.type in webSocketMessageHandler) {
@@ -535,6 +534,19 @@ window.BlueFoxScript = class extends BlueFoxScript {
             document.querySelector("[vscode-notice]").removeAttribute("hide");
             let filelist = document.querySelector("#FileList").textContent = "";
           });
+
+          {
+            if (location.hash) {
+              window.BlueFoxID = location.hash.slice(1);
+              webSocket.socket.send(
+                JSON.stringify(
+                  {
+                    BlueFoxID: location.hash.slice(1),
+                  }
+                )
+              );
+            }
+          }
 
           await webSocketMessageHandler["getFileTree"](null);
         } catch (e) {
