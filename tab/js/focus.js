@@ -764,7 +764,6 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               div.editor.on("change", async () => {
                 let c = div.editor.getValue();
                 c.url = `${c.secure ? "https" : "http"}://${c.domain}${c.path}`;
-                log(c);
                 await chrome.cookies.set(c);
                 await BlueFoxJs.Walker.walkHorizontally({
                   _scope_: div,
