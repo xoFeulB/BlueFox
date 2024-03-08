@@ -1,12 +1,13 @@
 {
     "manifest_version": 3,
     "name": "^.,.^ BlueFox",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "description": "Agile Web Automation Software for Time-Starved Professionals",
     "host_permissions": [
         "<all_urls>"
     ],
     "permissions": [
+        "cookies",
         "tabs",
         "debugger"
     ],

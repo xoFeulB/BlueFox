@@ -522,6 +522,49 @@ run Tails
 
 </bluefoxscript>
 
+### BlueFoxScript.tabs.info[n].getCookies()
+
+https://developer.chrome.com/docs/extensions/reference/api/cookies#method-getAll
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tab.getCookies({ domain: "domain" });
+})();
+```
+
+</bluefoxscript>
+
+### BlueFoxScript.tabs.info[n].removeCookie()
+
+https://developer.chrome.com/docs/extensions/reference/api/cookies#method-remove
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tab.removeCookie({ name: "name" });
+})();
+```
+
+</bluefoxscript>
+
+### BlueFoxScript.tabs.info[n].setCookie()
+
+https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
+
+<bluefoxscript>
+
+```javascript
+(async () => {
+  await tab.setCookie({ name: "name", value: "value" });
+})();
+```
+
+</bluefoxscript>
+
+
 ## Step by Step
 
 ### 1. Inside async function

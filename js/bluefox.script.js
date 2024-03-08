@@ -224,6 +224,18 @@ export class BlueFoxScript {
             _.reload = async () => {
               await chrome.tabs.reload(_.id);
             };
+            _.getCookies = async () => {
+              let R = await chrome.cookies.getAll({ domain: _.url.hostname });
+              return R;
+            };
+            _.removeCookie = async (cookie) => {
+              let R = await chrome.cookies.remove(Object.assign({ url: _.url.href }, cookie));
+              return R;
+            };
+            _.setCookie = async (cookie) => {
+              let R = await chrome.cookies.set(Object.assign({ url: _.url.href }, cookie));
+              return R;
+            };
             return _;
           });
           return tabInfo;
