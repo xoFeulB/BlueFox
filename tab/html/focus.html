@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/modules/jspreadsheet/jsuites.css" type="text/css" />
     <link rel="stylesheet" href="/modules/jspreadsheet/jexcel.css" type="text/css" />
 
+    <script src="/modules/json-editor/jsoneditor.min.js"></script>
+
     <script src="/js/postMessage.awaitable.js" defer></script>
     <script src="/js/sync-value.js" type="module" defer></script>
     <script src="/js/md-src.js" type="module" defer></script>
@@ -108,6 +110,10 @@
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span>Selector</span>
                 </div>
+                <div MenuTab value="Cookie" setValueOnClick="#MenuControll"
+                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+                    <span>Cookie</span>
+                </div>
                 <div MenuTab value="CapturEvents" setValueOnClick="#MenuControll"
                     class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
                     <span>CapturEvents</span>
@@ -135,6 +141,9 @@
                             </div>
                             <div showWhenSome="#MenuControll" showWhenSome-values='["Selector"]'>
                                 <mark-down src="/docs/help/Selector.md"></mark-down>
+                            </div>
+                            <div showWhenSome="#MenuControll" showWhenSome-values='["Cookie"]'>
+                                <mark-down src="/docs/help/Cookie.md"></mark-down>
                             </div>
                             <div showWhenSome="#MenuControll" showWhenSome-values='["CapturEvents"]'>
                                 <mark-down src="/docs/help/CapturEvents.md"></mark-down>
@@ -242,6 +251,17 @@
                                     placeholder="Property" value="name">
                                 <ul SelectorsList class="uk-list uk-child-width-fill"></ul>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div showWhenSome="#MenuControll" showWhenSome-values='["Cookie"]' class="uk-animation-fade" hide>
+                    <div class="uk-section uk-section-small">
+                        <div class="uk-container uk-container-default">
+                            <div class="uk-margin">
+                                <button ReloadJsonEditor class="uk-icon-button" uk-icon="refresh" uk-tooltip="Reload"></button>
+                            </div>
+                            </button>
+                            <div id="json_editor"></div>
                         </div>
                     </div>
                 </div>

@@ -150,7 +150,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             },
           });
           try {
-            let url = new URL(TabInfo.url);
+            TabInfo.url = new URL(TabInfo.url);
             await fetch(`${window.values.BluefoxProtocol}://${window.values.BluefoxServer}/StoreStrings.post`, {
               method: "POST",
               headers: {
@@ -158,14 +158,14 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               },
               body: JSON.stringify(
                 {
-                  href: url.href,
-                  origin: url.origin,
-                  pathname: url.pathname,
-                  hash: url.hash,
-                  search: url.search,
-                  host: url.host,
-                  hostname: url.hostname,
-                  port: url.port,
+                  href: TabInfo.url.href,
+                  origin: TabInfo.url.origin,
+                  pathname: TabInfo.url.pathname,
+                  hash: TabInfo.url.hash,
+                  search: TabInfo.url.search,
+                  host: TabInfo.url.host,
+                  hostname: TabInfo.url.hostname,
+                  port: TabInfo.url.port,
                   strings: [...(new Set(DOMSnapshot.object.strings))]
                 }
               ),
@@ -695,6 +695,94 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               left: modal_body.scrollWidth * -1,
               behavior: "smooth",
             });
+          });
+        },
+        "#json_editor": async ($) => {
+          $.element.reload = async () => {
+            $.element.textContent = "";
+            let Cookies = await chrome.cookies.getAll({ domain: TabInfo.url.hostname });
+            Cookies.forEach((Cookie) => {
+              delete Cookie.hostOnly;
+              delete Cookie.session;
+              let div = document.createElement("div");
+              div.classList.add("uk-margin");
+              div.editor = new JSONEditor(div, {
+                schema: {
+                  disable_collapse: true,
+                  disable_array_add: true,
+                  disable_array_delete: true,
+                  disable_array_delete_all_rows: true,
+                  disable_array_delete_last_row: true,
+                  disable_array_reorder: true,
+                  type: "object",
+                  title: Cookie.name,
+                  properties: {
+                    domain: {
+                      type: "string"
+                    },
+                    expirationDate: {
+                      type: "number"
+                    },
+                    httpOnly: {
+                      type: "boolean"
+                    },
+                    name: {
+                      type: "string"
+                    },
+                    path: {
+                      type: "string"
+                    },
+                    sameSite: {
+                      type: "string"
+                    },
+                    secure: {
+                      type: "boolean"
+                    },
+                    storeId: {
+                      type: "string"
+                    },
+                    value: {
+                      type: "string"
+                    },
+                  }
+                }
+              });
+              div.editor.on("ready", () => {
+                div.editor.setValue(Cookie);
+                BlueFoxJs.Walker.walkHorizontally({
+                  _scope_: div,
+                  "button": async ($) => {
+                    $.element.classList.add("uk-button", "uk-button-default");
+                  },
+                  ".row .form-control": async ($) => {
+                    $.element.classList.add("uk-flex", "uk-flex-middle");
+                    $.element.childNodes[0].classList.add("uk-width-1-4");
+                    $.element.childNodes[1].classList.add("uk-input", "uk-width-3-4");
+                  }
+                });
+              });
+              div.editor.on("change", async () => {
+                let c = div.editor.getValue();
+                c.url = `${c.secure ? "https" : "http"}://${c.domain}${c.path}`;
+                log(c);
+                await chrome.cookies.set(c);
+                await BlueFoxJs.Walker.walkHorizontally({
+                  _scope_: div,
+                  ".row .form-control": async ($) => {
+                    $.element.classList.add("uk-flex", "uk-flex-middle");
+                    $.element.childNodes[0].classList.add("uk-width-1-4");
+                    $.element.childNodes[1].classList.add("uk-input", "uk-width-3-4");
+                  }
+                });
+              });
+              $.element.appendChild(div);
+            });
+          }
+          await $.element.reload();
+        },
+        "[ReloadJsonEditor]": async ($) => {
+          $.element.addEventListener("click", () => {
+            $.self._scope_.querySelector("#json_editor").reload();
           });
         },
       });
