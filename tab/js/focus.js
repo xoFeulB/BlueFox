@@ -762,9 +762,6 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 });
               });
               div.editor.on("change", async () => {
-                let c = div.editor.getValue();
-                c.url = `${c.secure ? "https" : "http"}://${c.domain}${c.path}`;
-                await chrome.cookies.set(c);
                 await BlueFoxJs.Walker.walkHorizontally({
                   _scope_: div,
                   ".row .form-control": async ($) => {
@@ -774,6 +771,19 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                   }
                 });
               });
+              let button = Object.assign(
+                document.createElement("button"),
+                {
+                  className: "uk-button uk-button-primary",
+                  textContent: "Update",
+                }
+              );
+              button.addEventListener("click", async (event) => {
+                let c = div.editor.getValue();
+                c.url = `${c.secure ? "https" : "http"}://${c.domain}${c.path}`;
+                await chrome.cookies.set(c);
+              });
+              div.appendChild(button);
               $.element.appendChild(div);
             });
           }
