@@ -13,7 +13,7 @@
     let BlueFox = new BlueFoxJs.Automation.BlueFox();
 
     let log = (...args) => {
-      console.log("content_scripts.js", ...args);
+      // console.log("content_scripts.js", ...args);
     };
     log("loaded");
 

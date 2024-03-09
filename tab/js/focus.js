@@ -780,6 +780,9 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               );
               button.addEventListener("click", async (event) => {
                 let c = div.editor.getValue();
+                if (c.domain[0] == ".") {
+                  c.domain = c.domain.slice(1);
+                }
                 c.url = `${c.secure ? "https" : "http"}://${c.domain}${c.path}`;
                 await chrome.cookies.set(c);
               });
