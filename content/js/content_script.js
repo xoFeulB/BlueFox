@@ -431,7 +431,12 @@
     }, 5000);
 
     /* BlueFoxServer */ {
-      if (window.location.host == "localhost.bluefox.ooo:7777") {
+      if (
+        [
+          window.location.host == "localhost.bluefox.ooo:7777",
+          window.location.href == "https://ooo.bluefox.ooo/BlueFox/info/index.json",
+        ].some((_) => { return _; })
+      ) {
         let R = await sendMessage({
           type: "Tab.getCurrent",
           object: null

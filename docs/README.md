@@ -146,6 +146,12 @@ in cloned BlueFox.git directory
 git pull
 ```
 
+### CreateShortcut to Chrome and install BlueFox
+Windows PowerShell
+```powershell
+.\CreateShortcut-Chrome.ps1
+```
+
 ## BlueFoxServer and BlueFoxScript examples
 
 BlueFoxServer, a VSCode extension, shares files on workspaces opened in VSCode with BlueFox, allowing script execution, retrieval of original data for file upload using automation, and temporary editing of scripts.
