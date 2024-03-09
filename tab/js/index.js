@@ -39,15 +39,21 @@ window.BlueFoxScript = class extends BlueFoxScript {
     await chrome.runtime.sendMessage({
       type: "Debugger.attach",
     });
-    return await chrome.runtime.sendMessage({
+    let R = await chrome.runtime.sendMessage({
       type: "Runtime.evaluate",
       object: {
         expression: script,
         objectGroup: "BlueFox-js-lanch",
         awaitPromise: true,
         returnByValue: true,
+        silent: false,
+        userGesture: true,
       },
     });
+    if (R.exceptionDetails) {
+      console.error(R);
+    }
+    return R;
   }
 }
 
@@ -277,15 +283,20 @@ window.BlueFoxScript = class extends BlueFoxScript {
             await chrome.runtime.sendMessage({
               type: "Debugger.attach",
             });
-            await chrome.runtime.sendMessage({
+            let R = await chrome.runtime.sendMessage({
               type: "Runtime.evaluate",
               object: {
                 expression: window.MonacoEditor.getValue(),
                 objectGroup: "BlueFox-js-lanch",
                 awaitPromise: true,
                 returnByValue: true,
+                silent: false,
+                userGesture: true,
               },
             });
+            if (R.exceptionDetails) {
+              console.error(R);
+            }
             $.element.classList.remove("uk-spinner");
           });
         },
@@ -486,15 +497,21 @@ window.BlueFoxScript = class extends BlueFoxScript {
               await chrome.runtime.sendMessage({
                 type: "Debugger.attach",
               });
-              await chrome.runtime.sendMessage({
+              let R = await chrome.runtime.sendMessage({
                 type: "Runtime.evaluate",
                 object: {
                   expression: file,
                   objectGroup: "BlueFox-js-lanch",
                   awaitPromise: true,
                   returnByValue: true,
+                  silent: false,
+                  userGesture: true,
                 },
               });
+              if (R.exceptionDetails) {
+                console.error(R);
+              }
+              return R;
             },
             "RunScript": async (data) => {
               await chrome.runtime.sendMessage({
@@ -507,8 +524,13 @@ window.BlueFoxScript = class extends BlueFoxScript {
                   objectGroup: "BlueFox-js-lanch",
                   awaitPromise: true,
                   returnByValue: true,
+                  silent: false,
+                  userGesture: true,
                 },
               });
+              if (R.exceptionDetails) {
+                console.error(R);
+              }
               delete data.content;
               webSocket.socket.send(
                 JSON.stringify(
