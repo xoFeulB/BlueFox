@@ -4,7 +4,7 @@
 {
   (async () => {
     let log = (...args) => {
-      console.log("page_observer.js", ...args);
+      // console.log("page_observer.js", ...args);
     };
 
     log("loaded");
