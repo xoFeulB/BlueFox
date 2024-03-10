@@ -95,8 +95,8 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let tab = await blueFoxScript.tabs.create("https://www.google.com");
-  await tab.dispatch
+  let tab = await blueFoxScript.createWindow("https://www.google.com");
+  await tab
     .tails()
     .target("textarea")
     .setProperty({ value: "^.,.^ BlueFox" })
@@ -104,20 +104,20 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
     .call("click", null)
     .runTillNextOnLoad({ sleep: 50 });
 
-  let search_result = await tab.dispatch.script(() => {
-    return [
-      ...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])"),
-    ]
-      .filter((_) => {
-        return _.querySelector("h3");
-      })
-      .map((_) => {
-        return {
-          href: _.href,
-          title: _.querySelector("h3").textContent,
-        };
-      });
-  });
+  let search_result = await tab.dispatchScript(
+    () => {
+      return [...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])")]
+        .filter((_) => {
+          return _.querySelector("h3");
+        })
+        .map((_) => {
+          return {
+            href: _.href,
+            title: _.querySelector("h3").textContent,
+          }
+        });
+    }
+  );
   window.alert(JSON.stringify(search_result.result.value, null, 4));
 })();
 ```
@@ -146,7 +146,7 @@ in cloned BlueFox.git directory
 git pull
 ```
 
-### CreateShortcut to Chrome and install BlueFox
+### CreateShortcut to Chrome and install BlueFox with new user data
 Windows PowerShell
 ```powershell
 .\CreateShortcut-Chrome.ps1
