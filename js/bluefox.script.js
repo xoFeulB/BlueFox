@@ -177,9 +177,37 @@ class Tab {
     this.isDebugging = false;
   }
   async setUserAgentOverride(parameters) {
-    // https://chromedevtools.github.io/devtools-protocol/tot/Network/#method-setUserAgentOverride
+    // https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setUserAgentOverride
     return await this.sendCommand(
-      "Network.setUserAgentOverride",
+      "Emulation.setUserAgentOverride",
+      parameters
+    );
+  }
+  async emulateNetworkConditions(parameters) {
+    // https://chromedevtools.github.io/devtools-protocol/tot/Network/#method-emulateNetworkConditions
+    return await this.sendCommand(
+      "Network.emulateNetworkConditions",
+      parameters
+    );
+  }
+  async setCPUThrottlingRate(parameters) {
+    // https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setCPUThrottlingRate
+    return await this.sendCommand(
+      "Emulation.setCPUThrottlingRate",
+      parameters
+    );
+  }
+  async setDeviceMetricsOverride(parameters) {
+    // https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setDeviceMetricsOverride
+    return await this.sendCommand(
+      "Emulation.setDeviceMetricsOverride",
+      parameters
+    );
+  }
+  async setTimezoneOverride(parameters) {
+    // https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setTimezoneOverride
+    return await this.sendCommand(
+      "Emulation.setTimezoneOverride",
       parameters
     );
   }
@@ -280,14 +308,14 @@ class Tab {
 }
 
 export class BlueFoxScript extends (Object) {
-  constructor() {
+  constructor(option) {
     super();
     return new Promise((resolve, reject) => {
-      this.init(resolve);
+      this.init(resolve, option);
     });
   }
 
-  async init(resolve) {
+  async init(resolve, option = {}) {
     /* Tab */{
       chrome.debugger.onDetach.addListener(
         async (source, reason) => {
@@ -329,11 +357,21 @@ export class BlueFoxScript extends (Object) {
         async (tabInfo) => {
           this[tabInfo.id] = new Tab(tabInfo);
           await this[tabInfo.id].attachDebugger();
+          Object.entries(option).forEach(([key, value]) => {
+            if (key in this[tabInfo.id]) {
+              this[tabInfo.id][key](value);
+            }
+          });
         }
       );
 
       [...(await chrome.tabs.query({ url: "<all_urls>" }))].forEach((tabInfo) => {
         this[tabInfo.id] = new Tab(tabInfo);
+        Object.entries(option).forEach(([key, value]) => {
+          if (key in this[tabInfo.id]) {
+            this[tabInfo.id][key](value);
+          }
+        });
       });
     }
 
