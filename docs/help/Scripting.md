@@ -91,31 +91,30 @@ Run String:script
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  tab = await blueFoxScript.tabs.info[0];
-  tab = await blueFoxScript.tabs.create(
+  tab = await blueFoxScript.createWindow(
     "https://ooo.bluefox.ooo/BlueFoxDemo/8bit.html"
   );
 
-  await blueFoxScript.tabs.reload();
-  tab = await blueFoxScript.tabs.get(
+  tab = await blueFoxScript.findTab(
     "https://ooo.bluefox.ooo/BlueFoxDemo/8bit.html"
   )[0];
 
   // Property
-  tab.url;
-  tab.dispatch;
+  tab.info;
+  tab.responses;
+  tab.keepResponses;
 })();
 ```
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].dispatch.tails() ... Method chaining
+### BlueFoxScript[tabId].tails() ... Method chaining
 
 <bluefoxscript>
 
 ```javascript
 (async () => {
-  let tails = tab.dispatch.tails({
+  let tails = tab.tails({
     sleep: 100,
     dispatchEvents: [
       {
@@ -381,7 +380,6 @@ sleep millisecond
 })();
 ```
 
-
 </bluefoxscript>
 
 #### .run()
@@ -412,13 +410,13 @@ run Tails and await till next window.onload
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].dispatch.addEventListeners()
+### BlueFoxScript[tabId].addEventListeners()
 
 <bluefoxscript>
 
 ```javascript
 (async () => {
-  let listener_info = await tab.dispatch.addEventListeners(
+  let listener_info = await tab.addEventListeners(
     `[data-testid="bit-1"]`,
     "click",
     async (object) => {
@@ -439,13 +437,13 @@ run Tails and await till next window.onload
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].dispatch.script()
+### BlueFoxScript[tabId].dispatchScript()
 
 <bluefoxscript>
 
 ```javascript
 (async () => {
-  await tab.dispatch.script(() => {
+  await tab.dispatchScript(() => {
     window.alert("^.,.^ BlueFox");
   });
 })();
@@ -453,13 +451,13 @@ run Tails and await till next window.onload
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].dispatch.tillScriptTrue()
+### BlueFoxScript[tabId].dispatchScriptTillTrue()
 
 <bluefoxscript>
 
 ```javascript
 (async () => {
-  await tab.dispatch.tillScriptTrue(() => {
+  await tab.dispatchScriptTillTrue(() => {
     return true;
   }, (max_polling = 5000));
 })();
@@ -467,7 +465,7 @@ run Tails and await till next window.onload
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].dispatch.action()
+### BlueFoxScript[tabId].dispatchAction()
 
 run Tails
 
@@ -475,19 +473,19 @@ run Tails
 
 ```javascript
 (async () => {
-  await tab.dispatch.action(tails.tail);
+  await tab.dispatchAction(tails.tail);
 })();
 ```
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].dispatch.screenshot()
+### BlueFoxScript[tabId].captureScreenshot()
 
 <bluefoxscript>
 
 ```javascript
 (async () => {
-  let base64_png_image = await tab.dispatch.screenshot(
+  let base64_png_image = await tab.captureScreenshot(
     (config = {
       format: "png",
       captureBeyondViewport: true,
@@ -498,7 +496,7 @@ run Tails
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].close()
+### BlueFoxScript[tabId].close()
 
 <bluefoxscript>
 
@@ -510,7 +508,7 @@ run Tails
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].reload()
+### BlueFoxScript[tabId].reload()
 
 <bluefoxscript>
 
@@ -522,7 +520,7 @@ run Tails
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].getCookies()
+### BlueFoxScript[tabId].cookie.get()
 
 https://developer.chrome.com/docs/extensions/reference/api/cookies#method-getAll
 
@@ -530,13 +528,13 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-getAll
 
 ```javascript
 (async () => {
-  await tab.getCookies({ domain: "domain" });
+  await tab.cookie.get({ domain: "domain" });
 })();
 ```
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].removeCookie()
+### BlueFoxScript[tabId].cookie.remove()
 
 https://developer.chrome.com/docs/extensions/reference/api/cookies#method-remove
 
@@ -544,13 +542,13 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-remove
 
 ```javascript
 (async () => {
-  await tab.removeCookie({ name: "name" });
+  await tab.cookie.remove({ name: "name" });
 })();
 ```
 
 </bluefoxscript>
 
-### BlueFoxScript.tabs.info[n].setCookie()
+### BlueFoxScript[tabId].cookie.set()
 
 https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 
@@ -558,12 +556,11 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 
 ```javascript
 (async () => {
-  await tab.setCookie({ name: "name", value: "value" });
+  await tab.cookie.set({ name: "name", value: "value" });
 })();
 ```
 
 </bluefoxscript>
-
 
 ## Step by Step
 
@@ -599,7 +596,7 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let tab = await blueFoxScript.tabs.create("https://www.google.com");
+  let tab = await blueFoxScript.createWindow("https://www.google.com");
 })();
 ```
 
@@ -613,9 +610,9 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let tab = await blueFoxScript.tabs.create("https://www.google.com");
+  let tab = await blueFoxScript.createWindow("https://www.google.com");
 
-  let tails = await tab.dispatch.tails();
+  let tails = await tab.tails();
 })();
 ```
 
@@ -629,9 +626,9 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let tab = await blueFoxScript.tabs.create("https://www.google.com");
+  let tab = await blueFoxScript.createWindow("https://www.google.com");
 
-  let tails = await tab.dispatch.tails();
+  let tails = await tab.tails();
   tails
     .target("textarea")
     .setProperty({ value: "^.,.^ BlueFox" })
@@ -650,9 +647,9 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let tab = await blueFoxScript.tabs.create("https://www.google.com");
+  let tab = await blueFoxScript.createWindow("https://www.google.com");
 
-  let tails = await tab.dispatch.tails();
+  let tails = await tab.tails();
   tails
     .target("textarea")
     .setProperty({ value: "^.,.^ BlueFox" })
@@ -673,19 +670,18 @@ https://developer.chrome.com/docs/extensions/reference/api/cookies#method-set
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  let tab = await blueFoxScript.tabs.create("https://www.google.com");
+  let tab = await blueFoxScript.createWindow("https://www.google.com");
 
-  let tails = await tab.dispatch.tails();
+  let tails = await tab.tails();
   tails
     .target("textarea")
     .setProperty({ value: "^.,.^ BlueFox" })
     .target("[name='btnK'][tabindex='0']")
     .call("click", null);
 
-  await tails.run({ sleep: 50 });
+  await tails.runTillNextOnLoad({ sleep: 50 });
 
-  await sleep(1000);
-  let search_result = await tab.dispatch.script(() => {
+  let search_result = await tab.dispatchScript(() => {
     return [
       ...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])"),
     ]
