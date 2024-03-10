@@ -146,7 +146,7 @@ in cloned BlueFox.git directory
 git pull
 ```
 
-### CreateShortcut to Chrome and install BlueFox
+### CreateShortcut to Chrome and install BlueFox with new user data
 Windows PowerShell
 ```powershell
 .\CreateShortcut-Chrome.ps1
