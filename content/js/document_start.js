@@ -3,12 +3,6 @@
 
 {
   (async () => {
-    let log = (...args) => {
-      // console.log("page_observer.js", ...args);
-    };
-
-    log("loaded");
-
     sessionStorage.uuid = null;
     let windowOnLoad = new Promise((resolve) => {
       let load = async (event) => {
@@ -25,20 +19,22 @@
       }
     };
     chrome.runtime.onConnect.addListener((connector) => {
-      connector.onMessage.addListener(async (message) => {
-        try {
-          let R = await messageHandler[message.type](
-            message,
-            connector,
-          );
-          connector.postMessage({
-            uuid: message.uuid,
-            type: message.type,
-            object: R,
-          });
-        } catch (err) {
-          log(message, err);
-        }
+      connector.onMessage.addListener((message) => {
+        (async () => {
+          if (message.type in messageHandler) {
+            try {
+              let R = await messageHandler[message.type](
+                message,
+                connector,
+              );
+              connector.postMessage({
+                uuid: message.uuid,
+                type: message.type,
+                object: R,
+              });
+            } catch (err) { }
+          }
+        })();
       });
     });
   })();

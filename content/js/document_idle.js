@@ -404,20 +404,22 @@
       },
     };
     chrome.runtime.onConnect.addListener((connector) => {
-      connector.onMessage.addListener(async (message) => {
-        try {
-          let R = await messageHandler[message.type](
-            message,
-            connector,
-          );
-          connector.postMessage({
-            uuid: message.uuid,
-            type: message.type,
-            object: R,
-          });
-        } catch (err) {
-          log(message, err);
-        }
+      connector.onMessage.addListener((message) => {
+        (async () => {
+          if (message.type in messageHandler) {
+            try {
+              let R = await messageHandler[message.type](
+                message,
+                connector,
+              );
+              connector.postMessage({
+                uuid: message.uuid,
+                type: message.type,
+                object: R,
+              });
+            } catch (err) { }
+          }
+        })();
       });
     });
 
