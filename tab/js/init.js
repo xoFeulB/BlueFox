@@ -1,16 +1,9 @@
 (async () => {
-    let sendMessage = async (arg) => {
-        try {
-            return await chrome.runtime.sendMessage(arg);
-        } catch (err) {
-            log(err);
-        }
-    };
     {
-        let attach_result = await sendMessage({
+        let attach_result = await chrome.runtime.sendMessage({
             type: "Debugger.attach",
         });
-        let evaluate_result = await sendMessage({
+        let evaluate_result = await chrome.runtime.sendMessage({
             type: "Runtime.evaluate",
             object: {
                 expression: `(()=>{return "^.,.^ BlueFox";})();`,

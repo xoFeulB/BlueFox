@@ -8,6 +8,7 @@ export class AwaitbleWebSocket {
         this.messagePool = {};
         this.isOpen = false;
         let _resolve_ = () => { };
+        let _reject_ = () => { };
 
         this.socket.addEventListener("open", (event) => {
             this.isOpen = true;
@@ -25,11 +26,12 @@ export class AwaitbleWebSocket {
         });
         this.socket.addEventListener("error", (event) => {
             this.isOpen = false;
-            _resolve_(this);
+            _reject_(event);
         });
 
         return new Promise((resolve, reject) => {
             this.isOpen ? resolve(this) : _resolve_ = resolve;
+            _reject_ = reject;
         });
     }
 

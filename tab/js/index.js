@@ -399,9 +399,6 @@ window.BlueFoxScript = class extends BlueFoxScript {
         try {
           webSocket?.close();
           webSocket = await (new AwaitbleWebSocket(`ws://${Values.values.BluefoxServer.value}:8888`));
-          if (!webSocket.isOpen) {
-            throw new Error();
-          }
           let webSocketMessageHandler = {
             "getFileTree": async (data) => {
               document.querySelector("[vscode-notice]").setAttribute("hide", "");
