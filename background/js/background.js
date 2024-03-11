@@ -3,10 +3,7 @@
 
 {
   (async () => {
-    let log = (...args) => {
-      console.log("background.js", ...args);
-    };
-    log("loaded");
+    let log = console.log;
 
     let R = {
       pageInfo: {},
@@ -217,12 +214,23 @@
       },
     };
 
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      actions[message.type](message.object, sender).then((response) => {
-        sendResponse(response);
-      });
-      return true;
-    });
+    chrome.runtime.onMessage.addListener(
+      (message, sender, sendResponse) => {
+        if (message.type in actions) {
+          (async () => {
+            try {
+              let R = await actions[message.type](message.object, sender);
+              sendResponse(R);
+            } catch (e) {
+              sendResponse(e);
+            }
+          })();
+          return true;
+        } else {
+          return false;
+        }
+      }
+    );
 
     chrome.tabs.onRemoved.addListener((tabId) => {
       delete R.event_observer[tabId];
