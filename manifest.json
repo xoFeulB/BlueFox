@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "^.,.^ BlueFox",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "Agile Web Automation Software for Time-Starved Professionals",
     "host_permissions": [
         "<all_urls>"
@@ -21,7 +21,9 @@
                 "<all_urls>"
             ],
             "js": [
-                "/content/js/document_start.js"
+                "/modules/css-selector-generator/css-selector-generator.js",
+                "/content/js/document_start.js",
+                "/modules/BlueFoxJs/bluefox.min.js"
             ],
             "run_at": "document_start"
         },
@@ -30,10 +32,8 @@
                 "<all_urls>"
             ],
             "js": [
-                "/modules/css-selector-generator/css-selector-generator.js",
                 "/content/js/document_idle.js",
-                "/content/js/event_observer.js",
-                "/modules/BlueFoxJs/bluefox.min.js"
+                "/content/js/event_observer.js"
             ],
             "run_at": "document_idle"
         }
