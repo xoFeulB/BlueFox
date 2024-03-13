@@ -305,6 +305,37 @@ class Tab {
       },
     })).object;
   }
+  async getEventListners() {
+    let R = (
+      await this.sendCommand(
+        "DOMDebugger.getEventListeners",
+        {
+          objectId: (
+            await this.sendCommand(
+              "Runtime.evaluate",
+              {
+                expression: "(()=>{return document;})()",
+                objectGroup: "event-listeners-test",
+              }
+            )
+          ).result.objectId,
+          depth: -1,
+        }
+      )
+    );
+    return R;
+  }
+  async getSelectors(selector) {
+    let connector = new Connector();
+    await connector.load(this.info.id);
+    let R = await connector.post({
+      type: "BlueFox.GetSelectors",
+      object: {
+        selector: selector,
+      },
+    });
+    return R.object;
+  }
 }
 
 export class BlueFoxScript extends (Object) {
