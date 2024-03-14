@@ -246,11 +246,38 @@ class Tab {
       object: JSON.stringify(object),
     });
   }
-  async captureScreenshot(config = { format: "png", captureBeyondViewport: true }) {
-    return await chrome.debugger.sendCommand(
+  async getScreenshot(selector, config = { format: "png", quality: 100, captureBeyondViewport: true }) {
+    let target = (await chrome.debugger.sendCommand(
+      { tabId: this.info.id },
+      "Runtime.evaluate",
+      {
+        expression: `(() => {return JSON.parse(JSON.stringify({domRect:document.querySelector(\`${selector}\`).getBoundingClientRect(),scrollY:window.scrollY}));})();`,
+        objectGroup: "BlueFox-js-lanch",
+        awaitPromise: true,
+        returnByValue: true,
+        userGesture: true,
+      }
+    )).result.value;
+    let base64 = (await chrome.debugger.sendCommand(
       { tabId: this.info.id },
       "Page.captureScreenshot",
-      config
+      Object.assign(
+        config,
+        {
+          clip: {
+            x: target.domRect.x,
+            y: target.domRect.top + target.scrollY,
+            width: target.domRect.width,
+            height: target.domRect.height,
+            scale: 1,
+          },
+        }
+      )
+    )).data;
+    return new Uint8Array(
+      [...atob(base64.replace(/^.*,/, ''))].map((_) => {
+        return _.charCodeAt(0);
+      })
     );
   }
   async dispatchScriptTillTrue(callable, max_polling = 20) {
