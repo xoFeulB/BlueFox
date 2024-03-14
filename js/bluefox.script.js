@@ -264,6 +264,9 @@ class Tab {
       Object.assign(
         config,
         {
+          format: "png",
+          quality: 100,
+          captureBeyondViewport: true,
           clip: {
             x: target.domRect.x,
             y: target.domRect.top + target.scrollY,
