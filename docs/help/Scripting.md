@@ -479,13 +479,14 @@ run Tails
 
 </bluefoxscript>
 
-### BlueFoxScript[tabId].captureScreenshot()
+### BlueFoxScript[tabId].getScreenshot()
 
 <bluefoxscript>
 
 ```javascript
 (async () => {
-  let base64_png_image = await tab.captureScreenshot(
+  let Uint8Array_png_image = await tab.getScreenshot(
+    `CSS Selector`,
     (config = {
       format: "png",
       captureBeyondViewport: true,
