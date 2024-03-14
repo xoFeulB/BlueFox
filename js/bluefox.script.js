@@ -262,7 +262,6 @@ class Tab {
       { tabId: this.info.id },
       "Page.captureScreenshot",
       Object.assign(
-        config,
         {
           format: "png",
           quality: 100,
@@ -274,7 +273,8 @@ class Tab {
             height: target.domRect.height,
             scale: 1,
           },
-        }
+        },
+        config
       )
     )).data;
     return new Uint8Array(
