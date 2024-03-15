@@ -8,11 +8,37 @@ import { AwaitbleWebSocket } from "/js/websocket.awaitable.js";
 
 window.BlueFoxJs = BlueFoxJs;
 window.BlueFoxScript = class extends BlueFoxScript {
-  async runWorkspaceScript(path) {
+  async runWorkspaceScript(path, args) {
     let regexp_object = new RegExp(path, "g");
-    await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
+    let FileListPath = await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
       return regexp_object.test(_.path);
-    })[0]).play();
+    })[0]);
+    let play = FileListPath.closest("li").querySelector("[Play]");
+    play.classList.add("uk-spinner");
+    let file = await (await fetch(
+      `http://${Values.values.BluefoxServer.value}:7777/R?/${FileListPath.workspaceObject.id}/${FileListPath.workspaceObject.workspace}${FileListPath.workspaceObject.path}`
+    )).text();
+    let script = `(${file})(${JSON.stringify(args).slice(1, -1)});`;
+    log(JSON.stringify(args));
+    await chrome.runtime.sendMessage({
+      type: "Debugger.attach",
+    });
+    let R = await chrome.runtime.sendMessage({
+      type: "Runtime.evaluate",
+      object: {
+        expression: script,
+        objectGroup: "BlueFox-js-lanch",
+        awaitPromise: true,
+        returnByValue: true,
+        silent: false,
+        userGesture: true,
+      },
+    });
+    if (R.exceptionDetails) {
+      console.error(R);
+    }
+    play.classList.remove("uk-spinner");
+    return R;
   }
 
   async getWorkspaceFile(path) {
