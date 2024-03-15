@@ -57,7 +57,7 @@ Run String:script
 (async () => {
   let blueFoxScript = await new BlueFoxScript();
 
-  await blueFoxScript.runWorkspaceScript("/alert.js");
+  await blueFoxScript.runWorkspaceScript("/argument.js", ["A", "B", "C", "D"]);
 })();
 ```
 
