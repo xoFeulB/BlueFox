@@ -19,7 +19,6 @@ window.BlueFoxScript = class extends BlueFoxScript {
       `http://${Values.values.BluefoxServer.value}:7777/R?/${FileListPath.workspaceObject.id}/${FileListPath.workspaceObject.workspace}${FileListPath.workspaceObject.path}`
     )).text();
     let script = `(${file})(${JSON.stringify(args).slice(1, -1)});`;
-    log(JSON.stringify(args));
     await chrome.runtime.sendMessage({
       type: "Debugger.attach",
     });
