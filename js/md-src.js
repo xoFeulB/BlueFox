@@ -109,9 +109,6 @@ window.customElements.define("mark-down", class extends HTMLElement {
               run_button.addEventListener("click", async (event) => {
                 run_button.classList.add("uk-spinner");
                 await chrome.runtime.sendMessage({
-                  type: "Debugger.attach",
-                });
-                await chrome.runtime.sendMessage({
                   type: "Runtime.evaluate",
                   object: {
                     expression: $.element.textContent,

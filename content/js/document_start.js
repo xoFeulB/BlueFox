@@ -19,45 +19,48 @@
       };
       window.addEventListener("BlueFoxJs@Ready", BlueFoxJsReady);
     });
-    let BlueFox = new BlueFoxJs.Automation.BlueFox();
+
+    class BlueFox extends BlueFoxJs.Automation.BlueFox {
+      async captureDOM(file_name,
+        element,
+        window_object,
+        format = "jpeg",
+        quality = 50
+      ) {
+        let domRect = element.getBoundingClientRect();
+        let R = await chrome.runtime.sendMessage({
+          type: "Page.captureScreenshot",
+          object: {
+            format: format,
+            quality: quality,
+            clip: {
+              x: domRect.x,
+              y: domRect.top + window_object.scrollY,
+              width: domRect.width,
+              height: domRect.height,
+              scale: 1,
+            },
+            captureBeyondViewport: true,
+          },
+        });
+        Object.assign(document.createElement("a"), {
+          href: `data:image/png;base64,${R.data}`,
+          download: `${file_name}.${format}`,
+        }).click();
+      }
+
+      async dispatchKeyEvent(o) {
+        let R = await chrome.runtime.sendMessage({
+          type: "Input.dispatchKeyEvent",
+          object: o,
+        });
+        return R;
+      }
+    }
+
+    let bluefox = new BlueFox();
 
     let log = console.log;
-
-    BlueFox.captureDOM = async (
-      file_name,
-      element,
-      window_object,
-      format = "jpeg",
-      quality = 50
-    ) => {
-      let domRect = element.getBoundingClientRect();
-      let R = await chrome.runtime.sendMessage({
-        type: "Page.captureScreenshot",
-        object: {
-          format: format,
-          quality: quality,
-          clip: {
-            x: domRect.x,
-            y: domRect.top + window_object.scrollY,
-            width: domRect.width,
-            height: domRect.height,
-            scale: 1,
-          },
-          captureBeyondViewport: true,
-        },
-      });
-      Object.assign(document.createElement("a"), {
-        href: `data:image/png;base64,${R}`,
-        download: `${file_name}.${format}`,
-      }).click();
-    };
-    BlueFox.dispatchKeyEvent = async (o) => {
-      let R = await chrome.runtime.sendMessage({
-        type: "Input.dispatchKeyEvent",
-        object: o,
-      });
-      return R;
-    };
 
     let EventFilter = {
       Event: (event) => {
@@ -179,30 +182,8 @@
     };
 
     let messageHandler = {
-      "BlueFox.Dispatch": async (message, connector) => {
-        let R;
-        for (let f of message.object.files) {
-          await {
-            "application/json": async (_) => {
-              R = await BlueFox.do(JSON.parse(await _.text));
-            },
-            "text/javascript": async (_) => {
-              await chrome.runtime.sendMessage({
-                type: "Runtime.evaluate",
-                object: {
-                  expression: await _.text,
-                  objectGroup: "BlueFox-js-lanch",
-                  awaitPromise: true,
-                  returnByValue: true,
-                },
-              });
-            },
-          }[f.type](f);
-        }
-        return R;
-      },
       "BlueFox.Dispatch.Action": async (message, connector) => {
-        return await BlueFox.do(JSON.parse(message.object));
+        return await bluefox.do(JSON.parse(message.object));
       },
       "BlueFox.Dispatch.Script": async (message, connector) => {
         let R = await chrome.runtime.sendMessage({
@@ -221,7 +202,7 @@
           type: "Page.captureScreenshot",
           object: message.object,
         });
-        return R;
+        return R.data;
       },
       "BlueFox.GetEventListners": async (message, connector) => {
         let R = (
@@ -287,7 +268,6 @@
           }
         };
         try {
-
           let target = select(message.object.selector);
           for (let property in target) {
             R[property] = target[property];
@@ -401,14 +381,6 @@
         return sessionStorage.uuid;
       },
     };
-    await chrome.runtime.sendMessage({
-      type: "Debugger.attach",
-    });
-    setInterval(async () => {
-      await chrome.runtime.sendMessage({
-        type: "Debugger.attach",
-      });
-    }, 5000);
 
     chrome.runtime.onConnect.addListener((connector) => {
       connector.onMessage.addListener((message) => {
