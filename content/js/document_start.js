@@ -49,7 +49,6 @@
           download: `${file_name}.${format}`,
         }).click();
       }
-
       async dispatchKeyEvent(object) {
         let R = await chrome.runtime.sendMessage({
           type: "Input.dispatchKeyEvent",
