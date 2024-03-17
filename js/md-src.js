@@ -115,6 +115,7 @@ window.customElements.define("mark-down", class extends HTMLElement {
                     objectGroup: "BlueFox-js-lanch",
                     awaitPromise: true,
                     returnByValue: true,
+                    userGesture: true,
                   },
                 });
                 run_button.classList.remove("uk-spinner");

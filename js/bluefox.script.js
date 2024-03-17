@@ -164,11 +164,13 @@ class Tab {
   async attachDebugger() {
     try { await chrome.debugger.attach({ tabId: this.info.id }, "1.3"); } catch (e) { }
     try { await this.sendCommand("Network.enable"); } catch (e) { }
+    try { await this.sendCommand("Page.enable"); } catch (e) { }
     this.isDebugging = true;
   }
   async detachDebugger() {
     try { await chrome.debugger.detach({ tabId: this.info.id }, "1.3"); } catch (e) { }
     try { await this.sendCommand("Network.disable"); } catch (e) { }
+    try { await this.sendCommand("Page.disable"); } catch (e) { }
     this.isDebugging = false;
   }
   async setUserAgentOverride(parameters) {
@@ -229,6 +231,7 @@ class Tab {
         objectGroup: "BlueFox-js-lanch",
         awaitPromise: true,
         returnByValue: true,
+        userGesture: true,
       }
     );
     return R;
@@ -249,7 +252,6 @@ class Tab {
         objectGroup: "BlueFox-js-lanch",
         awaitPromise: true,
         returnByValue: true,
-        userGesture: true,
       }
     )).result.value;
     let base64 = (await chrome.debugger.sendCommand(
@@ -295,6 +297,7 @@ class Tab {
                 objectGroup: "BlueFox-js-lanch",
                 awaitPromise: true,
                 returnByValue: true,
+                userGesture: true,
               }
             );
 
