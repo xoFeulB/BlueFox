@@ -2,7 +2,7 @@
 // https://github.com/xoFeulB
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
-import { Connector } from "/js/postMessage.awaitable.module.js";
+import { Connector } from "/js/postMessage.awaitable.js";
 
 ("use strict");
 let log = console.log;
@@ -57,22 +57,20 @@ class Tab {
           async getProperties(selector = this.selector) {
             let connector = new Connector();
             await connector.load(tabInfo.id);
-            let message = await connector.post({
-              type: "BlueFox.GetElementProperties",
-              object: {
+            let R = await connector.post({
+              BlueFoxGetElementProperties: {
                 selector: selector,
               },
             });
-            return message.object;
+            return R.BlueFoxGetElementProperties;
           }
           async run(object) {
             let connector = new Connector();
             await connector.load(tabInfo.id);
             let R = await connector.post({
-              type: "BlueFox.Dispatch.Action",
-              object: JSON.stringify(Object.assign(this.tail, object)),
+              BlueFoxDispatchAction: JSON.stringify(Object.assign(this.tail, object)),
             });
-            return R.object;
+            return R.BlueFoxDispatchAction;
           }
           async runTillNextOnLoad(object, max_polling = 20) {
             let connector = new Connector();
@@ -87,9 +85,8 @@ class Tab {
                     }
                     await connector.load(tabInfo.id);
                     let uuid = (await connector.post({
-                      type: "Tab.windowOnLoad",
-                      object: {},
-                    })).object;
+                      TabWindowOnLoad: {},
+                    })).TabWindowOnLoad;
                     if (!uuid) {
                       polling();
                     } else {
@@ -103,9 +100,8 @@ class Tab {
               polling();
             });
             await connector.load(tabInfo.id);
-            let R = await connector.post({
-              type: "BlueFox.Dispatch.Action",
-              object: JSON.stringify(Object.assign(this.tail, object)),
+            let result = await connector.post({
+              BlueFoxDispatchAction: JSON.stringify(Object.assign(this.tail, object)),
             });
             return await new Promise((resolve, reject) => {
               let polling_count = max_polling;
@@ -118,13 +114,12 @@ class Tab {
                     }
                     await connector.load(tabInfo.id);
                     let uuid = (await connector.post({
-                      type: "Tab.windowOnLoad",
-                      object: {},
-                    })).object;
+                      TabWindowOnLoad: {},
+                    })).TabWindowOnLoad;
                     if (!uuid || uuid_prev == uuid) {
                       polling();
                     } else {
-                      resolve(await R);
+                      resolve(await result.BlueFoxDispatchAction);
                     }
                   } catch (e) {
                     polling();
@@ -241,10 +236,9 @@ class Tab {
   async dispatchAction(object) {
     let connector = new Connector();
     await connector.load(this.info.id);
-    return await connector.post({
-      type: "BlueFox.Dispatch.Action",
-      object: JSON.stringify(object),
-    });
+    return (await connector.post({
+      BlueFoxDispatchAction: JSON.stringify(object),
+    })).BlueFoxDispatchAction;
   }
   async getScreenshot(selector, config = { format: "png", quality: 100, captureBeyondViewport: true }) {
     let target = (await chrome.debugger.sendCommand(
@@ -322,18 +316,17 @@ class Tab {
     let uuid = crypto.randomUUID();
     await connector.load(this.info.id);
     connector.connector.onMessage.addListener((P) => {
-      if (P.object.uuid == uuid) {
-        callback(P.object.object);
+      if (P.uuid == uuid) {
+        callback(P.object);
       }
     });
     return (await connector.post({
-      type: "BlueFoxScript.AddEventListener",
-      object: {
+      BlueFoxScriptAddEventListener: {
         uuid: uuid,
         selector: selector,
         event_type: event_type
       },
-    })).object;
+    })).BlueFoxScriptAddEventListener;
   }
   async getEventListners() {
     let R = (
@@ -359,12 +352,11 @@ class Tab {
     let connector = new Connector();
     await connector.load(this.info.id);
     let R = await connector.post({
-      type: "BlueFox.GetSelectors",
-      object: {
+      BlueFoxGetSelectors: {
         selector: selector,
       },
     });
-    return R.object;
+    return R.BlueFoxGetSelectors;
   }
 }
 
@@ -507,9 +499,8 @@ export class BlueFoxScript extends (Object) {
             }
             await connector.load(created.tabs[0].id);
             let uuid = (await connector.post({
-              type: "Tab.windowOnLoad",
-              object: {},
-            })).object;
+              TabWindowOnLoad: {},
+            })).TabWindowOnLoad;
             if (!uuid) {
               polling();
             } else {

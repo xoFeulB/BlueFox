@@ -2,6 +2,7 @@
 // https://github.com/LobeliaSecurity
 
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
+import { Connector } from "/js/postMessage.awaitable.js";
 
 {
   (async () => {
@@ -10,7 +11,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
     };
 
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    let connector = new window.Connector();
+    let connector = new Connector();
 
     let scenarioHandler = async (scenarios) => {
       for (let scenario of scenarios) {
@@ -18,15 +19,14 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         for (let tail of json_parsed.tails) {
           if (tail.when) {
             for (let key of Object.keys(tail.when)) {
-              let message = await connector.post({
-                type: "BlueFox.GetElementProperties",
-                object: {
+              let result = await connector.post({
+                BlueFoxGetElementProperties: {
                   selector: key,
                 },
               });
               if (
                 [...Object.keys(tail.when[key])].every((_) => {
-                  let property = BlueFoxJs.Util.getProperty(_, message.object);
+                  let property = BlueFoxJs.Util.getProperty(_, result.BlueFoxGetElementProperties);
                   if (property.object) {
                     try {
                       let regex = new RegExp(tail.when[key][_], "g");
@@ -39,16 +39,14 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                 })
               ) {
                 await connector.post({
-                  type: "BlueFox.Dispatch.Action",
-                  object: JSON.stringify(tail.tail),
+                  BlueFoxDispatchAction: JSON.stringify(tail.tail),
                 });
                 await sleep(tail.sleep);
               }
             }
           } else {
             await connector.post({
-              type: "BlueFox.Dispatch.Action",
-              object: JSON.stringify(tail.tail),
+              BlueFoxDispatchAction: JSON.stringify(tail.tail),
             });
             await sleep(tail.sleep);
           }
@@ -95,14 +93,12 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 
         for (let action of actions) {
           await connector.post({
-            type: "BlueFox.Dispatch.Action",
-            object: action.text,
+            BlueFoxDispatchAction: action.text,
           });
         }
         for (let script of scripts) {
           await connector.post({
-            type: "BlueFox.Dispatch.Script",
-            object: script.text,
+            BlueFoxDispatchScript: script.text,
           });
         }
         await scenarioHandler(scenarios);
@@ -144,8 +140,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               ?.setAttribute("hide", "");
           }
           let DOMSnapshot = await connector.post({
-            type: "BlueFox.CaptureDOMSnapshot",
-            object: {
+            BlueFoxCaptureDOMSnapshot: {
               computedStyles: [],
             },
           });
@@ -166,7 +161,7 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
                   host: TabInfo.url.host,
                   hostname: TabInfo.url.hostname,
                   port: TabInfo.url.port,
-                  strings: [...(new Set(DOMSnapshot.object.strings))]
+                  strings: [...(new Set(DOMSnapshot.BlueFoxCaptureDOMSnapshot.strings))]
                 }
               ),
             });
@@ -199,16 +194,15 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         "[CaptureWindow]": async ($) => {
           $.element.addEventListener("click", async () => {
             let message = await connector.post({
-              type: "BlueFox.CaptureWindow",
-              object: {
+              BlueFoxCaptureWindow: {
                 format: "png",
                 captureBeyondViewport: true,
               },
             });
-            if (message.object) {
+            if (message.BlueFoxCaptureWindow) {
               document.querySelector(
                 "[CapturePreview]"
-              ).src = `data:image/png;base64, ${message.object}`;
+              ).src = `data:image/png;base64, ${message.BlueFoxCaptureWindow}`;
               document
                 .querySelector("[CapturePreview]")
                 .dispatchEvent(new Event("sync"));
@@ -322,31 +316,29 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               SelectorsList.appendChild(div);
 
               let message = await connector.post({
-                type: "BlueFox.GetSelectors",
-                object: {
+                BlueFoxGetSelectors: {
                   selector: selector,
                 },
               });
-              if (message.object) {
+              if (message.BlueFoxGetSelectors) {
                 let SelectorsList = document.querySelector("[SelectorsList]");
                 SelectorsList.textContent = "";
                 let QuerySelectorsProperty = document.querySelector(
                   "#QuerySelectorsProperty"
                 );
-                message.object.forEach(async (_) => {
+                message.BlueFoxGetSelectors.forEach(async (_) => {
                   let li = document.createElement("li");
 
                   let SelectorTemplate = document
                     .querySelector("#SelectorTemplate")
                     .content.cloneNode(true);
 
-                  let elementProperties = await connector.post({
-                    type: "BlueFox.GetElementProperties",
-                    object: {
+                  let result = await connector.post({
+                    BlueFoxGetElementProperties: {
                       selector: _.selector,
                     },
                   });
-                  let property = BlueFoxJs.Util.getProperty(QuerySelectorsProperty.value, elementProperties.object);
+                  let property = BlueFoxJs.Util.getProperty(QuerySelectorsProperty.value, result.BlueFoxGetElementProperties);
                   if (property.object) {
                     try {
                       SelectorTemplate.querySelector(`[placeholder="Key"]`).value = property.object[property.property]
@@ -422,12 +414,11 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             let SelectorsList = document.querySelector("[SelectorsList]");
             [...SelectorsList.querySelectorAll("div")].forEach(async (_) => {
               let message = await connector.post({
-                type: "BlueFox.GetElementProperties",
-                object: {
+                BlueFoxGetElementProperties: {
                   selector: _.Selector.selector,
                 },
               });
-              let property = BlueFoxJs.Util.getProperty(event.target.value, message.object);
+              let property = BlueFoxJs.Util.getProperty(event.target.value, message.BlueFoxGetElementProperties);
               if (property.object) {
                 try {
                   _.querySelector(`[placeholder="Key"]`).value = property.object[property.property]
@@ -448,12 +439,11 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
               event.target.closest("[GetElementProperties]")
             ) {
               let message = await connector.post({
-                type: "BlueFox.GetElementProperties",
-                object: {
+                BlueFoxGetElementProperties: {
                   selector: event.target.closest("div").Selector.selector,
                 },
               });
-              let R = JSON.stringify(message.object, null, 4);
+              let R = JSON.stringify(message.BlueFoxGetElementProperties, null, 4);
               navigator.clipboard.writeText(R);
               UIkit.notification(
                 `<div><span uk-icon="check"></span><span> Copied to clipboard!</span></div><pre GetElementPropertiesNotification><code></code></pre>`,
@@ -537,21 +527,19 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
             $.element.SpreadsheetData = [];
             for (let selector of selectors) {
               let message = await connector.post({
-                type: "BlueFox.GetSelectors",
-                object: {
+                BlueFoxGetSelectors: {
                   selector: `[${selector}]`,
                 },
               });
 
-              if (message.object) {
-                for (let _ of message.object) {
-                  let elementProperties = await connector.post({
-                    type: "BlueFox.GetElementProperties",
-                    object: {
+              if (message.BlueFoxGetSelectors) {
+                for (let _ of message.BlueFoxGetSelectors) {
+                  let result = await connector.post({
+                    BlueFoxGetElementProperties: {
                       selector: _.selector,
                     },
                   });
-                  let property = BlueFoxJs.Util.getProperty(`attributes.${selector}.value`, elementProperties.object);
+                  let property = BlueFoxJs.Util.getProperty(`attributes.${selector}.value`, result.BlueFoxGetElementProperties);
                   if (property.object) {
                     try {
                       $.element.SpreadsheetData.push(
@@ -804,11 +792,10 @@ import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
         await sleep(1000);
         let GetEventListners = async () => {
           let message = await connector.post({
-            type: "BlueFox.GetEventListners",
-            object: {},
+            BlueFoxGetEventListners: {},
           });
           document.querySelector("[EventListners]").textContent =
-            message.object.length;
+            message.BlueFoxGetEventListners.length;
         };
         await GetEventListners();
         setInterval(async () => {
