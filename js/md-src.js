@@ -109,15 +109,13 @@ window.customElements.define("mark-down", class extends HTMLElement {
               run_button.addEventListener("click", async (event) => {
                 run_button.classList.add("uk-spinner");
                 await chrome.runtime.sendMessage({
-                  type: "Debugger.attach",
-                });
-                await chrome.runtime.sendMessage({
                   type: "Runtime.evaluate",
                   object: {
                     expression: $.element.textContent,
                     objectGroup: "BlueFox-js-lanch",
                     awaitPromise: true,
                     returnByValue: true,
+                    userGesture: true,
                   },
                 });
                 run_button.classList.remove("uk-spinner");

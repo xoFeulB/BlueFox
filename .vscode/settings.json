@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "html.format.wrapLineLength": 0,
+  "editor.detectIndentation": false,
+}

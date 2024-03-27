@@ -2,220 +2,209 @@
 <html>
 
 <head>
-    <title>^.,.^ BlueFox</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>^.,.^ BlueFox</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="/tab/js/init.js"></script>
+  <script src="/tab/js/init.js"></script>
 
-    <!-- UIkit -->
-    <link rel="stylesheet" href="/modules/uikit/css/uikit.min.css" />
-    <script src="/modules/uikit/js/uikit.min.js" defer></script>
-    <script src="/modules/uikit/js/uikit-icons.min.js" defer></script>
+  <!-- UIkit -->
+  <link rel="stylesheet" href="/modules/uikit/css/uikit.min.css" />
+  <script src="/modules/uikit/js/uikit.min.js" defer></script>
+  <script src="/modules/uikit/js/uikit-icons.min.js" defer></script>
 
-    <script src="/js/bluefox.lib.js" defer></script>
-    <script src="/js/postMessage.awaitable.js" defer></script>
-    <script src="/js/sync-value.js" type="module" defer></script>
-    <script src="/js/md-src.js" type="module" defer></script>
-    <script src="/tab/js/index.js" type="module" defer></script>
+  <script src="/js/bluefox.lib.js" defer></script>
+  <script src="/js/sync-value.js" type="module" defer></script>
+  <script src="/js/md-src.js" type="module" defer></script>
+  <script src="/tab/js/index.js" type="module" defer></script>
 
-    <!-- MonacoEditor -->
-    <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
+  <!-- MonacoEditor -->
+  <script src="/modules/monaco-editor/min/vs/loader.js" defer></script>
 
 
-    <link rel="stylesheet" href="/tab/css/common.css" />
-    <link rel="stylesheet" href="/tab/css/index.css" />
-    <link rel="stylesheet" href="/tab/css/modern-ui.css" />
+  <link rel="stylesheet" href="/tab/css/common.css" />
+  <link rel="stylesheet" href="/tab/css/index.css" />
+  <link rel="stylesheet" href="/tab/css/modern-ui.css" />
 
-    <link rel="stylesheet" href="/modules/highlight/styles/github.min.css" />
+  <link rel="stylesheet" href="/modules/highlight/styles/github.min.css" />
 </head>
 
 <body>
-    <div MenuTabs class="bg-main radius-bottom-left radius-bottom-right" uk-sticky>
-        <div constHide>
-            <input type="text" value="Scripting" id="MenuControll">
+  <div MenuTabs class="bg-main radius-bottom-left radius-bottom-right" uk-sticky>
+    <div constHide>
+      <input type="text" value="Scripting" id="MenuControll">
+    </div>
+    <div>
+      <div class="uk-flex uk-flex-middle">
+        <div MenuTab value="Scripting" setValueOnClick="#MenuControll" class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+          <img src="/media/tail.png" width="20" height="20">
+          <span>Scripting</span>
         </div>
-        <div>
-            <div class="uk-flex uk-flex-middle">
-                <div MenuTab value="Scripting" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <img src="/media/tail.png" width="20" height="20">
-                    <span>Scripting</span>
-                </div>
-                <div MenuTab value="Tabs" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <span uk-icon="world"></span>
-                    <span>Tabs</span>
-                </div>
-                <div MenuTab value="Information" setValueOnClick="#MenuControll"
-                    class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
-                    <span uk-icon="info"></span>
-                    <span>Information</span>
-                </div>
+        <div MenuTab value="Tabs" setValueOnClick="#MenuControll" class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+          <span uk-icon="world"></span>
+          <span>Tabs</span>
+        </div>
+        <div MenuTab value="Information" setValueOnClick="#MenuControll" class="uk-padding-small radius-top uk-button uk-button-text uk-text-default">
+          <span uk-icon="info"></span>
+          <span>Information</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div Main>
+      <div>
+        <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow" uk-tooltip="Help" Help></a>
+        <div id="modal-overflow" class="uk-modal-container" uk-modal>
+          <div class="uk-modal-dialog radius">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-body" uk-overflow-auto>
+              <div showWhenSome="#MenuControll" showWhenSome-values='["Scripting"]'>
+                <mark-down src="/docs/help/Scripting.md"></mark-down>
+              </div>
+              <div showWhenSome="#MenuControll" showWhenSome-values='["Tabs"]'>
+                <mark-down src="/docs/help/Tabs.md"></mark-down>
+              </div>
+              <div showWhenSome="#MenuControll" showWhenSome-values='["Information"]'>
+                <mark-down src="/docs/LICENSE.md"></mark-down>
+              </div>
             </div>
+
+            <div class="uk-text-right scroll-up">
+              <button ScrollUp class="uk-icon-link" uk-icon="chevron-up" uk-tooltip="Scroll up"></button>
+            </div>
+          </div>
         </div>
+      </div>
+      <div>
+        <div showWhenSome="#MenuControll" showWhenSome-values='["Scripting"]' class="uk-animation-fade" hide>
+          <div class="uk-section uk-section-small">
+            <div class="uk-container uk-container-default">
+              <div>
+                <div class="uk-margin">
+                  <button ReLoad class="uk-icon-link" uk-icon="refresh" uk-tooltip="ReLoad"></button>
+                </div>
+                <div class="uk-margin">
+                  <div vscode-notice>
+                    <a href="https://marketplace.visualstudio.com/items?itemName=BlueFoxEnterprise.BlueFoxServer" target="_blank" rel="noopener noreferrer">
+                      <span>Download and Install BlueFoxServer to use the VSCode integration feature (marketplace.visualstudio.com)</span>
+                    </a>
+                  </div>
+                  <ul id="FileList" class="uk-list uk-list-striped">
+                  </ul>
+                </div>
+                <div class="divider-icon"></div>
+              </div>
+              <div>
+                <div class="uk-margin">
+                  <button RunScript class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
+                </div>
+                <div>
+                  <div ServerScript></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div showWhenSome="#MenuControll" showWhenSome-values='["Tabs"]' class="uk-animation-fade" hide>
+          <div class="uk-section uk-section-small">
+            <div class="uk-container uk-container-default">
+              <div Tabs></div>
+            </div>
+          </div>
+        </div>
+        <div showWhenSome="#MenuControll" showWhenSome-values='["Information"]' class="uk-animation-fade" hide>
+          <div class="uk-section uk-section-small">
+            <div class="uk-container uk-container-default">
+              <div>
+                <div class="uk-margin">
+                  <mark-down src="/docs/README.md"></mark-down>
+                </div>
+                <div class="divider-icon"></div>
+                <div class="uk-text-center">
+                  <div>
+                    <img src="/media/BlueFox_tp.png" width="150" height="150">
+                    <img src="/media/tail.png" width="150" height="150">
+                  </div>
+                  <div class="uk-text-lead uk-margin">
+                    <span setTextContent="Title"></span>
+                    <span setTextContent="Version"></span>
+                    <div>
+                      <a href="https://github.com/xoFeulB/BlueFox" target="_blank" rel="noopener noreferrer">https://github.com/xoFeulB/BlueFox</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="divider-icon"></div>
+          <div class="uk-margin-left uk-margin">
+            <div setTextContent="Copyright"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div>
-        <div Main>
-            <div>
-                <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow"
-                    uk-tooltip="Help" Help></a>
-                <div id="modal-overflow" class="uk-modal-container" uk-modal>
-                    <div class="uk-modal-dialog radius">
-                        <button class="uk-modal-close-default" type="button" uk-close></button>
-                        <div class="uk-modal-body" uk-overflow-auto>
-                            <div showWhenSome="#MenuControll" showWhenSome-values='["Scripting"]'>
-                                <mark-down src="/docs/help/Scripting.md"></mark-down>
-                            </div>
-                            <div showWhenSome="#MenuControll" showWhenSome-values='["Tabs"]'>
-                                <mark-down src="/docs/help/Tabs.md"></mark-down>
-                            </div>
-                            <div showWhenSome="#MenuControll" showWhenSome-values='["Information"]'>
-                                <mark-down src="/docs/LICENSE.md"></mark-down>
-                            </div>
-                        </div>
+    <div constHide>
+      <template id="TabsTemplate">
+        <div class="uk-margin">
+          <div tabInfo class="uk-margin">
+            <article class="uk-comment" role="comment">
+              <header class="uk-comment-header">
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                  <div class="uk-width-auto">
+                    <img favicon class="uk-comment-avatar" src="" width="40" height="40">
+                  </div>
+                  <div class="uk-width-expand">
+                    <h4 title class="uk-comment-title uk-margin-remove"></h4>
+                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                      <li>URL</li>
+                      <li>
+                        <code url></code>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </header>
+              <div class="uk-comment-body">
+                <button Focus class="uk-button uk-button-primary">Focus</button>
+                <button SwitchTab class="uk-button uk-button-default">Switch Tab</button>
+                <button TabToWindow class="uk-button uk-button-default" uk-tooltip="title: Drop into new window; pos: bottom">Drop</button>
+              </div>
+            </article>
 
-                        <div class="uk-text-right scroll-up">
-                            <button ScrollUp class="uk-icon-link" uk-icon="chevron-up" uk-tooltip="Scroll up"></button>
-                        </div>
-                    </div>
+            <ul uk-accordion="multiple: true">
+              <li>
+                <a class="uk-accordion-title" href="#" FocusInFrame aria-expanded="false">
+                  <span>Focus in Here</span>
+                </a>
+                <div class="uk-accordion-content">
+                  <div FocusFrame class="uk-margin"></div>
                 </div>
-            </div>
-            <div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Scripting"]' class="uk-animation-fade" hide>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div>
-                                <div class="uk-margin">
-                                    <button ReLoad class="uk-icon-link" uk-icon="refresh" uk-tooltip="ReLoad"></button>
-                                </div>
-                                <div class="uk-margin ">
-                                    <div vscode-notice>
-                                        <a href="https://marketplace.visualstudio.com/items?itemName=BlueFoxEnterprise.BlueFoxServer"
-                                            target="_blank" rel="noopener noreferrer">
-                                            <span>Download and Install BlueFoxServer to use the VSCode integration
-                                                feature (marketplace.visualstudio.com)</span>
-                                        </a>
-                                    </div>
-                                    <ul id="FileList" class="uk-list uk-list-striped">
-                                    </ul>
-                                </div>
-                                <div class="divider-icon"></div>
-                            </div>
-                            <div>
-                                <div class="uk-margin">
-                                    <button RunScript class="uk-icon-link" uk-icon="play-circle"
-                                        uk-tooltip="RunScript"></button>
-                                </div>
-                                <div>
-                                    <div ServerScript></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Tabs"]' class="uk-animation-fade" hide>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div Tabs></div>
-                        </div>
-                    </div>
-                </div>
-                <div showWhenSome="#MenuControll" showWhenSome-values='["Information"]' class="uk-animation-fade" hide>
-                    <div class="uk-section uk-section-small">
-                        <div class="uk-container uk-container-default">
-                            <div>
-                                <div class="uk-margin">
-                                    <mark-down src="/docs/README.md"></mark-down>
-                                </div>
-                                <div class="divider-icon"></div>
-                                <div class="uk-text-center">
-                                    <div>
-                                        <img src="/media/BlueFox_tp.png" width="150" height="150">
-                                        <img src="/media/tail.png" width="150" height="150">
-                                    </div>
-                                    <div class="uk-text-lead uk-margin">
-                                        <span setTextContent="Title"></span>
-                                        <span setTextContent="Version"></span>
-                                        <div>
-                                            <a href="https://github.com/xoFeulB/BlueFox"
-                                                target="_blank">https://github.com/xoFeulB/BlueFox</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="divider-icon"></div>
-                    <div class="uk-margin-left uk-margin">
-                        <div setTextContent="Copyright"></div>
-                    </div>
-                </div>
-            </div>
+              </li>
+            </ul>
+          </div>
+          <hr>
         </div>
-
-        <div constHide>
-            <template id="TabsTemplate">
-                <div class="uk-margin">
-                    <div tabInfo class="uk-margin">
-                        <article class="uk-comment" role="comment">
-                            <header class="uk-comment-header">
-                                <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                                    <div class="uk-width-auto">
-                                        <img favicon class="uk-comment-avatar" src="" width="40" height="40">
-                                    </div>
-                                    <div class="uk-width-expand">
-                                        <h4 title class="uk-comment-title uk-margin-remove"></h4>
-                                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
-                                            <li>URL</li>
-                                            <li>
-                                                <code url></code>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </header>
-                            <div class="uk-comment-body">
-                                <button Focus class="uk-button uk-button-primary">Focus</button>
-                                <button SwitchTab class="uk-button uk-button-default">Switch Tab</button>
-                                <button TabToWindow class="uk-button uk-button-default"
-                                    uk-tooltip="title: Drop into new window; pos: bottom">Drop</button>
-                            </div>
-                        </article>
-
-                        <ul uk-accordion="multiple: true">
-                            <li>
-                                <a class="uk-accordion-title" href="#" FocusInFrame aria-expanded="false">
-                                    <span>Focus in Here</span>
-                                </a>
-                                <div class="uk-accordion-content">
-                                    <div FocusFrame class="uk-margin"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <hr>
-                </div>
-            </template>
-            <template id="FileListTemplate">
-                <li>
-                    <div class="uk-flex uk-flex-middle">
-                        <div class="uk-width-1-2 uk-flex">
-                            <code><span Path></span></code>
-                        </div>
-                        <div class="uk-width-1-2 uk-flex uk-flex-right">
-                            <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull"
-                                uk-tooltip="ShowInEditor"></button>
-                            <button Play class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
-                        </div>
-                    </div>
-                </li>
-            </template>
-        </div>
+      </template>
+      <template id="FileListTemplate">
+        <li>
+          <div class="uk-flex uk-flex-middle">
+            <div class="uk-width-1-2 uk-flex">
+              <code><span Path></span></code>
+            </div>
+            <div class="uk-width-1-2 uk-flex uk-flex-right">
+              <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull" uk-tooltip="ShowInEditor"></button>
+              <button Play class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
+            </div>
+          </div>
+        </li>
+      </template>
+    </div>
 </body>
 
 </html>
