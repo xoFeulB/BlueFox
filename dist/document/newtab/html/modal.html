@@ -1,0 +1,26 @@
+<div id="Modal" page="">
+  <div id="modal-overflow" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog radius">
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+      <div class="uk-modal-body" uk-overflow-auto>
+        <show-when target="#Panel.attributes.panel.value" regex="SignInPanel">
+          <show-when target="#Modal.attributes.page.value" regex="TermsOfService">
+            <mark-down src="/media/md/TermsOfService.md"></mark-down>
+          </show-when>
+          <show-when target="#Modal.attributes.page.value" regex="PrivacyPolicy">
+            <mark-down src="/media/md/PrivacyPolicy.md"></mark-down>
+          </show-when>
+        </show-when>
+        <show-when target="#Panel.attributes.panel.value" regex="ConsolePanel">
+          <show-when target="window.location.hash" regex="#Home" events='["hashchange"]'>
+            <h1>home</h1>
+          </show-when>
+        </show-when>
+      </div>
+
+      <div class="uk-text-right scroll-up">
+        <button ScrollUp class="uk-icon-link" uk-icon="chevron-up" uk-tooltip="Scroll up"></button>
+      </div>
+    </div>
+  </div>
+</div>

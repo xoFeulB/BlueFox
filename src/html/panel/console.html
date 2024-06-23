@@ -1,0 +1,57 @@
+<div Console="Scripting" class="bg-base">
+  <nav TopNav class="uk-flex uk-flex-between uk-flex-middle uk-padding-small uk-background-dafault radius-bottom uk-box-shadow-small bg-base" uk-sticky>
+    <div class="uk-flex uk-flex-middle">
+      <div class="logo-img logo-small logo-background-auto uk-margin-small-right"></div>
+      <sync-view class="logo-color-auto" from="window.values.AppName" to="this.textContent"></sync-view>
+    </div>
+    <div class="uk-flex uk-flex-middle">
+      <div class="uk-margin-small-right">
+        <show-when target="html.attributes.theme.value" regex="Light" in="loll.300" out="roll.300">
+          <set-value-on-click value="Dark" target="html.attributes.theme.value">
+            <button class="uk-icon-button" uk-icon uk-tooltip="Switch Dark Theme">
+              <i class="fa-regular fa-moon c-blue"></i>
+            </button>
+          </set-value-on-click>
+        </show-when>
+        <show-when target="html.attributes.theme.value" regex="Dark" in="roll.300" out="loll.300">
+          <set-value-on-click value="Light" target="html.attributes.theme.value">
+            <button class="uk-icon-button" uk-icon uk-tooltip="Switch Light Theme">
+              <i class="fa-regular fa-sun c-orange"></i>
+            </button>
+          </set-value-on-click>
+        </show-when>
+      </div>
+      <set-value-on-click value="Scripting" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="code" uk-tooltip="Scripting" Scripting></button>
+      </set-value-on-click>
+      <set-value-on-click value="FindSelectors" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="search" uk-tooltip="Find Selectors" FindSelectors></button>
+      </set-value-on-click>
+      <set-value-on-click value="CaptureScreenshot" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="camera" uk-tooltip="Capture Screenshot" CaptureScreenshot></button>
+      </set-value-on-click>
+    </div>
+  </nav>
+
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Scripting" events='["change"]' in="top.300" out="top.300">
+    <div class="uk-section uk-section-small">
+      <div class="uk-container uk-container-default">
+        <h2>Scripting</h2>
+      </div>
+    </div>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="FindSelectors" events='["change"]' in="top.300" out="top.300">
+    <div class="uk-section uk-section-small">
+      <div class="uk-container uk-container-default">
+        <h2>FindSelectors</h2>
+      </div>
+    </div>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="CaptureScreenshot" events='["change"]' in="top.300" out="top.300">
+    <div class="uk-section uk-section-small">
+      <div class="uk-container uk-container-default">
+        <h2>CaptureScreenshot</h2>
+      </div>
+    </div>
+  </show-when>
+</div>
