@@ -120,6 +120,14 @@ window.BlueFoxScript = class extends BlueFoxScript {
           menu.append(button);
           $.element.className ? $.element.parentElement.prepend(menu) : $.element.append(menu);
         },
+        "[Console]": async ($) => {
+          $.element.addEventListener("change", (event) => {
+            window.scroll({
+              top: 0,
+              behavior: "smooth",
+            });
+          });
+        },
         "[TabsList]": async ($) => {
           $.element.tabs = {};
 
