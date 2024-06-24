@@ -399,5 +399,51 @@
     }
 
     new MessageHandler();
+
+    window.addEventListener("keydown",
+      async (event) => {
+        if (!event.isTrusted) {
+          return;
+        }
+        if (event.key === "p" && event.altKey) {
+          let base64 = (await chrome.runtime.sendMessage({
+            type: "Page.captureScreenshot",
+            object: {
+              format: "png",
+              quality: 100,
+              captureBeyondViewport: true,
+            },
+          })).data;
+          await navigator.clipboard.write([
+            new ClipboardItem(
+              {
+                "image/png": new Blob(
+                  [new Uint8Array(
+                    [...atob(base64.replace(/^.*,/, ''))].map((_) => {
+                      return _.charCodeAt(0);
+                    })
+                  )], { type: "image/png" }
+                )
+              }
+            )
+          ]);
+          document.querySelector("html").animate(
+            [
+              {
+                opacity: "0.6",
+                easing: 'ease-in-out'
+              },
+              {
+                opacity: "1.0",
+                easing: 'ease-in-out'
+              }
+            ],
+            {
+              duration: 500,
+              fill: 'forwards',
+            }
+          );
+        }
+      });
   })();
 }

@@ -78,7 +78,6 @@ window.BlueFoxScript = class extends BlueFoxScript {
     let blueFoxScript = await new BlueFoxScript();
     let log = console.log;
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    await sleep(1000);
     await window?.AppReady;
 
     log("index.js loaded");
@@ -247,6 +246,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                           fileName: "capture",
                           format: "png",
                           quality: 100,
+                          captureBeyondViewport: true,
                         }
                       );
                       await navigator.clipboard.write([
