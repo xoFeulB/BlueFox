@@ -1,10 +1,16 @@
 <div Console="Scripting" class="bg-base">
   <nav TopNav class="uk-flex uk-flex-between uk-flex-middle uk-padding-small uk-background-dafault radius-bottom uk-box-shadow-small bg-base" uk-sticky>
     <div class="uk-flex uk-flex-middle">
-      <div class="logo-img logo-small logo-background-auto uk-margin-small-right"></div>
-      <sync-view class="logo-color-auto" from="window.values.AppName" to="this.textContent"></sync-view>
+      <img favIcon src="" class="uk-margin-small-right" width="20" height="20" class="img-selectable" />
+      <code>
+        <sync-view class="logo-color-auto" from="#TabInfo.TabInfo.url" to="this.textContent"></sync-view>
+      </code>
     </div>
     <div class="uk-flex uk-flex-middle">
+      <div class="uk-margin-small-right">
+        <input QuerySelector type="text" class="uk-input uk-form-width-medium" placeholder="QuerySelector" value="html" uk-tooltip="CaptureScreenshot Selector">
+        <button CaptureScreenshot class="uk-icon-button button-radius-right" uk-icon="camera" uk-tooltip="CaptureScreenshot to Clipboard"></button>
+      </div>
       <div class="uk-margin-small-right">
         <show-when target="html.attributes.theme.value" regex="Light" in="loll.300" out="roll.300">
           <set-value-on-click value="Dark" target="html.attributes.theme.value">
@@ -25,7 +31,7 @@
         <button class="uk-icon-button uk-margin-small-right" uk-icon="code" uk-tooltip="Scripting" Scripting></button>
       </set-value-on-click>
       <set-value-on-click value="Tabs" target="[Console].attributes.Console.value">
-        <button class="uk-icon-button uk-margin-small-right" uk-icon="world" uk-tooltip="Tabs" Tabs></button>
+        <button class="uk-icon-button" uk-icon="world" uk-tooltip="Tabs" Tabs></button>
       </set-value-on-click>
     </div>
   </nav>
@@ -38,7 +44,7 @@
     </div>
   </show-when>
   <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Tabs" events='["change"]' in="top.100" out="top.100">
-    <ga-te src="/document/newtab/html/tabs.html" class="block"></ga-te>
+    <ga-te src="/document/focus/html/tabs.html" class="block"></ga-te>
   </show-when>
   <show-when class="bg-base" target="[Console].attributes.Console.value" regex="CaptureScreenshot" events='["change"]' in="top.100" out="top.100">
     <div class="uk-section uk-section-small">
@@ -48,5 +54,5 @@
     </div>
   </show-when>
 
-  <ga-te src="/document/newtab/html/footer.html" class="block"></ga-te>
+  <ga-te src="/document/common/html/footer.html" class="block"></ga-te>
 </div>

@@ -29,17 +29,18 @@
 
   <link rel="stylesheet" href="/document/common/css/common.css" />
   <link rel="stylesheet" href="/document/common/css/modern-ui.css" />
-  <link rel="stylesheet" href="/document/newtab/css/index.css" />
+  <link rel="stylesheet" href="/document/focus/css/index.css" />
 
   <link rel="stylesheet" href="/modules/highlight/styles/github.min.css" />
 
-  <script src="/document/newtab/js/init.js" type="module"></script>
-  <script src="/document/newtab/js/index.js" type="module"></script>
+  <script src="/document/focus/js/init.js" type="module"></script>
+  <script src="/document/focus/js/index.js" type="module"></script>
 </head>
 
 <body>
   <div hidden>
     <sync-view from="html.attributes.theme.value" to="window.localStorage.theme" events='["change"]'></sync-view>
+    <sync-view id="TabInfo" from="this.TabInfo.title" to="window.document.title" events='["sync"]'></sync-view>
   </div>
   <div Spinner>
     <img src="/media/tail.png" width="25" height="25">
@@ -58,11 +59,11 @@
   </div>
   <div id="Panel" panel="None">
     <show-when class="bg-base" target="#Panel.attributes.panel.value" regex="ConsolePanel" events='["sync"]' in="fade.300" out="fade.300">
-      <ga-te src="/document/newtab/html/console.html" class="block"></ga-te>
+      <ga-te src="/document/focus/html/console.html" class="block"></ga-te>
     </show-when>
   </div>
   <a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow" uk-tooltip="Help"></a>
-  <ga-te src="/document/newtab/html/modal.html" class="block"></ga-te>
+  <ga-te src="/document/focus/html/modal.html" class="block"></ga-te>
 </body>
 
 </html>

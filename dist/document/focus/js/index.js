@@ -1,82 +1,52 @@
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { Connector } from "/modules/BlueFox/postMessage.awaitable.js";
-import { BlueFoxScript } from "/modules/BlueFox/bluefox.script.js";
-window.BlueFoxJs = BlueFoxJs;
-window.BlueFoxScript = class extends BlueFoxScript {
-  async runWorkspaceScript(path, args) {
-    let regexp_object = new RegExp(path, "g");
-    let FileListPath = await ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
-      return regexp_object.test(_.path);
-    })[0]);
-    let play = FileListPath.closest("li").querySelector("[Play]");
-    play.classList.add("uk-spinner");
-    let file = await (await fetch(
-      `http://${Values.values.BluefoxServer.value}:7777/R?/${FileListPath.workspaceObject.id}/${FileListPath.workspaceObject.workspace}${FileListPath.workspaceObject.path}`
-    )).text();
-    let script = `(${file})(${JSON.stringify(args ? args : []).slice(1, -1)});`;
-    let R = await chrome.runtime.sendMessage({
-      type: "Runtime.evaluate",
-      object: {
-        expression: script,
-        objectGroup: "BlueFox-js-lanch",
-        awaitPromise: true,
-        returnByValue: true,
-        silent: false,
-        userGesture: true,
-      },
-    });
-    if (R.exceptionDetails) {
-      console.error(R);
-    }
-    play.classList.remove("uk-spinner");
-    return R;
-  }
 
-  async getWorkspaceFile(path) {
-    let regexp_object = new RegExp(path, "g");
-
-    let workspaceObject = ([...document.querySelectorAll("#FileList [path]")].filter((_) => {
-      return regexp_object.test(_.path);
-    })[0]).workspaceObject;
-
-    let fetch_result = await fetch(
-      `http://${Values.values.BluefoxServer.value}:7777/R?/${workspaceObject.id}/${workspaceObject.workspace}${workspaceObject.path}`
-    );
-    let B = await fetch_result.blob();
-
-    return {
-      name: workspaceObject.path.split("/").slice(-1)[0],
-      type: fetch_result.headers.get("Content-Type"),
-      blob: [...new Uint8Array(await B.arrayBuffer())],
-      object: "Uint8Array",
-    };
-  }
-
-  async runScript(script) {
-    let R = await chrome.runtime.sendMessage({
-      type: "Runtime.evaluate",
-      object: {
-        expression: script,
-        objectGroup: "BlueFox-js-lanch",
-        awaitPromise: true,
-        returnByValue: true,
-        silent: false,
-        userGesture: true,
-      },
-    });
-    if (R.exceptionDetails) {
-      console.error(R);
-    }
-    return R;
-  }
-}
 {
   (async () => {
-    new BlueFoxScript();
     let log = console.log;
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-    await sleep(1000);
     await window?.AppReady;
+    let connector = new Connector();
+
+    let TabInfo = {
+      reload: async () => {
+        Object.assign(
+          TabInfo,
+          await (async () => {
+            let tabInfo = [
+              ...(await chrome.tabs.query({ url: "<all_urls>" })),
+            ].filter((_) => {
+              return Number(window.location.hash.substring(1)) == _.id;
+            });
+            return tabInfo[0];
+          })()
+        );
+        if (!connector.connector) {
+          await connector.load(TabInfo.id);
+        }
+
+        TabInfo.DOM = document.querySelector("#TabInfo");
+        TabInfo.DOM.TabInfo = TabInfo;
+        TabInfo.DOM.dispatchEvent(new Event("sync"));
+        if (!TabInfo.favIconUrl) {
+          document
+            .querySelector(
+              `img[favIcon]`
+            )
+            ?.setAttribute("uk-icon", "icon: world; ratio: 2");
+          document
+            .querySelector(`img[favIcon]`)
+            ?.setAttribute("hide", "");
+        } else {
+          document
+            .querySelector(
+              `img[favIcon]`
+            ).src = TabInfo.favIconUrl;
+        }
+      },
+    };
+    await TabInfo.reload();
+    chrome.tabs.onUpdated.addListener(TabInfo.reload);
 
     log("index.js loaded");
     BlueFoxJs.Walker.walkHorizontally(
