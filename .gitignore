@@ -1,4 +1,4 @@
 
 *.crx
 .vs
-Chrome-BlueFox.lnk
+/dist

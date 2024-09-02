@@ -39,7 +39,7 @@
     }
   ],
   "chrome_url_overrides": {
-    "newtab": "/document/newtab/index.html"
+    "newtab": "/document/index.html"
   },
   "icons": {
     "16": "/media/icons/16.png",

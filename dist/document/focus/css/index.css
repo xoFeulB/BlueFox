@@ -1,4 +1,0 @@
-[Console="Scripting"] button[Scripting],
-[Console="Tabs"] button[Tabs] {
-  border: var(--border-active);
-}
