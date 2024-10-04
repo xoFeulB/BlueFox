@@ -7,7 +7,10 @@ window.AppReady = new Promise(async (resolve) => {
 (async () => {
   {
     let currentTab = await chrome.tabs.getCurrent();
-    if ("chrome://newtab/" == currentTab.url) {
+    if ([
+      "chrome://newtab/",
+      "edge://newtab/",
+    ].includes(currentTab.url)) {
       location.href = location.href;
     }
   }
