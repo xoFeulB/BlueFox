@@ -1,0 +1,31 @@
+[CaptureScreenshotPreview] {
+  width: 40%;
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+[CaptureScreenshotPreview]>img {
+  width: 100%;
+  z-index: 9999;
+  pointer-events: all;
+  user-select: auto;
+}
+
+[CapturEventsOut] {
+  white-space: pre-wrap;
+  max-height: 80vh;
+  overflow: scroll;
+}
+
+[Spreadsheet] {
+  width: 100%;
+  overflow-x: scroll;
+  color: #333 !important;
+}
+
+[Spreadsheet] tbody tr:nth-child(even) {
+  background-color: #f2f8ff;
+}

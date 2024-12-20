@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "^.,.^ BlueFox",
+  "version": "1.0.0",
+  "description": "Web Automation Software for Time-Starved Professionals",
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "permissions": [
+    "cookies",
+    "tabs",
+    "debugger"
+  ],
+  "background": {
+    "service_worker": "/js/background/service_worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "/modules/css-selector-generator/css-selector-generator.js",
+        "/js/content_scripts/document_start.js",
+        "/modules/BlueFoxJs/bluefox.min.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "/js/content_scripts/document_idle.js",
+        "/js/content_scripts/event_observer.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "chrome_url_overrides": {
+    "newtab": "/html/newtab.html"
+  },
+  "icons": {
+    "16": "/media/icons/16.png",
+    "48": "/media/icons/48.png",
+    "128": "/media/icons/128.png"
+  }
+}

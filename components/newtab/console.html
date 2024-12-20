@@ -1,0 +1,51 @@
+<show-when CaptureScreenshotPreview="hide" target="this.attributes.CaptureScreenshotPreview.value" regex="show"
+  in="left.300" out="right.300">
+  <img class="uk-box-shadow-large radius">
+</show-when>
+<div Console="Scripting" class="bg-base">
+  <nav TopNav
+    class="uk-flex uk-flex-between uk-flex-middle uk-padding-small uk-background-dafault radius-bottom uk-box-shadow-small bg-base"
+    uk-sticky>
+    <div class="uk-flex uk-flex-middle">
+      <div class="logo-img logo-small logo-background-auto uk-margin-small-right"></div>
+      <sync-view class="logo-color-auto" from="window.values.AppName" to="this.textContent"></sync-view>
+    </div>
+    <div class="uk-flex uk-flex-middle">
+      <div class="uk-margin-small-right">
+        <show-when target="html.attributes.theme.value" regex="Light" in="loll.300" out="roll.300">
+          <set-value-on-click value="Dark" target="html.attributes.theme.value">
+            <button class="uk-icon-button" uk-icon uk-tooltip="Switch Dark Theme">
+              <i class="fa-regular fa-moon c-blue"></i>
+            </button>
+          </set-value-on-click>
+        </show-when>
+        <show-when target="html.attributes.theme.value" regex="Dark" in="roll.300" out="loll.300">
+          <set-value-on-click value="Light" target="html.attributes.theme.value">
+            <button class="uk-icon-button" uk-icon uk-tooltip="Switch Light Theme">
+              <i class="fa-regular fa-sun c-orange"></i>
+            </button>
+          </set-value-on-click>
+        </show-when>
+      </div>
+      <set-value-on-click value="Scripting" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="code" uk-tooltip="Scripting"></button>
+      </set-value-on-click>
+      <set-value-on-click value="Tabs" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="world" uk-tooltip="Tabs"></button>
+      </set-value-on-click>
+    </div>
+  </nav>
+
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Scripting" events='["change"]'
+    in="top.100" out="top.100">
+    <gate src="/components/newtab/scripting.html"></gate>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Tabs" events='["change"]' in="top.100"
+    out="top.100">
+    <gate src="/components/newtab/tabs.html"></gate>
+  </show-when>
+
+  <gate src="/components/common/footer.html"></gate>
+</div>
+<a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow" uk-tooltip="Help"></a>
+<gate src="/components/newtab/modal.html"></gate>
