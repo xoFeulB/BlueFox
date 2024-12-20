@@ -1,7 +1,7 @@
 # ^.,.^ BlueFox
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/SocialPreview_4.png">
+  <img src="https://ooo.bluefox.ooo/media/SocialPreview_1.png">
 </div>
 
 <div>
@@ -31,9 +31,7 @@
 <hr>
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/BlueFox_tp.png" width="80">
-    <img src="https://ooo.bluefox.ooo/media/tail.png" width="80">
-    <h3>Agile Web Automation Software for Time-Starved Professionals</h3>
+    <h3>Web Automation Software for Time-Starved Professionals</h3>
     <p>BlueFox to improve your productivity!</p>
 </div>
 
@@ -104,20 +102,20 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
     .call("click", null)
     .runTillNextOnLoad({ sleep: 50 });
 
-  let search_result = await tab.dispatchScript(
-    () => {
-      return [...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])")]
-        .filter((_) => {
-          return _.querySelector("h3");
-        })
-        .map((_) => {
-          return {
-            href: _.href,
-            title: _.querySelector("h3").textContent,
-          }
-        });
-    }
-  );
+  let search_result = await tab.dispatchScript(() => {
+    return [
+      ...document.querySelectorAll("#search :is(a[data-jsarwt='1'],a[jsname])"),
+    ]
+      .filter((_) => {
+        return _.querySelector("h3");
+      })
+      .map((_) => {
+        return {
+          href: _.href,
+          title: _.querySelector("h3").textContent,
+        };
+      });
+  });
   window.alert(JSON.stringify(search_result.result.value, null, 4));
 })();
 ```
@@ -136,7 +134,7 @@ or Download archive(ZIP) from releases page or repo top page this repo, and expo
 releases : https://github.com/xoFeulB/BlueFox/releases  
 DownloadZIP : https://github.com/xoFeulB/BlueFox/archive/refs/heads/main.zip
 
-then, drag-and-drop BlueFox folder to Chrome(Edge) developper-mode extensions page (<a href="edge://extensions/" target="_blank">edge://extensions/</a>)
+then, drag-and-drop BlueFox folder that having "manifest.json" to Chrome(Edge) developper-mode extensions page (<a href="edge://extensions/" target="_blank">edge://extensions/</a> or <a href="chrome://extensions/" target="_blank">chrome://extensions/</a>)
 
 ### Manual update
 
@@ -144,12 +142,6 @@ in cloned BlueFox.git directory
 
 ```bash
 git pull
-```
-
-### CreateShortcut to Chrome and install BlueFox with new user data
-Windows PowerShell
-```powershell
-.\CreateShortcut-Chrome.ps1
 ```
 
 ## BlueFoxServer and BlueFoxScript examples
@@ -199,6 +191,6 @@ DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/hea
 <div align="center">
     <h4>CREDITS</h4>
     <div>
-        <a href="https://twitter.com/pa_painting_ape">ぷらすあるふぁ(https://twitter.com/pa_painting_ape)</a>
+        <a href="https://x.com/painting_ape">ぷらすあるふぁ(https://x.com/painting_ape)</a>
     </div>
 </div>
