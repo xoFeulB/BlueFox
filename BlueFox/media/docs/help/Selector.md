@@ -7,7 +7,7 @@ Collect DOM with input selectors and download unique selectors and properties in
 Collects the DOM with the input selector and generates a unique selector
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/selector1.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/v1.0/selector1.png" width="60%">
 </div>
 
 ## Property
@@ -15,7 +15,7 @@ Collects the DOM with the input selector and generates a unique selector
 Gets the properties of the selected DOM (this must be a string)
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/selector2.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/v1.0/selector2.png" width="60%">
 </div>
 
 ## Download
@@ -23,13 +23,13 @@ Gets the properties of the selected DOM (this must be a string)
 Download the displayed DOM list by JSON, CSV
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/selector3.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/v1.0/selector3.png" width="60%">
 </div>
 
 ## Copy CSS Selector
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/selector4.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/v1.0/selector4.png" width="60%">
 </div>
 
 ## All Properties
@@ -37,5 +37,5 @@ Download the displayed DOM list by JSON, CSV
 Get all JSON serializable properties of the DOM that can be retrieved by the selector next to the button and copy them to the clipboard.
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/selector5.png" width="60%">
+    <img src="https://ooo.bluefox.ooo/media/Demo/v1.0/selector5.png" width="60%">
 </div>

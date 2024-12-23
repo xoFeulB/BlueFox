@@ -28,8 +28,11 @@ highlight.registerLanguage("language-xml", xml);
 window.customElements.define("mark-down", class extends HTMLElement {
   constructor() {
     super();
+    this.render();
   }
   connectedCallback() {
+  }
+  render() {
     let sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
 
     (async () => {

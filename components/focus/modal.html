@@ -3,11 +3,20 @@
     <div class="uk-modal-dialog radius">
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <div class="uk-modal-body" uk-overflow-auto>
-        <show-when target="[Console].attributes.Console.value" regex="Scripting">
-          <mark-down src="/media/docs/help/Scripting.md"></mark-down>
+        <show-when target="[Console].attributes.Console.value" regex="Gathering">
+          <mark-down src="/media/docs/help/Gathering.md"></mark-down>
         </show-when>
-        <show-when target="[Console].attributes.Console.value" regex="Tabs">
-          <mark-down src="/media/docs/help/Tabs.md"></mark-down>
+        <show-when target="[Console].attributes.Console.value" regex="Selector">
+          <mark-down src="/media/docs/help/Selector.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="Cookie">
+          <mark-down src="/media/docs/help/Cookie.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="CaptureEvents">
+          <mark-down src="/media/docs/help/CaptureEvents.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="Tails">
+          <mark-down src="/media/docs/help/Tails.md"></mark-down>
         </show-when>
       </div>
 
