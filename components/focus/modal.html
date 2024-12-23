@@ -1,0 +1,28 @@
+<div id="Modal" page="">
+  <div id="modal-overflow" class="uk-modal-container" uk-modal>
+    <div class="uk-modal-dialog radius">
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+      <div class="uk-modal-body" uk-overflow-auto>
+        <show-when target="[Console].attributes.Console.value" regex="Gathering">
+          <mark-down src="/media/docs/help/Gathering.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="Selector">
+          <mark-down src="/media/docs/help/Selector.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="Cookie">
+          <mark-down src="/media/docs/help/Cookie.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="CaptureEvents">
+          <mark-down src="/media/docs/help/CaptureEvents.md"></mark-down>
+        </show-when>
+        <show-when target="[Console].attributes.Console.value" regex="Tails">
+          <mark-down src="/media/docs/help/Tails.md"></mark-down>
+        </show-when>
+      </div>
+
+      <div class="uk-text-right scroll-up">
+        <button ScrollUp class="uk-icon-link" uk-icon="chevron-up" uk-tooltip="Scroll up"></button>
+      </div>
+    </div>
+  </div>
+</div>

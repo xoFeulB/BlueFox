@@ -1,0 +1,10 @@
+<div hidden>
+  <sync-view from="html.attributes.theme.value" to="window.localStorage.theme" events='["change"]'></sync-view>
+</div>
+<gate src="/components/common/spinner.html"></gate>
+<div id="Panel" panel="None">
+  <show-when class="bg-base" target="#Panel.attributes.panel.value" regex="ConsolePanel" events='["sync"]' in="fade.300"
+    out="fade.300">
+    <gate src="/components/newtab/console.html"></gate>
+  </show-when>
+</div>

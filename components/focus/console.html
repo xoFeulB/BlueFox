@@ -1,0 +1,87 @@
+<show-when CaptureScreenshotPreview="hide" target="this.attributes.CaptureScreenshotPreview.value" regex="show" in="left.300" out="right.300">
+  <img class="uk-box-shadow-large radius">
+</show-when>
+<div hidden>
+  <div id="TabInfo"></div>
+</div>
+<div Console="Overview" class="bg-base">
+  <nav TopNav class="uk-flex uk-flex-between uk-flex-middle uk-padding-small uk-background-dafault radius-bottom uk-box-shadow-small bg-base" uk-sticky>
+    <div class="uk-flex uk-flex-middle">
+      <div class="uk-margin-small-right">
+        <img class="img-selectable logo-small" sync sync-to-this sync-to-property="src" sync-from="#TabInfo" sync-from-property="TabInfo.favIconUrl" />
+      </div>
+      <div>
+        <input QuerySelector type="text" class="uk-input uk-form-width-medium" placeholder="QuerySelector" value="html" uk-tooltip="CaptureScreenshot Selector">
+        <button CaptureScreenshot class="uk-icon-button button-radius-right" uk-icon="camera" uk-tooltip="CaptureScreenshot to Clipboard"></button>
+      </div>
+    </div>
+    <div class="uk-flex uk-flex-middle">
+      <div class="uk-margin-small-right">
+        <show-when target="html.attributes.theme.value" regex="Light" in="loll.300" out="roll.300">
+          <set-value-on-click value="Dark" target="html.attributes.theme.value">
+            <button class="uk-icon-button" uk-icon uk-tooltip="Switch Dark Theme">
+              <i class="fa-regular fa-moon c-blue"></i>
+            </button>
+          </set-value-on-click>
+        </show-when>
+        <show-when target="html.attributes.theme.value" regex="Dark" in="roll.300" out="loll.300">
+          <set-value-on-click value="Light" target="html.attributes.theme.value">
+            <button class="uk-icon-button" uk-icon uk-tooltip="Switch Light Theme">
+              <i class="fa-regular fa-sun c-orange"></i>
+            </button>
+          </set-value-on-click>
+        </show-when>
+      </div>
+      <set-value-on-click value="Overview" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="info" uk-tooltip="Overview"></button>
+      </set-value-on-click>
+      <set-value-on-click value="Gathering" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon="search" uk-tooltip="Gathering"></button>
+      </set-value-on-click>
+      <set-value-on-click value="Selector" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon uk-tooltip="Selector">
+          <i class="fa-regular fa-object-ungroup"></i>
+        </button>
+      </set-value-on-click>
+      <set-value-on-click value="Cookie" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon uk-tooltip="Cookie">
+          <i class="fa-solid fa-cookie-bite"></i>
+        </button>
+      </set-value-on-click>
+      <set-value-on-click value="CaptureEvents" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon uk-tooltip="CaptureEvents">
+          <i class="fa-solid fa-satellite-dish"></i>
+        </button>
+      </set-value-on-click>
+      <set-value-on-click value="Tails" target="[Console].attributes.Console.value">
+        <button class="uk-icon-button uk-margin-small-right" uk-icon uk-tooltip="Tails">
+          <div class="logo-img logo-small logo-background-auto"></div>
+        </button>
+      </set-value-on-click>
+    </div>
+  </nav>
+
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Overview" events='["change"]' in="top.100" out="top.100">
+    <gate src="/components/focus/overview.html"></gate>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Gathering" events='["change"]' in="top.100" out="top.100">
+    <gate src="/components/focus/gathering.html"></gate>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Selector" events='["change"]' in="top.100" out="top.100">
+    <gate src="/components/focus/selector.html"></gate>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Cookie" events='["change"]' in="top.100" out="top.100">
+    <gate src="/components/focus/cookie.html"></gate>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="CaptureEvents" events='["change"]' in="top.100" out="top.100">
+    <gate src="/components/focus/capture-events.html"></gate>
+  </show-when>
+  <show-when class="bg-base" target="[Console].attributes.Console.value" regex="Tails" events='["change"]' in="top.100" out="top.100">
+    <gate src="/components/focus/tails.html"></gate>
+  </show-when>
+
+
+  <gate src="/components/common/footer.html"></gate>
+</div>
+<a class="uk-icon-button help-open" uk-icon="question" uk-toggle href="#modal-overflow" uk-tooltip="Help"></a>
+<gate src="/components/focus/modal.html"></gate>

@@ -1,0 +1,48 @@
+<div class="uk-section uk-section-small">
+  <div class="uk-container uk-container-default">
+    <div>
+      <span class="uk-button-group-download-selectors">
+        <button class="uk-button uk-button-default" type="button">
+          <div class="uk-flex uk-flex-middle">
+            <div class="uk-margin-small-right" uk-icon="download"></div>
+            <div>Download</div>
+          </div>
+        </button>
+        <div uk-dropdown="mode: click; target: !.uk-button-group-download-selectors;">
+          <ul class="uk-nav uk-dropdown-nav">
+            <li>
+              <div SelectorDownloadJSON class="uk-button uk-button-text">
+                <span>JSON (JavaScript Object Notation)</span>
+              </div>
+            </li>
+            <li>
+              <div SelectorDownloadCSV class="uk-button uk-button-text">
+                <span>CSV (Tab-Separated Values)</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </span>
+      <span>
+        <input type="text" id="QuerySelector" class="uk-input uk-form-width-medium" placeholder="QuerySelector">
+        <span>
+          <button GetSelectors class="uk-icon-button button-radius-right" uk-icon="crosshairs" uk-tooltip="Get selectors">
+          </button>
+        </span>
+      </span>
+    </div>
+    <div class="uk-margin">
+      <input type="text" id="QuerySelectorsProperty" class="uk-input uk-form-width-medium" placeholder="Property" value="name">
+      <ul SelectorsList class="uk-list uk-child-width-fill"></ul>
+    </div>
+  </div>
+</div>
+
+<template id="SelectorTemplate">
+  <div class="uk-flex">
+    <input type="text" class="uk-input uk-width-expand uk-margin-small-right" placeholder="Key">
+    <input type="text" class="uk-input uk-width-expand" placeholder="Selector">
+    <button CopySelector class="uk-icon-button button-radius-none" uk-tooltip="Copy selector" uk-icon="copy"></button>
+    <button GetElementProperties class="uk-icon-button button-radius-right" uk-tooltip="Get properties" uk-icon="eye"></button>
+  </div>
+</template>

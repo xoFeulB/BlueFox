@@ -1,0 +1,40 @@
+<div class="uk-section uk-section-small">
+  <div class="uk-container uk-container-default">
+    <div TabsList></div>
+  </div>
+</div>
+<template id="TabsTemplate">
+  <div class="uk-margin">
+    <div TabInfo class="uk-margin">
+      <article class="uk-comment" role="comment">
+        <header class="uk-comment-header">
+          <div class="uk-grid-medium uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+              <img favicon class="uk-comment-avatar" src="" width="40" height="40">
+            </div>
+            <div class="uk-width-expand">
+              <h4 title class="uk-comment-title uk-margin-remove"></h4>
+              <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                <li>URL</li>
+                <li>
+                  <code><span url></span></code>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+        <div class="uk-flex uk-flex-middle">
+          <div>
+            <button TabToWindow class="uk-icon-button uk-margin-small-right" uk-icon="forward" uk-tooltip="Drop into new window"></button>
+            <button Focus class="uk-icon-button uk-margin-small-right" uk-icon="eye" uk-tooltip="Focus"></button>
+          </div>
+          <div>
+            <input QuerySelector type="text" class="uk-input uk-form-width-medium" placeholder="QuerySelector" value="html" uk-tooltip="CaptureScreenshot Selector">
+            <button CaptureScreenshot class="uk-icon-button button-radius-right" uk-icon="camera" uk-tooltip="CaptureScreenshot to Clipboard"></button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <hr>
+  </div>
+</template>

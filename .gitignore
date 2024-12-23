@@ -1,4 +1,1 @@
-
-*.crx
-.vs
-Chrome-BlueFox.lnk
+/build/node_modules

@@ -1,0 +1,36 @@
+<div class="uk-section uk-section-small">
+  <div class="uk-container uk-container-default">
+    <div>
+      <div class="uk-margin">
+        <button ReLoad class="uk-icon-link" uk-icon="refresh" uk-tooltip="ReLoad"></button>
+      </div>
+      <div class="uk-margin">
+        <div vscode-notice>
+          <a href="https://marketplace.visualstudio.com/items?itemName=BlueFoxEnterprise.BlueFoxServer" target="_blank" rel="noopener noreferrer">
+            <span>Download and Install BlueFoxServer to use the VSCode integration feature (marketplace.visualstudio.com)</span>
+          </a>
+        </div>
+        <ul id="FileList" class="uk-list uk-list-striped">
+        </ul>
+      </div>
+      <div class="divider-icon"></div>
+    </div>
+    <div class="uk-margin">
+      <button RunScript class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
+    </div>
+    <div ServerScript></div>
+  </div>
+</div>
+<template id="FileListTemplate">
+  <li>
+    <div class="uk-flex uk-flex-middle">
+      <div class="uk-width-1-2 uk-flex">
+        <code><span Path></span></code>
+      </div>
+      <div class="uk-width-1-2 uk-flex uk-flex-right">
+        <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull" uk-tooltip="ShowInEditor"></button>
+        <button Play class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
+      </div>
+    </div>
+  </li>
+</template>

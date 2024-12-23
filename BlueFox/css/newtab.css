@@ -1,0 +1,52 @@
+[Console="Scripting"] button[Scripting],
+[Console="Tabs"] button[Tabs] {
+  border: var(--border-active);
+}
+
+[CaptureScreenshotPreview] {
+  width: 40%;
+  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+[CaptureScreenshotPreview]>img {
+  width: 100%;
+  z-index: 9999;
+  pointer-events: all;
+  user-select: auto;
+}
+
+[TabsList]:empty {
+  background: linear-gradient(-45deg, #82b1ff, #ecc883, #82b1ff);
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+  width: 100%;
+  max-width: 100%;
+  height: 120px;
+  border-radius: 11px;
+  overflow: hidden;
+  display: block;
+  margin: 0px !important;
+}
+
+[ServerScript] {
+  height: 600px;
+  max-width: 100%;
+  width: 100%;
+  border: 0 none;
+  padding: 0 10px;
+  background: #fff;
+  color: #666;
+  border: 1px solid #e5e5e5;
+  transition: 0.2s ease-in-out;
+  transition-property: color, background-color, border;
+}
+
+span[url] {
+  display: inline-block;
+  max-width: 640px;
+  overflow: scroll;
+}
