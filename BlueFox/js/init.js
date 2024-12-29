@@ -10,7 +10,7 @@ window.AppReady = new Promise(async (resolve) => {
         Copyright: `© ${new Date().getFullYear()} BlueFoxEnterprise`,
         Version: `v${chrome.runtime.getManifest().version}`,
         BluefoxProtocol: "http",
-        BluefoxServer: "localhost",
+        BluefoxServer: "localhost.bluefox.ooo",
       },
       // util
       log: console.log,
