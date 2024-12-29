@@ -31,7 +31,7 @@
 }
 
 html {
-  background: var(--bg-muted) !important;
+  background: var(--bg-base) !important;
   color: var(--c-light) !important;
 }
 
