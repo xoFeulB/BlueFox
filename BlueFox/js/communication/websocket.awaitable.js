@@ -4,34 +4,30 @@
 ("use strict");
 export class AwaitbleWebSocket {
   constructor(url) {
-    this.socket = new WebSocket(url);
-    this.messagePool = {};
-    this.isOpen = false;
-    let _resolve_ = () => { };
-    let _reject_ = () => { };
-
-    this.socket.addEventListener("open", (event) => {
-      this.isOpen = true;
-      _resolve_(this);
-    });
-    this.socket.addEventListener("message", (event) => {
-      let data = JSON.parse(event.data);
-      if (data.uuid in this.messagePool) {
-        this.messagePool[data.uuid](event);
-        delete this.messagePool[data.uuid];
-      }
-    });
-    this.socket.addEventListener("close", (event) => {
-      this.isOpen = false;
-    });
-    this.socket.addEventListener("error", (event) => {
-      this.isOpen = false;
-      _reject_(event);
-    });
-
     return new Promise((resolve, reject) => {
-      this.isOpen ? resolve(this) : _resolve_ = resolve;
-      _reject_ = reject;
+      this.socket = new WebSocket(url);
+      this.messagePool = {};
+      this.isOpen = false;
+
+      this.socket.addEventListener("open", (event) => {
+        this.isOpen = true;
+        resolve(this);
+      });
+      this.socket.addEventListener("message", (event) => {
+        let data = JSON.parse(event.data);
+        if (data.uuid in this.messagePool) {
+          this.messagePool[data.uuid](event);
+          delete this.messagePool[data.uuid];
+        }
+      });
+      this.socket.addEventListener("close", (event) => {
+        this.isOpen = false;
+      });
+      this.socket.addEventListener("error", (event) => {
+        this.isOpen = false;
+        reject(event);
+      });
+
     });
   }
 
