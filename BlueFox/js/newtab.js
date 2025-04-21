@@ -516,7 +516,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
           });
           webSocket.socket.addEventListener("close", async (event) => {
             document.querySelector("[vscode-notice]").removeAttribute("hide");
-            let filelist = document.querySelector("#FileList").textContent = "";
+            document.querySelector("#FileList").textContent = "";
           });
 
           {

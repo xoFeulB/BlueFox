@@ -1,6 +1,5 @@
 import { BlueFoxJs } from "/modules/BlueFoxJs/bluefox.es.min.js";
 import { BlueFoxScript } from "/js/scripting/bluefox.script.js";
-import { AwaitbleWebSocket } from "/js/communication/websocket.awaitable.js";
 import { Connector } from "/js/communication/postMessage.awaitable.js";
 
 {

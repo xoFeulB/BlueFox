@@ -1,5 +1,5 @@
-const chokidar = require("chokidar");
-const child_process = require("child_process");
+import { watch } from "chokidar";
+import { BlueFoxDomGate } from "@xofeulb/bluefox-domgate";
 
 let gate_map = [
   {
@@ -12,24 +12,16 @@ let gate_map = [
   },
 ];
 
-chokidar.watch("../components").on("all", async (event, path) => {
+watch("../components").on("all", async (event, path) => {
   console.log(event, path);
   gate_map.forEach((_) => {
-    child_process.exec(
-      [
-        "powershell",
-        "gate",
-        "--index",
-        _.index,
-        "--out",
-        _.out,
-        "--root",
-        "../",
-        "--minify",
-        "true",
-      ].join(" "), (err, stdout, stderr) => {
-      });
+    BlueFoxDomGate.connect(
+      _.index,
+      "../",
+      _.out,
+      undefined,
+      undefined,
+      true
+    );
   });
-
-
 });
