@@ -442,7 +442,16 @@ window.BlueFoxScript = class extends BlueFoxScript {
                       }
                     })
                   });
-                } catch { }
+                  if (!bfignore) {
+                    [...filelist.querySelectorAll("[Path]")].forEach((element) => {
+                      element.closest("li").removeAttribute("hidden");
+                    })
+                  }
+                } catch {
+                  [...filelist.querySelectorAll("[Path]")].forEach((element) => {
+                    element.closest("li").removeAttribute("hidden");
+                  })
+                }
               }
 
               await BlueFoxJs.Walker.walkHorizontally({
