@@ -429,6 +429,22 @@ window.BlueFoxScript = class extends BlueFoxScript {
                     });
                 });
               });
+
+              for (let workspace of workspaces) {
+                try {
+                  let bfignore = await (await fetch(
+                    `http://${window.values.BluefoxServer}:7777/R?/${workspace.id}/${workspace.workspace[0].name}/.bfignore`
+                  )).text();
+                  bfignore.replace("\r\n", "\n").split("\n").forEach((line) => {
+                    [...filelist.querySelectorAll("[Path]")].forEach((element) => {
+                      if (!(new RegExp(line)).test(element.textContent)) {
+                        element.closest("li").removeAttribute("hidden");
+                      }
+                    })
+                  });
+                } catch { }
+              }
+
               await BlueFoxJs.Walker.walkHorizontally({
                 _scope_: filelist,
                 "code": async ($) => {
