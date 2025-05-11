@@ -447,8 +447,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                       element.closest("li").removeAttribute("hidden");
                     })
                   }
-                } catch (e) {
-                  log(e);
+                } catch {
                   [...filelist.querySelectorAll("[Path]")].forEach((element) => {
                     element.closest("li").removeAttribute("hidden");
                   })
