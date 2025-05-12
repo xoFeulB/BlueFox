@@ -22,15 +22,17 @@
   </div>
 </div>
 <template id="FileListTemplate">
-  <li hidden>
-    <div class="uk-flex uk-flex-middle">
-      <div class="uk-width-1-2 uk-flex">
-        <code><span Path></span></code>
+  <div>
+    <li>
+      <div class="uk-flex uk-flex-middle">
+        <div class="uk-width-1-2 uk-flex">
+          <code><span Path></span></code>
+        </div>
+        <div class="uk-width-1-2 uk-flex uk-flex-right">
+          <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull" uk-tooltip="ShowInEditor"></button>
+          <button Play class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
+        </div>
       </div>
-      <div class="uk-width-1-2 uk-flex uk-flex-right">
-        <button Pull class="uk-icon-button uk-margin-small-right" uk-icon="pull" uk-tooltip="ShowInEditor"></button>
-        <button Play class="uk-icon-link" uk-icon="play-circle" uk-tooltip="RunScript"></button>
-      </div>
-    </div>
-  </li>
+    </li>
+  </div>
 </template>
