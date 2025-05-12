@@ -378,7 +378,18 @@ window.BlueFoxScript = class extends BlueFoxScript {
               filelist.textContent = "Found, and Waiting BlueFoxServer...";
               filelist.workspaces = workspaces;
 
-              workspaces.forEach((workspace) => {
+              for (let workspace of workspaces) {
+                let bfignore = await (async () => {
+                  try {
+                    return (await (await fetch(
+                      `http://${window.values.BluefoxServer}:7777/R?/${workspace.id}/${workspace.workspace[0].name}/.bfignore`
+                    )).text()).replaceAll("\r\n", "\n").split("\n").filter((line) => { return line; }).map((line) => {
+                      return new RegExp(line);
+                    });
+                  } catch {
+                    return [];
+                  }
+                })();
                 workspace.workspace.forEach((folder) => {
                   folder.objects
                     .filter((object) => {
@@ -387,7 +398,7 @@ window.BlueFoxScript = class extends BlueFoxScript {
                       ].every((_) => { return _; });
                     })
                     .forEach((object) => {
-                      let li = document.querySelector("#FileListTemplate").content.cloneNode(true);
+                      let li = document.querySelector("#FileListTemplate").content.cloneNode(true).querySelector("li");
                       let path = li.querySelector("[Path]");
                       let play = li.querySelector("[Play]");
                       let pull = li.querySelector("[Pull]");
@@ -426,32 +437,13 @@ window.BlueFoxScript = class extends BlueFoxScript {
                         play.setAttribute("hidden", "");
                       }
                       filelist.appendChild(li);
+                      if (bfignore.some((_) => {
+                        return _.test(object.path);
+                      })) {
+                        li.setAttribute("hidden", "");
+                      }
                     });
                 });
-              });
-
-              for (let workspace of workspaces) {
-                try {
-                  let bfignore = await (await fetch(
-                    `http://${window.values.BluefoxServer}:7777/R?/${workspace.id}/${workspace.workspace[0].name}/.bfignore`
-                  )).text();
-                  bfignore.replace("\r\n", "\n").split("\n").forEach((line) => {
-                    [...filelist.querySelectorAll("[Path]")].forEach((element) => {
-                      if (!(new RegExp(line)).test(element.textContent)) {
-                        element.closest("li").removeAttribute("hidden");
-                      }
-                    })
-                  });
-                  if (!bfignore) {
-                    [...filelist.querySelectorAll("[Path]")].forEach((element) => {
-                      element.closest("li").removeAttribute("hidden");
-                    })
-                  }
-                } catch {
-                  [...filelist.querySelectorAll("[Path]")].forEach((element) => {
-                    element.closest("li").removeAttribute("hidden");
-                  })
-                }
               }
 
               await BlueFoxJs.Walker.walkHorizontally({
