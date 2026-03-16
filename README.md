@@ -1,7 +1,7 @@
 # ^.,.^ BlueFox
 
 <div align="center">
-  <img src="https://ooo.bluefox.ooo/media/SocialPreview_1.png">
+  <img src="https://www.bluefox.tech/media/SocialPreview_1.png">
 </div>
 
 <div>
@@ -53,37 +53,37 @@ BlueFox is a web front-end test automation and operational knowledge sharing sol
 ### X(Twitter)
 
 `/tweet.js`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo1.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo1.gif" width="100%">
 
 ### KeyEvent
 
 `/key.js`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo2.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo2.gif" width="100%">
 
 ### Google search
 
 `/google-search.js`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo3.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo3.gif" width="100%">
 
 ### input type="file" upload
 
 `/file-upload.js`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo4.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo4.gif" width="100%">
 
 ### assert test (Failed)
 
 `/8bit-pattern-test.js`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo5.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo5.gif" width="100%">
 
 ### assert test (Passed)
 
 `Temporary script editor`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo6.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo6.gif" width="100%">
 
 ### EventListener callback
 
 `/8bit-pattern-event-listener.js`
-<img src="https://ooo.bluefox.ooo/media/Demo/demo8.gif" width="100%">
+<img src="https://www.bluefox.tech/media/Demo/demo8.gif" width="100%">
 
 ## JavaScript Example
 
@@ -162,31 +162,31 @@ or Download archive(ZIP) from releases page or repo top page this repo, and expo
 DownloadZIP : https://github.com/xoFeulB/BlueFoxScript-Examples/archive/refs/heads/main.zip
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/demo7.gif" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/demo7.gif" width="60%">
     <h4>1. Open BlueFoxScript-Examples With VSCode</h4>
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs1.png" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/vscs1.png" width="60%">
     <h4>2. Bring BlueFoxServer online</h4>
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs2.png" width="60%">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs3.png" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/vscs2.png" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/vscs3.png" width="60%">
 </div>
 
 #### RunScript
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs4.png" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/vscs4.png" width="60%">
 </div>
 
 #### Temporary edit
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs5.png" width="60%">
-    <img src="https://ooo.bluefox.ooo/media/Demo/vscs6.png" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/vscs5.png" width="60%">
+    <img src="https://www.bluefox.tech/media/Demo/vscs6.png" width="60%">
 </div>
 
 ## ^.,.^ BlueFox-chan fan arts
 
 <div align="center">
-    <img src="https://ooo.bluefox.ooo/media/FanArts/art3.png" width="300">
+    <img src="https://www.bluefox.tech/media/FanArts/art3.png" width="300">
 </div>
 <div align="center">
     <h4>CREDITS</h4>

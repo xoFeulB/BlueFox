@@ -39,10 +39,10 @@ Run String:script
   let blueFoxScript = await new BlueFoxScript();
 
   let script = await (
-    await fetch("https://ooo.bluefox.ooo/BlueFoxDemo/js/confirm.js")
+    await fetch("https://www.bluefox.tech/BlueFoxDemo/js/confirm.js")
   ).text();
   window.alert(
-    `Confirmed: ${(await blueFoxScript.runScript(script)).result.value}`
+    `Confirmed: ${(await blueFoxScript.runScript(script)).result.value}`,
   );
 })();
 ```
@@ -92,11 +92,11 @@ Run String:script
   let blueFoxScript = await new BlueFoxScript();
 
   tab = await blueFoxScript.createWindow(
-    "https://ooo.bluefox.ooo/BlueFoxDemo/8bit.html"
+    "https://www.bluefox.tech/BlueFoxDemo/8bit.html",
   );
 
   tab = await blueFoxScript.findTab(
-    "https://ooo.bluefox.ooo/BlueFoxDemo/8bit.html"
+    "https://www.bluefox.tech/BlueFoxDemo/8bit.html",
   )[0];
 
   // Property
@@ -300,7 +300,7 @@ move into Shadow DOM, iframe
       fileName: "capture",
       format: "png",
       quality: 100,
-    })
+    }),
   );
 })();
 ```
@@ -427,7 +427,7 @@ run Tails and await till next window.onload
       object.properties;
       listener_info[0].uuid == object.event.uuid;
       listener_info[0].selector == object.event.target;
-    }
+    },
   );
   // Property
   listener_info[0].uuid;
@@ -457,9 +457,12 @@ run Tails and await till next window.onload
 
 ```javascript
 (async () => {
-  await tab.dispatchScriptTillTrue(() => {
-    return true;
-  }, (max_polling = 5000));
+  await tab.dispatchScriptTillTrue(
+    () => {
+      return true;
+    },
+    (max_polling = 5000),
+  );
 })();
 ```
 
@@ -490,7 +493,7 @@ run Tails
     (config = {
       format: "png",
       captureBeyondViewport: true,
-    })
+    }),
   );
 })();
 ```
